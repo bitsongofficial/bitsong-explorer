@@ -1,0 +1,21 @@
+{
+  "name": "bitsong-explorer",
+  "version": "1.0.0",
+  "description": "The BitSong Explorer",
+  "author": "Angelo &lt;hello@bitsong.io&gt;",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@mdi/js": "^3.9.97",
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.0.0"
+  }
+}
