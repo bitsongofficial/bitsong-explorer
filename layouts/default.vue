@@ -51,9 +51,7 @@
       </v-toolbar-items>
     </v-app-bar>
     <v-content>
-      <v-container grid-list-xl>
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-content>
   </v-app>
 </template>
