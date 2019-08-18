@@ -1,26 +1,30 @@
 <template>
   <v-container>
-    <v-row class="mt-4">
-      <v-col cols="12" md="4">
-        <DashboardMarketCap />
-      </v-col>
-      <v-col cols="12" md="4">
-        <DashboardPools />
-      </v-col>
-      <v-col cols="12" md="4">
-        <DashboardValidators />
-      </v-col>
-    </v-row>
+    <v-row no-gutters>
+      <v-col xl="8" class="mx-auto">
+        <v-row class="mt-4">
+          <v-col cols="12" md="4">
+            <DashboardMarketCap />
+          </v-col>
+          <v-col cols="12" md="4">
+            <DashboardPools />
+          </v-col>
+          <v-col cols="12" md="4">
+            <DashboardValidators />
+          </v-col>
+        </v-row>
 
-    <v-row class="mt-4">
-      <v-col cols="12">
-        <DashboardConsensusState />
-      </v-col>
-    </v-row>
+        <v-row class="mt-4">
+          <v-col cols="12">
+            <DashboardConsensusState />
+          </v-col>
+        </v-row>
 
-    <v-row class="mt-4">
-      <v-col cols="6"><DashboardLatestBlocks /></v-col>
-      <v-col cols="6"><DashboardLatestTransactions /></v-col>
+        <v-row class="mt-4">
+          <v-col cols="6"><DashboardLatestBlocks /></v-col>
+          <v-col cols="6"><DashboardLatestTransactions /></v-col>
+        </v-row>
+      </v-col>
     </v-row>
 
   </v-container>
