@@ -85,6 +85,11 @@ export default {
           icon: 'mdi-chart-bubble',
           title: 'Transactions',
           to: '/transactions'
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Validators',
+          to: '/validators'
         }
       ],
       miniVariant: false,
