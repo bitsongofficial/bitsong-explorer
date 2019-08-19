@@ -73,7 +73,7 @@ export const actions = {
       //dispatch(`reconnected`)
       dispatch('pool/reconnected', null, {root:true})
       dispatch('minting/reconnected', null, {root:true})
-      dispatch('transactions/reconnected', null, {root:true})
+      //dispatch('transactions/reconnected', null, {root:true})
       //dispatch('blocks/reconnected', null, {root:true})
       dispatch(`rpcSubscribe`, window.node)
       dispatch(`blocks/subscribeToBlocks`, null, {root:true})
