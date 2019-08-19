@@ -21,7 +21,9 @@
           <v-list-item-title>{{ $store.getters[`consensus/step`] }}</v-list-item-title>
           <v-list-item-subtitle>Step</v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-content style="max-width:500px" class="pl-4">
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-content>
           <v-progress-linear v-model="$store.getters[`consensus/votedPower`]"></v-progress-linear>
         </v-list-item-content>
       </v-list-item>
