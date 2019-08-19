@@ -92,6 +92,9 @@ export default {
       rightDrawer: false,
       title: 'BitSong Explorer'
     }
+  },
+  mounted () {
+    this.$store.dispatch(`connection/connect`)
   }
 }
 </script>

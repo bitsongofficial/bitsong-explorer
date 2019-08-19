@@ -11,9 +11,17 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@lunie/cosmos-api": "^0.1.2",
     "@mdi/js": "^3.9.97",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "nuxt": "^2.0.0"
+    "bignumber.js": "^9.0.0",
+    "date-fns": "^2.0.0-alpha.22",
+    "entity-decode": "^2.0.2",
+    "ndjson": "^1.5.0",
+    "nuxt": "^2.0.0",
+    "old": "^0.2.0",
+    "pretty-num": "^0.3.0",
+    "websocket-stream": "^5.5.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.0.0"

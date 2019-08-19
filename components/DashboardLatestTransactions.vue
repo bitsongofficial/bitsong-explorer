@@ -1,148 +1,44 @@
 <template>
   <v-card tile elevation="1">
     <v-card-title>
+      <v-icon large left>mdi-bank-transfer</v-icon>
       <h3 class="title">Transactions</h3>
     </v-card-title>
+    <v-divider></v-divider>
     <v-list>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item two-line>
-        <v-list-item-avatar>
-          <v-icon>mdi-cube-send</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>Block <nuxt-link to="/">4</nuxt-link> </v-list-item-title>
-          <v-list-item-subtitle>Includes <nuxt-link to="/">4 txs</nuxt-link>, Fees 0 BTSG</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-content class="text-right">
-          <v-list-item-title>4s</v-list-item-title>
-          <v-list-item-subtitle><nuxt-link to="/">3BF1…03A</nuxt-link></v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+      <v-list-item-group v-for="(transaction, index) in transactions" :key="`${index}-${transaction._id}`">
+        <v-divider v-if="index !== 0" :key="`${index}-divider`"></v-divider>
+        <v-list-item two-line>
+          <v-list-item-avatar>
+            <v-icon>mdi-bank-transfer</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-medium">TX#: <nuxt-link class="red-link" :to="`/transactions/${transaction.hash}`">{{ transaction.hash | hash }}</nuxt-link></v-list-item-title>
+            <v-list-item-subtitle><span class="font-weight-medium">{{ transaction.msgs[0].type.replace(`cosmos-sdk/Msg`, ``) }}</span> <span class="font-weight-medium" v-if="transaction.msgs.length > 1">+{{ transaction.msgs.length }}</span></v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-tile-action>
+            <v-list-tile-action-text>{{ transaction.time | timeDistance }}</v-list-tile-action-text>
+          </v-list-tile-action>
+        </v-list-item>
+      </v-list-item-group>
     </v-list>
   </v-card>
 </template>
+
+<script>
+import { prettyUsd, prettyRound, shortFilter, getTimeDistance } from "~/assets/utils";
+export default {
+  filters: {
+    hash: (value) => shortFilter(value, 12),
+    timeDistance: (value) => prettyUsd(getTimeDistance(value))
+  },
+  async mounted() {
+    await this.$store.dispatch(`explorer/fetchLatestTransactions`)
+  },
+  computed: {
+    transactions () {
+      return this.$store.getters[`explorer/txs`]
+    }
+  }
+}
+</script>

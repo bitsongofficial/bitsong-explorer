@@ -48,6 +48,7 @@ export const actions = {
 
     try {
       const pool = await window.node.get.pool()
+      console.log(pool)
 
       commit(`setPool`, pool.result)
       commit(`setError`, null)

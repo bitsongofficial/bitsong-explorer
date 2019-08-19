@@ -5,11 +5,11 @@
         <v-icon>mdi-arrange-bring-forward</v-icon>
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title>16 488 515</v-list-item-title>
+        <v-list-item-title>{{ this.$store.getters['pool/not_bonded_tokens'] | pretty }}</v-list-item-title>
         <v-list-item-subtitle>Not Bondend</v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-content>
-        <v-list-item-title>100 545 245</v-list-item-title>
+        <v-list-item-title>{{ this.$store.getters['pool/bonded_tokens'] | pretty }}</v-list-item-title>
         <v-list-item-subtitle>Bonded</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -19,9 +19,32 @@
         <v-icon>mdi-all-inclusive</v-icon>
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title>116 254 154.20</v-list-item-title>
+        <v-list-item-title>-</v-list-item-title>
         <v-list-item-subtitle>Total Supply</v-list-item-subtitle>
+      </v-list-item-content>
+      <v-list-item-content>
+        <v-list-item-title>-</v-list-item-title>
+        <v-list-item-subtitle>Community Pool</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
   </v-card>
 </template>
+
+<script>
+import { pretty } from "~/assets/utils";
+export default {
+  filters: {
+    pretty
+  },
+  mounted () {
+    this.$store.dispatch(`minting/getInflation`)
+    this.$store.dispatch(`pool/getPool`)
+    setInterval(() => {
+      this.$store.dispatch(`pool/getPool`)
+    }, 60000)
+    setInterval(() => {
+      this.$store.dispatch(`minting/getInflation`)
+    }, 300000)
+  }
+}
+</script>
