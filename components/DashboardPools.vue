@@ -19,11 +19,11 @@
         <v-icon>mdi-all-inclusive</v-icon>
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title>-</v-list-item-title>
+        <v-list-item-title>{{ this.$store.getters['pool/total_supply'] | pretty }}</v-list-item-title>
         <v-list-item-subtitle>Total Supply</v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-content>
-        <v-list-item-title>-</v-list-item-title>
+        <v-list-item-title>{{ this.$store.getters['pool/community_pool'] | pretty }}</v-list-item-title>
         <v-list-item-subtitle>Community Pool</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>

@@ -16,9 +16,9 @@
             <v-list-item-title class="font-weight-medium">TX#: <nuxt-link class="red-link" :to="`/transactions/${transaction.hash}`">{{ transaction.hash | hash }}</nuxt-link></v-list-item-title>
             <v-list-item-subtitle><span class="font-weight-medium">{{ transaction.msgs[0].type.replace(`cosmos-sdk/Msg`, ``) }}</span> <span class="font-weight-medium" v-if="transaction.msgs.length > 1">+{{ transaction.msgs.length }}</span></v-list-item-subtitle>
           </v-list-item-content>
-          <v-list-tile-action>
-            <v-list-tile-action-text>{{ transaction.time | timeDistance }}</v-list-tile-action-text>
-          </v-list-tile-action>
+          <v-list-item-action>
+            <v-list-item-action-text>{{ transaction.time | timeDistance }}</v-list-item-action-text>
+          </v-list-item-action>
         </v-list-item>
       </v-list-item-group>
     </v-list>
