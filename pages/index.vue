@@ -21,8 +21,8 @@
         </v-row>
 
         <v-row class="mt-4">
-          <v-col cols="6"><DashboardLatestBlocks /></v-col>
-          <v-col cols="6"><DashboardLatestTransactions /></v-col>
+          <v-col cols="12" md="6"><DashboardLatestBlocks /></v-col>
+          <v-col cols="12" md="6"><DashboardLatestTransactions /></v-col>
         </v-row>
       </v-col>
     </v-row>
