@@ -60,9 +60,9 @@ class Client extends EventEmitter {
     }
 
     // default port
-    /*if (!port) {
-      port = 26657
-    }*/
+    if (!port) {
+      port = 443
+    }
 
     if (wsProtocols.includes(protocol)) {
       this.websocket = true
