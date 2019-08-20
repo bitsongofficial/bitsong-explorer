@@ -1,4 +1,4 @@
-import config from '@/assets/config'
+import { EXPLORER_API_URL } from '@/assets/variables'
 
 export const state = () => ({
   txs: [],
@@ -26,7 +26,7 @@ export const mutations = {
 export const actions = {
   async fetchLatestTransactions({ commit }) {
     try {
-      const data = await fetch(`http://localhost:8000/txs`).then(res => res.json())
+      const data = await fetch(`${EXPLORER_API_URL}/txs`).then(res => res.json())
 
       commit(`setTxs`, data.docs)
       commit(`setTotalTxs`, data.total)
