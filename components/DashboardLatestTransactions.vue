@@ -34,6 +34,10 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch(`explorer/fetchLatestTransactions`)
+
+    setInterval(async () => {
+      await this.$store.dispatch(`explorer/fetchLatestTransactions`)
+    }, 5000)
   },
   computed: {
     transactions () {
