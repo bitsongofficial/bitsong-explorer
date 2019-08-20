@@ -1,10 +1,10 @@
 const dev = process.env.NODE_ENV === `development`
 const stargate =
   process.env.STARGATE ||
-  (dev ? `http://lcd.testnet-2.bitsong.network` : `http://lcd.testnet-2.bitsong.network`)
+  (dev ? `https://lcd.testnet-2.bitsong.network` : `https://lcd.testnet-2.bitsong.network`)
 
 const rpc =
-  process.env.RPC || (dev ? `http://rpc.testnet-2.bitsong.network` : `http://rpc.testnet-2.bitsong.network`)
+  process.env.RPC || (dev ? `https://rpc.testnet-2.bitsong.network` : `https://rpc.testnet-2.bitsong.network`)
 
 export default {
   development: dev,
