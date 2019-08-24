@@ -10,11 +10,7 @@
     <v-row no-gutters>
       <v-col cols="12" xl="6" class="mx-auto mt-4">
         <v-expansion-panels>
-          <v-expansion-panel
-            v-for="(validator, i) in $store.getters[`validators/validators`]"
-            :key="i"
-            hide-actions
-          >
+          <v-expansion-panel v-for="(validator, i) in validators" :key="i" hide-actions>
             <v-expansion-panel-header>
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="3" sm="2" md="1">
@@ -24,7 +20,7 @@
                   <v-avatar size="36px" v-else v-html="avatar(validator.address)"></v-avatar>
                 </v-col>
                 <v-col sm="5" md="6">
-                  <div>{{ validator.details.description.moniker }}</div>
+                  <div>{{ validator.details.description.moniker }} - {{ validator.proposer_priority }}</div>
                   <div
                     class="grey--text text-truncate caption hidden-sm-and-down"
                   >{{ validator.details.operatorAddress }}</div>
@@ -37,7 +33,7 @@
                 </v-col>
                 <v-col class="grey--text text-truncate mr-4" align="right">
                   <div>{{ validator.voting_power }}</div>
-                  <div class="caption">51.10%</div>
+                  <div class="caption">{{ validator.proposer_priority }}</div>
                 </v-col>
               </v-row>
             </v-expansion-panel-header>
@@ -53,10 +49,18 @@
 </template>
 
 <script>
+import validators from "@/apollo/queries/validators";
 import jdenticon from "jdenticon";
 import ValidatorsToolbarIndex from "@/components/validators/ToolbarIndex";
 
 export default {
+  apollo: {
+    validators: {
+      prefetch: true,
+      query: validators,
+      pollInterval: 5000
+    }
+  },
   components: {
     ValidatorsToolbarIndex
   },
