@@ -18,6 +18,7 @@
     "bignumber.js": "^9.0.0",
     "date-fns": "^2.0.0-alpha.22",
     "entity-decode": "^2.0.2",
+    "jdenticon": "^2.2.0",
     "ndjson": "^1.5.0",
     "nuxt": "^2.0.0",
     "old": "^0.2.0",

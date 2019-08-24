@@ -2,67 +2,61 @@
   <v-container>
     <v-row no-gutters>
       <v-col cols="12" xl="10" class="mx-auto mt-4">
-        <v-row no-gutters>
-          <v-col cols="6">
-            <h2 class="title">Validators</h2>
-          </v-col>
-          <v-col cols="6" class="text-right">
-            <v-btn
-              value="left"
-              :color="status === 'active' ? `primary` : ``"
-              @click="changeStatus('active')"
-            >Active</v-btn>
-            <v-btn
-              value="left"
-              :color="status === 'inactive' ? `primary` : ``"
-              @click="changeStatus('inactive')"
-            >Inactive</v-btn>
-          </v-col>
-        </v-row>
-
-        <v-data-table
-          :headers="tableHeaders"
-          :items="status === 'active' ? $store.getters[`validators/bonded`] : $store.getters[`validators/unbonded`]"
-          :items-per-page="100"
-          sort-by="delegator_shares"
-          sort-desc="true"
-          hide-default-footer
-          class="elevation-1 mt-4"
-        >
-          <template v-slot:body="{ items }">
-            <tr v-for="item in items" :key="item.name">
-              <td>
-                <v-avatar v-if="item.description.identity">
-                  <img :src="getProfilePic(item.description.identity)" alt="avatar" />
-                </v-avatar>
-                <nuxt-link
-                  class="pl-4 body-1"
-                  :to="`/validators/${item.operator_address}`"
-                >{{ item.description.moniker }}</nuxt-link>
-              </td>
-              <td>
-                <v-list-item-title class="body-2">{{ toPower(item.delegator_shares) | prettyRound }}</v-list-item-title>
-                <v-list-item-subtitle
-                  class="body-2"
-                  style="color:rgba(0,0,0,0.54)"
-                >{{ calculatePower(item.delegator_shares) }}%</v-list-item-subtitle>
-              </td>
-              <td>{{ percentage(item.commission.commission_rates.rate) }}%</td>
-            </tr>
-          </template>
-        </v-data-table>
+        <v-card class="overflow-hidden elevation-1">
+          <ValidatorsToolbarIndex />
+          <v-divider></v-divider>
+          <v-data-table
+            :headers="tableHeaders"
+            :items="status === 'active' ? $store.getters[`validators/bonded`] : $store.getters[`validators/unbonded`]"
+            :items-per-page="100"
+            sort-by="delegator_shares"
+            sort-desc="true"
+            hide-default-footer
+            class="elevation-1 mt-4"
+          >
+            <template v-slot:body="{ items }">
+              <tr v-for="item in items" :key="item.name">
+                <td>
+                  <v-list-item-avatar>
+                    <v-img
+                      src="https://s3.amazonaws.com/keybase_processed_uploads/9893f68bf6861fc2153c5956eeb14c05_360_360.jpg"
+                    ></v-img>
+                  </v-list-item-avatar>
+                  <nuxt-link
+                    class="pl-4 body-1"
+                    :to="`/validators/${item.operator_address}`"
+                  >{{ item.description.moniker }}</nuxt-link>
+                </td>
+                <td>
+                  <v-list-item-title
+                    class="body-2"
+                  >{{ toPower(item.delegator_shares) | prettyRound }}</v-list-item-title>
+                  <v-list-item-subtitle
+                    class="body-2"
+                    style="color:rgba(0,0,0,0.54)"
+                  >{{ calculatePower(item.delegator_shares) }}%</v-list-item-subtitle>
+                </td>
+                <td>{{ percentage(item.commission.commission_rates.rate) }}%</td>
+              </tr>
+            </template>
+          </v-data-table>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import ValidatorsToolbarIndex from "@/components/validators/ToolbarIndex";
 import config from "@/assets/config";
 import axios from "axios";
 import BigNumber from "bignumber.js";
 import { prettyRound } from "~/assets/utils";
 
 export default {
+  components: {
+    ValidatorsToolbarIndex
+  },
   filters: {
     prettyRound
   },
