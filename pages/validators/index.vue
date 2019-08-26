@@ -86,8 +86,16 @@
                   <p
                     class="mb-1"
                     v-if="$vuetify.breakpoint.name === 'xs' || $vuetify.breakpoint.name === 'sm'"
-                  >{{ validator.details.operatorAddress | address }}</p>
-                  <p class="mb-1" v-else>{{ validator.details.operatorAddress }}</p>
+                  >
+                    <nuxt-link
+                      :to="`/validators/${validator.details.operatorAddress}`"
+                    >{{ validator.details.operatorAddress | address }}</nuxt-link>
+                  </p>
+                  <p class="mb-1" v-else>
+                    <nuxt-link
+                      :to="`/validators/${validator.details.operatorAddress}`"
+                    >{{ validator.details.operatorAddress }}</nuxt-link>
+                  </p>
                   <div class="body-2 grey--text text--darken-2">Operator Address</div>
                 </v-col>
                 <v-col cols="12">
