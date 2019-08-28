@@ -2,6 +2,7 @@
   <v-container>
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4" v-if="validator">
+        <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Validator Detail</h1>
         <v-row>
           <v-col cols="12">
             <v-card class="elevation-1">
@@ -146,6 +147,7 @@
                 :headers="delegators_header"
                 :items-per-page="5"
                 :items="delegations.delegators"
+                :height="288"
               >
                 <template v-slot:item.delegator_address="{ item }">
                   <nuxt-link :to="`/account/${item.delegator_address}`">{{ item.delegator_address }}</nuxt-link>

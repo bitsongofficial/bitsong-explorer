@@ -2,51 +2,45 @@
   <v-container>
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
-        <v-card class="elevation-1">
-          <v-toolbar flat>
-            <v-toolbar-title>Validators</v-toolbar-title>
-            <div class="flex-grow-1"></div>
-            <v-menu bottom left transition="slide-y-transition">
+        <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Validators</h1>
+
+        <v-toolbar flat color="transparent">
+          <template v-for="(item, index) in status.items">
+            <v-chip
+              color="primary"
+              :key="index"
+              @click="onStatusClick(item.value)"
+              :outlined="status.selected !== item.value"
+              :class="index !== 0 ? 'ml-4' : ''"
+            >{{ item.label }}</v-chip>
+          </template>
+          <div class="flex-grow-1"></div>
+          <v-toolbar-items>
+            <v-menu offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on">
-                  <v-icon>{{ sortDirection === 'asc' ? 'mdi-sort-ascending' : 'mdi-sort-descending' }}</v-icon>
-                </v-btn>
+                <v-btn text color="grey darken-3" dark v-on="on">Sort by: {{ sortLabel }}</v-btn>
               </template>
               <v-list>
-                <v-list-item @click="sortBy('voting_power')">
-                  <v-list-item-content>
-                    <v-list-item-title>Voting Power</v-list-item-title>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-icon>{{ sort === 'voting_power' ? (sortDirection === 'asc' ? 'mdi-sort-ascending' : 'mdi-sort-descending') : '' }}</v-icon>
-                  </v-list-item-action>
-                </v-list-item>
-                <v-list-item @click="sortBy('moniker')">
-                  <v-list-item-content>
-                    <v-list-item-title>Moniker</v-list-item-title>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-icon>{{ this.sort === 'moniker' ? (sortDirection === 'asc' ? 'mdi-sort-ascending' : 'mdi-sort-descending') : '' }}</v-icon>
-                  </v-list-item-action>
-                </v-list-item>
-                <v-list-item @click="sortBy('commission')">
-                  <v-list-item-content>
-                    <v-list-item-title>Commission</v-list-item-title>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-icon>{{ this.sort === 'commission' ? (sortDirection === 'asc' ? 'mdi-sort-ascending' : 'mdi-sort-descending') : '' }}</v-icon>
-                  </v-list-item-action>
+                <v-list-item
+                  v-for="(item, index) in sort.items"
+                  :key="index"
+                  @click="onSortChange(item.value)"
+                >
+                  <v-list-item-title>{{ item.label }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
-          </v-toolbar>
-        </v-card>
+            <v-btn icon @click="toggleSortDirection">
+              <v-icon>{{ sort_direction.selected === 'asc' ? 'mdi-sort-ascending' : 'mdi-sort-descending' }}</v-icon>
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
       </v-col>
     </v-row>
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <v-expansion-panels>
-          <v-expansion-panel v-for="(validator, i) in validators" :key="i" hide-actions>
+          <v-expansion-panel v-for="(validator, i) in validatorsFormatted" :key="i" hide-actions>
             <v-expansion-panel-header>
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="3" sm="3" md="1">
@@ -157,6 +151,7 @@ export default {
             details {
               operatorAddress
               tokens
+              status
               description {
                 moniker
                 identity
@@ -172,8 +167,8 @@ export default {
       `,
       variables() {
         return {
-          sort: this.sort,
-          sortDirection: this.sortDirection
+          sort: this.sort.selected,
+          sortDirection: this.sort_direction.selected
         };
       },
       pollInterval: 5000
@@ -181,14 +176,53 @@ export default {
   },
   data() {
     return {
-      sort: "voting_power",
-      sortDirection: "desc"
+      status: {
+        selected: "2",
+        items: [
+          { value: "2", label: "Active" },
+          { value: "1", label: "Inactive" }
+        ]
+      },
+      sort: {
+        selected: "voting_power",
+        items: [
+          { value: "moniker", label: "Moniker" },
+          { value: "voting_power", label: "Voting Power" },
+          { value: "commission", label: "Commission" }
+        ]
+      },
+      sort_direction: {
+        selected: "desc",
+        items: [{ value: "asc", icon: "" }, { value: "desc", icon: "" }]
+      }
     };
   },
   mounted() {
     console.log();
   },
+  computed: {
+    sortLabel() {
+      return this.sort.items.filter(v => v.value === this.sort.selected)[0]
+        .label;
+    },
+    validatorsFormatted() {
+      if (this.validators)
+        return this.validators.filter(
+          v => v.details.status === this.status.selected
+        );
+    }
+  },
   methods: {
+    toggleSortDirection() {
+      this.sort_direction.selected =
+        this.sort_direction.selected === "desc" ? "asc" : "desc";
+    },
+    onStatusClick(val) {
+      this.status.selected = val;
+    },
+    onSortChange(val) {
+      this.sort.selected = val;
+    },
     avatar(value) {
       return jdenticon.toSvg(value, 36);
     },

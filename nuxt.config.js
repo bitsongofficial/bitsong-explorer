@@ -75,7 +75,7 @@ export default {
     clientConfigs: {
       default: {
         // required
-        httpEndpoint: "http://localhost:4000",
+        httpEndpoint: "http://localhost:8081/graphql",
         // You can use `wss` for secure connection (recommended in production)
         // Use `null` to disable subscriptions
         // wsEndpoint: 'ws://localhost:4000', // optional

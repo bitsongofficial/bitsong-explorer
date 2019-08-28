@@ -6,7 +6,7 @@
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>{{ this.$store.getters['pool/not_bonded_tokens'] | pretty }}</v-list-item-title>
-        <v-list-item-subtitle>Not Bondend</v-list-item-subtitle>
+        <v-list-item-subtitle>Not Bonded</v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-content>
         <v-list-item-title>{{ this.$store.getters['pool/bonded_tokens'] | pretty }}</v-list-item-title>
@@ -36,15 +36,15 @@ export default {
   filters: {
     pretty
   },
-  mounted () {
-    this.$store.dispatch(`minting/getInflation`)
-    this.$store.dispatch(`pool/getPool`)
+  mounted() {
+    this.$store.dispatch(`minting/getInflation`);
+    this.$store.dispatch(`pool/getPool`);
     setInterval(() => {
-      this.$store.dispatch(`pool/getPool`)
-    }, 60000)
+      this.$store.dispatch(`pool/getPool`);
+    }, 60000);
     setInterval(() => {
-      this.$store.dispatch(`minting/getInflation`)
-    }, 300000)
+      this.$store.dispatch(`minting/getInflation`);
+    }, 300000);
   }
-}
+};
 </script>
