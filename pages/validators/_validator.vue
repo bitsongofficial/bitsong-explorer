@@ -9,8 +9,8 @@
               <v-card-text>
                 <v-row no-gutters align="center">
                   <v-col class="pl-2">
-                    <v-avatar size="64px" v-if="validator.details.description.profile_url">
-                      <img :src="validator.details.description.profile_url" />
+                    <v-avatar size="64px" v-if="validator.details.description.avatar">
+                      <img :src="validator.details.description.avatar" />
                     </v-avatar>
                     <v-avatar size="64px" v-else v-html="avatar(validator.address)"></v-avatar>
                   </v-col>
@@ -20,14 +20,14 @@
                       <v-col cols="6">
                         <h3
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.operatorAddress }}</h3>
+                        >{{ validator.details.operator_address }}</h3>
                         <div class="body-2 grey--text text--darken-1">Operator Address</div>
                       </v-col>
                       <v-col cols="6">
                         <h3 class="subtitle-1 grey--text text--darken-4">
                           <nuxt-link
-                            :to="`/account/${validator.details.delegatorAddress}`"
-                          >{{ validator.details.delegatorAddress }}</nuxt-link>
+                            :to="`/account/${validator.details.delegator_address}`"
+                          >{{ validator.details.delegator_address }}</nuxt-link>
                         </h3>
                         <div class="body-2 grey--text text--darken-1">Delegator Address</div>
                       </v-col>
@@ -63,19 +63,19 @@
                       <v-col cols="4">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.commission.rate * 100 }}%</div>
+                        >{{ validator.details.commission.commission_rates.rate * 100 }}%</div>
                         <div class="body-2 grey--text text--darken-1">Commission Rate</div>
                       </v-col>
                       <v-col cols="4">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.commission.maxRate * 100 }}%</div>
+                        >{{ validator.details.commission.commission_rates.max_rate * 100 }}%</div>
                         <div class="body-2 grey--text text--darken-1">Max Rate</div>
                       </v-col>
                       <v-col cols="4">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.commission.maxChangeRate * 100 }}%</div>
+                        >{{ validator.details.commission.commission_rates.max_change_rate * 100 }}%</div>
                         <div class="body-2 grey--text text--darken-1">Max Change Rate</div>
                       </v-col>
                     </v-row>
@@ -84,7 +84,7 @@
                       <v-col cols="12">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.commission.updateTime }}</div>
+                        >{{ validator.details.commission.update_time }}</div>
                         <div class="body-2 grey--text text--darken-1">Commission Update Time</div>
                       </v-col>
                     </v-row>
@@ -108,24 +108,29 @@
                     </v-row>
                   </v-col>
                   <v-col cols="3">
-                    <apexchart width="255" type="pie" :series="series" :options="chartOptions"></apexchart>
+                    <apexchart
+                      width="255"
+                      type="pie"
+                      :series="[validator.details.self_shares, validator.details.delegator_shares - validator.details.self_shares]"
+                      :options="chartOptions"
+                    ></apexchart>
                   </v-col>
                   <v-col cols="3">
                     <v-list-item two-line>
                       <v-list-item-content>
-                        <v-list-item-title>16 254 545</v-list-item-title>
+                        <v-list-item-title>{{ validator.details.self_shares | toBtsg }} BTSG</v-list-item-title>
                         <v-list-item-subtitle>Self Delegated</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
                     <v-list-item two-line>
                       <v-list-item-content>
-                        <v-list-item-title>16 254 545</v-list-item-title>
+                        <v-list-item-title>{{ validator.details.delegator_shares - validator.details.self_shares | toBtsg }} BTSG</v-list-item-title>
                         <v-list-item-subtitle>Others</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
                     <v-list-item two-line>
                       <v-list-item-content>
-                        <v-list-item-title>16 254 545</v-list-item-title>
+                        <v-list-item-title>{{ validator.details.delegator_shares | toBtsg }} BTSG</v-list-item-title>
                         <v-list-item-subtitle>Total</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
@@ -135,24 +140,42 @@
             </v-card>
           </v-col>
         </v-row>
-
         <v-row>
           <v-col cols="6">
-            <v-card class="elevation-1" v-if="delegations">
+            <v-card class="elevation-1">
               <v-toolbar flat>
-                <v-toolbar-title>Delegators</v-toolbar-title>
+                <v-toolbar-title>Delegations</v-toolbar-title>
               </v-toolbar>
               <v-divider></v-divider>
               <v-data-table
+                v-if="validator"
                 :headers="delegators_header"
                 :items-per-page="5"
-                :items="delegations.delegators"
+                :items="validator.delegations"
                 :height="288"
               >
                 <template v-slot:item.delegator_address="{ item }">
                   <nuxt-link :to="`/account/${item.delegator_address}`">{{ item.delegator_address }}</nuxt-link>
                 </template>
                 <template v-slot:item.shares="{ item }">{{ item.shares | toBtsg }} BTSG</template>
+              </v-data-table>
+            </v-card>
+          </v-col>
+          <v-col cols="6">
+            <v-card class="elevation-1">
+              <v-toolbar flat>
+                <v-toolbar-title>Unbonding Delegations</v-toolbar-title>
+              </v-toolbar>
+              <v-divider></v-divider>
+              <v-data-table
+                :headers="delegators_header"
+                :items-per-page="5"
+                :items="formattedUnbondings"
+                :height="288"
+              >
+                <template v-slot:item.delegator_address="{ item }">
+                  <nuxt-link :to="`/account/${item.delegator_address}`">{{ item.delegator_address }}</nuxt-link>
+                </template>
               </v-data-table>
             </v-card>
           </v-col>
@@ -210,6 +233,18 @@ export default {
       }
     };
   },
+  computed: {
+    formattedUnbondings() {
+      if (!this.validator) return;
+      if (!this.validator.unbonding_delegations) return;
+
+      return this.validator.unbonding_delegations.map(v => {
+        return {
+          delegator_address: v.delegator_address
+        };
+      });
+    }
+  },
   apollo: {
     validator: {
       prefetch: true,
@@ -219,42 +254,41 @@ export default {
             address
             voting_power
             details {
-              operatorAddress
-              delegatorAddress
+              operator_address
+              delegator_address
               status
+              delegator_shares
+              self_shares
               description {
                 moniker
-                profile_url
+                avatar
                 website
                 details
               }
               commission {
-                rate
-                maxRate
-                maxChangeRate
-                updateTime
+                commission_rates {
+                  rate
+                  max_rate
+                  max_change_rate
+                }
+                update_time
               }
             }
-          }
-        }
-      `,
-      variables() {
-        return {
-          operatorAddress: this.operatorAddress
-        };
-      }
-    },
-    delegations: {
-      prefetch: true,
-      query: gql`
-        query Delegations($operatorAddress: String!) {
-          delegations(operatorAddress: $operatorAddress) {
-            delegators {
+            delegations {
               delegator_address
               validator_address
               shares
             }
-            total_delegator_num
+            unbonding_delegations {
+              delegator_address
+              validator_address
+              entries {
+                creation_height
+                completion_time
+                initial_balance
+                balance
+              }
+            }
           }
         }
       `,
