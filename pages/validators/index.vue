@@ -44,8 +44,8 @@
             <v-expansion-panel-header>
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="3" sm="3" md="1">
-                  <v-avatar size="36px" v-if="validator.details.description.profile_url">
-                    <img :src="validator.details.description.profile_url" />
+                  <v-avatar size="36px" v-if="validator.details.description.avatar">
+                    <img :src="validator.details.description.avatar" />
                   </v-avatar>
                   <v-avatar size="36px" v-else v-html="avatar(validator.address)"></v-avatar>
                 </v-col>
@@ -53,14 +53,14 @@
                   <div class="font-weight-medium">{{ validator.details.description.moniker }}</div>
                   <div class="caption grey--text text--darken-1 hidden-sm-and-up mt-1">
                     Voting Power {{ validator.voting_power | prettyRound }}
-                    &middot; Comm. {{ validator.details.commission.rate * 100 }}%
+                    &middot; Comm. {{ validator.details.commission.commission_rates.rate * 100 }}%
                   </div>
                 </v-col>
                 <v-col class="grey--text text-truncate hidden-sm-and-down">
                   Commission &mdash;
                   <span
                     class="grey--text text--darken-3"
-                  >{{ validator.details.commission.rate * 100 }}%</span>
+                  >{{ validator.details.commission.commission_rates.rate * 100 }}%</span>
                 </v-col>
                 <v-col
                   class="grey--text text--darken-3 text-truncate mr-4 hidden-sm-and-down"
@@ -82,13 +82,13 @@
                     v-if="$vuetify.breakpoint.name === 'xs' || $vuetify.breakpoint.name === 'sm'"
                   >
                     <nuxt-link
-                      :to="`/validators/${validator.details.operatorAddress}`"
-                    >{{ validator.details.operatorAddress | address }}</nuxt-link>
+                      :to="`/validators/${validator.details.operator_address}`"
+                    >{{ validator.details.operator_address | address }}</nuxt-link>
                   </p>
                   <p class="mb-1" v-else>
                     <nuxt-link
-                      :to="`/validators/${validator.details.operatorAddress}`"
-                    >{{ validator.details.operatorAddress }}</nuxt-link>
+                      :to="`/validators/${validator.details.operator_address}`"
+                    >{{ validator.details.operator_address }}</nuxt-link>
                   </p>
                   <div class="body-2 grey--text text--darken-2">Operator Address</div>
                 </v-col>
@@ -109,7 +109,7 @@
                   <div class="body-2 grey--text text--darken-2">Website</div>
                 </v-col>
                 <v-col cols="12">
-                  <p class="mb-1">{{ validator.details.commission.rate * 100 }}%</p>
+                  <p class="mb-1">{{ validator.details.commission.commission_rates.rate * 100 }}%</p>
                   <div class="body-2 grey--text text--darken-2">Commission</div>
                 </v-col>
                 <v-col cols="12">
@@ -149,17 +149,19 @@ export default {
             voting_power
             proposer_priority
             details {
-              operatorAddress
+              operator_address
               tokens
               status
               description {
                 moniker
                 identity
-                profile_url
+                avatar
                 website
               }
               commission {
-                rate
+                commission_rates {
+                  rate
+                }
               }
             }
           }
@@ -177,11 +179,8 @@ export default {
   data() {
     return {
       status: {
-        selected: "2",
-        items: [
-          { value: "2", label: "Active" },
-          { value: "1", label: "Inactive" }
-        ]
+        selected: 2,
+        items: [{ value: 2, label: "Active" }, { value: 1, label: "Inactive" }]
       },
       sort: {
         selected: "voting_power",
@@ -197,19 +196,54 @@ export default {
       }
     };
   },
-  mounted() {
-    console.log();
-  },
   computed: {
     sortLabel() {
       return this.sort.items.filter(v => v.value === this.sort.selected)[0]
         .label;
     },
     validatorsFormatted() {
-      if (this.validators)
-        return this.validators.filter(
-          v => v.details.status === this.status.selected
+      if (!this.validators) return;
+
+      const validators = this.validators.filter(
+        v => v.details.status === this.status.selected
+      );
+
+      if (this.sort.selected === "moniker") {
+        if (this.sort_direction.selected === "desc")
+          return validators.sort((a, b) => {
+            return (
+              b.details.description.moniker.toLowerCase().charCodeAt() -
+              a.details.description.moniker.toLowerCase().charCodeAt()
+            );
+          });
+
+        return validators.sort((a, b) => {
+          return (
+            a.details.description.moniker.toLowerCase().charCodeAt() -
+            b.details.description.moniker.toLowerCase().charCodeAt()
+          );
+        });
+      }
+
+      if (this.sort.selected === "commission") {
+        if (this.sort_direction.selected === "desc")
+          return validators.sort(
+            (a, b) =>
+              b.details.commission.commission_rates.rate -
+              a.details.commission.commission_rates.rate
+          );
+
+        return validators.sort(
+          (a, b) =>
+            a.details.commission.commission_rates.rate -
+            b.details.commission.commission_rates.rate
         );
+      }
+
+      if (this.sort_direction.selected === "desc")
+        return validators.sort((a, b) => b.voting_power - a.voting_power);
+
+      return validators.sort((a, b) => a.voting_power - b.voting_power);
     }
   },
   methods: {
