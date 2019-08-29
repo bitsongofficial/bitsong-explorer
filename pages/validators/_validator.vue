@@ -2,7 +2,11 @@
   <v-container>
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4" v-if="validator">
-        <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Validator Detail</h1>
+        <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">
+          <nuxt-link to="/validators" class="pr-4" style="text-decoration:none">
+            <v-icon>mdi-arrow-left</v-icon>
+          </nuxt-link>Validator Detail
+        </h1>
         <v-row>
           <v-col cols="12">
             <v-card class="elevation-1">
@@ -149,7 +153,7 @@
               <v-divider></v-divider>
               <v-data-table
                 v-if="validator"
-                :headers="delegators_header"
+                :headers="delegations_header"
                 :items-per-page="5"
                 :items="validator.delegations"
                 :height="288"
@@ -164,18 +168,22 @@
           <v-col cols="6">
             <v-card class="elevation-1">
               <v-toolbar flat>
-                <v-toolbar-title>Unbonding Delegations</v-toolbar-title>
+                <v-toolbar-title>Unbonding</v-toolbar-title>
               </v-toolbar>
               <v-divider></v-divider>
               <v-data-table
-                :headers="delegators_header"
+                :headers="unbondings_header"
                 :items-per-page="5"
                 :items="formattedUnbondings"
                 :height="288"
               >
                 <template v-slot:item.delegator_address="{ item }">
-                  <nuxt-link :to="`/account/${item.delegator_address}`">{{ item.delegator_address }}</nuxt-link>
+                  <nuxt-link
+                    :to="`/account/${item.delegator_address}`"
+                  >{{ item.delegator_address | address }}</nuxt-link>
                 </template>
+                <template v-slot:item.amount="{ item }">{{ item.amount | toBtsg}} BTSG</template>
+                <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
               </v-data-table>
             </v-card>
           </v-col>
@@ -189,7 +197,7 @@
 import gql from "graphql-tag";
 import { prettyRound, shortFilter } from "~/assets/utils";
 import jdenticon from "jdenticon";
-import { toBtsg, toMacroDenom } from "@/filters";
+import { toBtsg, toMacroDenom, toTime } from "@/filters";
 
 export default {
   asyncData({ params, error }) {
@@ -201,15 +209,22 @@ export default {
   },
   filters: {
     prettyRound,
-    address: value => shortFilter(value, 14),
+    address: value => shortFilter(value, 12),
     toBtsg,
-    toMacroDenom
+    toMacroDenom,
+    toTime
   },
   data() {
     return {
-      delegators_header: [
+      delegations_header: [
         { text: "Delegator Address", value: "delegator_address" },
         { text: "Amount", align: "right", value: "shares" }
+      ],
+      unbondings_header: [
+        { text: "Delegator Address", value: "delegator_address" },
+        { text: "Height", value: "height", align: "center" },
+        { text: "Amount", align: "right", value: "amount" },
+        { text: "Completition Time", align: "right", value: "completion_time" }
       ],
       series: [20000, 132510],
       chartOptions: {
@@ -239,10 +254,15 @@ export default {
       if (!this.validator.unbonding_delegations) return;
 
       return this.validator.unbonding_delegations.map(v => {
-        return {
-          delegator_address: v.delegator_address
-        };
-      });
+        return v.entries.map(data => {
+          return {
+            delegator_address: v.delegator_address,
+            height: data.creation_height,
+            amount: data.balance,
+            completion_time: data.completion_time
+          };
+        });
+      })[0];
     }
   },
   apollo: {
