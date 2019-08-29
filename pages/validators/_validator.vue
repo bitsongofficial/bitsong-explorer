@@ -5,13 +5,13 @@
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">
           <nuxt-link to="/validators" class="pr-4" style="text-decoration:none">
             <v-icon>mdi-arrow-left</v-icon>
-          </nuxt-link>Validator Detail
+          </nuxt-link>Validator Details
         </h1>
         <v-row>
           <v-col cols="12">
             <v-card class="elevation-1">
-              <v-card-text>
-                <v-row no-gutters align="center">
+              <v-card-title>
+                <v-row no-gutters align-center class="pb-1">
                   <v-col class="pl-2">
                     <v-avatar size="64px" v-if="validator.details.description.avatar">
                       <img :src="validator.details.description.avatar" />
@@ -42,7 +42,7 @@
                     <v-chip v-if="validator.details.status === '0'">Inactive</v-chip>
                   </v-col>
                 </v-row>
-              </v-card-text>
+              </v-card-title>
               <v-divider></v-divider>
               <v-card-text>
                 <v-row no-gutters>

@@ -1,0 +1,322 @@
+<template>
+  <v-container>
+    <v-row no-gutters>
+      <v-col cols="12" xl="8" class="mx-auto mt-4">
+        <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Account Detail</h1>
+
+        <v-row v-if="account">
+          <v-col cols="12">
+            <v-card class="elevation-1">
+              <v-card-title>
+                <v-row no-gutters>
+                  <v-col cols="1" class="pl-2">
+                    <v-avatar size="46px" v-html="avatar(`${account.address}`)"></v-avatar>
+                  </v-col>
+                  <v-col>
+                    <v-row no-gutters class="pb-1">
+                      <v-col>
+                        <h3 class="subtitle-1 grey--text text--darken-4">{{ account.address }}</h3>
+                        <div class="body-2 grey--text text--darken-1">Address</div>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-card-title>
+              <v-divider></v-divider>
+              <v-card-text>
+                <v-row no-gutters>
+                  <v-col cols="3" class="pl-3 align-content-center">
+                    <apexchart
+                      width="255"
+                      type="pie"
+                      :series="[parseFloat(account.balances.available), parseFloat(account.balances.bonded), parseFloat(account.balances.unbonding), parseFloat(account.balances.rewards)]"
+                      :options="chartOptions"
+                    ></apexchart>
+                  </v-col>
+                  <v-col>
+                    <v-row>
+                      <v-col cols="12">
+                        <div
+                          class="subtitle-1 grey--text text--darken-4"
+                        >{{ account.balances.available | toBtsg }} BTSG</div>
+                        <div class="body-2 grey--text text--darken-1">Available</div>
+                      </v-col>
+                    </v-row>
+
+                    <v-row>
+                      <v-col cols="12">
+                        <div
+                          class="subtitle-1 grey--text text--darken-4"
+                        >{{ account.balances.bonded | toBtsg }} BTSG</div>
+                        <div class="body-2 grey--text text--darken-1">Bonded</div>
+                      </v-col>
+                    </v-row>
+
+                    <v-row>
+                      <v-col cols="12">
+                        <div
+                          class="subtitle-1 grey--text text--darken-4"
+                        >{{ account.balances.unbonding | toBtsg }} BTSG</div>
+                        <div class="body-2 grey--text text--darken-1">Unbonding</div>
+                      </v-col>
+                    </v-row>
+
+                    <v-row>
+                      <v-col cols="12">
+                        <div
+                          class="subtitle-1 grey--text text--darken-4"
+                        >{{ account.balances.rewards | toBtsg }} BTSG</div>
+                        <div class="body-2 grey--text text--darken-1">Rewards</div>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col>
+                    <div class="display-1 font-weight-light grey--text text--darken-4">
+                      {{ totalBalance | toBtsg }}
+                      <span class="subtitle-1">BTSG</span>
+                    </div>
+                    <div class="subtitle-1 grey--text text--darken-1 pt-1">Total BTSG Balance</div>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols="6">
+            <v-card class="elevation-1">
+              <v-toolbar flat>
+                <v-toolbar-title>Delegations</v-toolbar-title>
+              </v-toolbar>
+              <v-divider></v-divider>
+              <v-data-table
+                v-if="account"
+                :headers="delegations_header"
+                :items-per-page="5"
+                :items="account.delegations"
+                :height="288"
+              >
+                <template v-slot:item.validator_address="{ item }">
+                  <nuxt-link
+                    :to="`/validators/${item.validator_address}`"
+                  >{{ item.validator_address }}</nuxt-link>
+                </template>
+                <template v-slot:item.shares="{ item }">{{ item.shares | toBtsg }} BTSG</template>
+              </v-data-table>
+            </v-card>
+          </v-col>
+
+          <v-col cols="6">
+            <v-card class="elevation-1">
+              <v-toolbar flat>
+                <v-toolbar-title>Unbonding</v-toolbar-title>
+              </v-toolbar>
+              <v-divider></v-divider>
+              <v-data-table
+                :headers="unbondings_header"
+                :items-per-page="5"
+                :items="formattedUnbondings"
+                :height="288"
+              >
+                <template v-slot:item.validator_address="{ item }">
+                  <nuxt-link
+                    :to="`/validators/${item.validator_address}`"
+                  >{{ item.validator_address | address }}</nuxt-link>
+                </template>
+                <template v-slot:item.amount="{ item }">{{ item.amount | toBtsg}} BTSG</template>
+                <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
+              </v-data-table>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols="12">
+            <v-card class="elevation-1">
+              <v-toolbar flat>
+                <v-toolbar-title>Redelegations</v-toolbar-title>
+              </v-toolbar>
+              <v-divider></v-divider>
+              <v-data-table
+                :headers="redelegations_header"
+                :items-per-page="5"
+                :items="formattedRedelegations"
+                :height="288"
+              >
+                <template v-slot:item.validator_src_address="{ item }">
+                  <nuxt-link
+                    :to="`/validators/${item.validator_src_address}`"
+                  >{{ item.validator_src_address | address }}</nuxt-link>
+                </template>
+                <template v-slot:item.validator_dst_address="{ item }">
+                  <nuxt-link
+                    :to="`/validators/${item.validator_dst_address}`"
+                  >{{ item.validator_dst_address | address }}</nuxt-link>
+                </template>
+                <template v-slot:item.creation_height="{ item }">
+                  <nuxt-link :to="`/blocks/${item.creation_height}`">{{ item.creation_height }}</nuxt-link>
+                </template>
+                <template v-slot:item.balance="{ item }">{{ item.balance | toBtsg }} BTSG</template>
+                <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
+              </v-data-table>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import jdenticon from "jdenticon";
+import gql from "graphql-tag";
+import { toBtsg, toTime } from "@/filters";
+import { prettyRound, shortFilter } from "~/assets/utils";
+
+export default {
+  filters: {
+    toBtsg,
+    toTime,
+    address: value => shortFilter(value, 12)
+  },
+  asyncData({ params, error }) {
+    return {
+      address: params.address
+    };
+  },
+  data() {
+    return {
+      delegations_header: [
+        { text: "Validator Address", value: "validator_address" },
+        { text: "Amount", align: "right", value: "shares" }
+      ],
+      unbondings_header: [
+        { text: "Validator Address", value: "validator_address" },
+        { text: "Height", value: "height", align: "center" },
+        { text: "Amount", align: "right", value: "amount" },
+        { text: "Completition Time", align: "right", value: "completion_time" }
+      ],
+      redelegations_header: [
+        { text: "Height", value: "creation_height" },
+        { text: "From", value: "validator_src_address" },
+        { text: "To", value: "validator_dst_address", align: "left" },
+        { text: "Amount", align: "right", value: "balance" },
+        { text: "Completition Time", align: "right", value: "completion_time" }
+      ],
+      chartOptions: {
+        labels: ["Available", "Bonded", "Unbonding", "Rewards"],
+        legend: {
+          show: false
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                show: false
+              }
+            }
+          }
+        ]
+      }
+    };
+  },
+  apollo: {
+    account: {
+      prefetch: true,
+      query: gql`
+        query Account($address: String!) {
+          account(address: $address) {
+            address
+            balances {
+              available
+              bonded
+              unbonding
+              rewards
+            }
+            delegations {
+              shares
+              validator_address
+            }
+            unbonding_delegations {
+              validator_address
+              entries {
+                creation_height
+                completion_time
+                initial_balance
+                balance
+              }
+            }
+            redelegations {
+              validator_src_address
+              validator_dst_address
+              entries {
+                creation_height
+                completion_time
+                balance
+              }
+            }
+          }
+        }
+      `,
+      variables() {
+        return {
+          address: this.address
+        };
+      }
+    }
+  },
+  methods: {
+    avatar(value) {
+      return jdenticon.toSvg(value, 64);
+    }
+  },
+  computed: {
+    formattedUnbondings() {
+      if (!this.account) return;
+      if (!this.account.unbonding_delegations) return;
+
+      return this.account.unbonding_delegations.map(v => {
+        return v.entries.map(data => {
+          return {
+            validator_address: v.validator_address,
+            height: data.creation_height,
+            amount: data.balance,
+            completion_time: data.completion_time
+          };
+        });
+      })[0];
+    },
+    formattedRedelegations() {
+      if (!this.account) return;
+      if (!this.account.redelegations) return;
+
+      return this.account.redelegations.map(v => {
+        return v.entries.map(data => {
+          return {
+            validator_src_address: v.validator_src_address,
+            validator_dst_address: v.validator_dst_address,
+            creation_height: data.creation_height,
+            balance: data.balance,
+            completion_time: data.completion_time
+          };
+        });
+      })[0];
+    },
+    totalBalance() {
+      if (!this.account) return 0;
+
+      return (
+        parseFloat(this.account.balances.available) +
+        parseFloat(this.account.balances.bonded) +
+        parseFloat(this.account.balances.unbonding) +
+        parseFloat(this.account.balances.rewards)
+      );
+    }
+  }
+};
+</script>
