@@ -226,7 +226,6 @@ export default {
         { text: "Amount", align: "right", value: "amount" },
         { text: "Completition Time", align: "right", value: "completion_time" }
       ],
-      series: [20000, 132510],
       chartOptions: {
         labels: ["Self delegated", "Others"],
         legend: {

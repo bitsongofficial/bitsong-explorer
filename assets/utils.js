@@ -6,7 +6,8 @@ import decode from "entity-decode";
 
 export function getTimeDistance(timestamp) {
   if (typeof timestamp === "string") {
-    timestamp = parseISO(timestamp);
+    //timestamp = parseISO(timestamp);ù
+    timestamp = new Date(timestamp);
   }
   const now = new Date();
   // if timestamp from future
