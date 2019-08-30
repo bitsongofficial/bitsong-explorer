@@ -1,20 +1,8 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
+    <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" fixed app>
       <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
+        <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" router exact>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -24,13 +12,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-      color="blue darken-2"
-      elevation="2"
-    >
+    <v-app-bar :clipped-left="clipped" fixed app color="blue darken-2" elevation="2">
       <v-app-bar-nav-icon class="ml-0" color="white" @click.stop="drawer = !drawer" />
       <v-toolbar-title class="white--text" v-text="title" />
       <v-spacer />
@@ -46,7 +28,7 @@
       <v-spacer />
       <v-toolbar-items>
         <span class="chain_name white--text">
-          <v-icon dark class="pr-3" color="green" size="12">mdi-circle</v-icon> bitsong-testnet-1
+          <v-icon dark class="pr-3" color="green" size="12">mdi-circle</v-icon>bitsong-testnet-1
         </span>
       </v-toolbar-items>
     </v-app-bar>
@@ -70,36 +52,41 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       clipped: false,
       drawer: false,
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Home',
-          to: '/'
+          icon: "mdi-apps",
+          title: "Home",
+          to: "/"
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Transactions',
-          to: '/transactions'
+          icon: "mdi-chart-bubble",
+          title: "Blocks",
+          to: "/blocks"
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Validators',
-          to: '/validators'
+          icon: "mdi-chart-bubble",
+          title: "Transactions",
+          to: "/transactions"
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Validators",
+          to: "/validators"
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'BitSong Explorer'
-    }
+      title: "BitSong Explorer"
+    };
   },
-  mounted () {
-    this.$store.dispatch(`connection/connect`)
+  mounted() {
+    this.$store.dispatch(`connection/connect`);
   }
-}
+};
 </script>

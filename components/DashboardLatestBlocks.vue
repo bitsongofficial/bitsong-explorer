@@ -16,17 +16,29 @@
           <v-list-item-content>
             <v-list-item-title class="font-weight-medium">
               Block
-              <nuxt-link class="red-link" to="/">{{ block.height | prettyRound }}</nuxt-link>
+              <nuxt-link
+                class="red-link"
+                :to="`/blocks/${block.height}`"
+              >{{ block.height | prettyRound }}</nuxt-link>
+              <span class="hidden-md-and-up body-2 grey--text text--darken-1">
+                &middot; Includes
+                <nuxt-link
+                  class="red-link font-weight-medium"
+                  :to="`/blocks/${block.height}`"
+                >{{ block.num_txs }} txs</nuxt-link>
+              </span>
             </v-list-item-title>
             <v-list-item-subtitle>
-              Includes
-              <nuxt-link class="red-link font-weight-medium" to="/">{{ block.num_txs }} txs</nuxt-link>, Proposer:
+              <span class="hidden-sm-and-down">
+                Includes
+                <nuxt-link class="red-link font-weight-medium" to="/">{{ block.num_txs }} txs</nuxt-link>,
+              </span> Proposer:
               <nuxt-link class="red-link font-weight-medium" to="/">{{ block.proposer }}</nuxt-link>
             </v-list-item-subtitle>
           </v-list-item-content>
-          <v-list-item-content class="text-right">
-            <span class="body-1" style="color:rgba(0,0,0,0.54)">{{ block.time | timeDistance }}</span>
-          </v-list-item-content>
+          <v-list-item-action>
+            <v-list-item-action-text>{{ block.time | timeDistance }}</v-list-item-action-text>
+          </v-list-item-action>
         </v-list-item>
       </v-list-item-group>
     </v-list>
@@ -38,8 +50,7 @@ import {
   prettyUsd,
   prettyRound,
   shortFilter,
-  getTimeDistance,
-  toTime
+  getTimeDistance
 } from "~/assets/utils";
 import gql from "graphql-tag";
 
@@ -47,8 +58,7 @@ export default {
   filters: {
     prettyRound,
     proposerAddress: value => shortFilter(value, 6),
-    timeDistance: value => getTimeDistance(value),
-    toTime
+    timeDistance: value => getTimeDistance(value)
   },
   computed: {
     // blocks() {
