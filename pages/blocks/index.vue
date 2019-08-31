@@ -7,33 +7,36 @@
     </v-row>
 
     <v-row no-gutters class="mt-3">
-      <v-col cols="12">
+      <v-col cols="12" xl="8" class="mx-auto">
         <v-card class="elevation-1">
           <v-toolbar flat>
-            <v-toolbar-title class="subtitle-1">Block #dsad to #dsada (Total of 14454 blocks)</v-toolbar-title>
+            <v-toolbar-title
+              class="subtitle-1"
+            >Block #{{ firstBlock }} to #{{ lastBlock }} (Total of {{ totalBlocks }} blocks)</v-toolbar-title>
             <div class="flex-grow-1"></div>
-            <v-btn icon disabled>
-              <v-icon>mdi-chevron-left</v-icon>
-            </v-btn>
-            <v-btn icon>
-              <v-icon>mdi-chevron-right</v-icon>
-            </v-btn>
+            <Pagination v-if="allBlocks" :pagination-info="allBlocks.pageInfo" />
           </v-toolbar>
           <v-divider></v-divider>
           <v-data-table
             v-if="allBlocks"
             :headers="blocks_header"
+            hide-default-footer
             :items-per-page="25"
-            :items="allBlocks.edges"
+            :items="allBlocks.docs"
           >
             <template v-slot:item.height="{ item }">
-              <nuxt-link :to="`/blocks/${item.node.height}`">{{ item.node.height }}</nuxt-link>
+              <nuxt-link :to="`/blocks/${item.height}`">{{ item.height }}</nuxt-link>
             </template>
-            <template v-slot:item.hash="{ item }">{{ item.node.hash | hash }}</template>
-            <template v-slot:item.proposer="{ item }">{{ item.node.proposer }}</template>
-            <template v-slot:item.num_txs="{ item }">{{ item.node.num_txs }}</template>
-            <template v-slot:item.time="{ item }">{{ item.node.time | timeDistance }}</template>
+            <template v-slot:item.hash="{ item }">{{ item.hash | hash }}</template>
+            <template v-slot:item.proposer="{ item }">{{ item.proposer }}</template>
+            <template v-slot:item.num_txs="{ item }">{{ item.num_txs }}</template>
+            <template v-slot:item.time="{ item }">{{ item.time | timeDistance }}</template>
           </v-data-table>
+          <v-divider></v-divider>
+          <v-toolbar flat>
+            <div class="flex-grow-1"></div>
+            <Pagination v-if="allBlocks" :pagination-info="allBlocks.pageInfo" />
+          </v-toolbar>
         </v-card>
       </v-col>
     </v-row>
@@ -43,14 +46,29 @@
 <script>
 import { shortFilter, getTimeDistance } from "~/assets/utils";
 import gql from "graphql-tag";
+import Pagination from "@/components/Pagination";
 
 export default {
+  components: {
+    Pagination
+  },
   filters: {
     hash: value => shortFilter(value, 12),
     timeDistance: value => getTimeDistance(value)
   },
+  watchQuery: ["page"],
+  key: to => to.fullPath,
+  asyncData({ query }) {
+    let page = 1;
+    if (query.page) page = query.page;
+
+    return {
+      page
+    };
+  },
   data() {
     return {
+      limitRecords: 25,
       blocks_header: [
         { text: "Block", value: "height", sortable: false },
         { text: "Age", value: "time", sortable: false },
@@ -66,20 +84,18 @@ export default {
       query: gql`
         query allBlocks($pagination: PaginationInput!) {
           allBlocks(pagination: $pagination) {
-            totalCount
-            pageInfo {
-              hasNextPage
-              endCursor
+            docs {
+              height
+              hash
+              time
+              num_txs
+              proposer
             }
-            edges {
-              cursor
-              node {
-                height
-                hash
-                time
-                num_txs
-                proposer
-              }
+            pageInfo {
+              total
+              limit
+              page
+              pages
             }
           }
         }
@@ -87,10 +103,34 @@ export default {
       variables() {
         return {
           pagination: {
-            first: 25
+            page: this.page,
+            limit: this.limitRecords
           }
         };
       }
+    }
+  },
+  computed: {
+    firstBlock() {
+      if (!this.allBlocks) return;
+      if (!this.allBlocks.docs) return;
+      if (this.allBlocks.docs.length === 0) return;
+
+      return this.allBlocks.docs[0].height;
+    },
+    lastBlock() {
+      if (!this.allBlocks) return;
+      if (!this.allBlocks.docs) return;
+      if (this.allBlocks.docs.length === 0) return;
+
+      return this.firstBlock - this.limitRecords + 1;
+    },
+    totalBlocks() {
+      if (!this.allBlocks) return;
+      if (!this.allBlocks.docs) return;
+      if (this.allBlocks.docs.length === 0) return;
+
+      return this.allBlocks.pageInfo.total;
     }
   }
 };

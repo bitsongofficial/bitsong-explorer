@@ -12,7 +12,7 @@
     </v-row>
 
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12" xl="8" class="mx-auto">
         <v-card class="elevation-1">
           <v-card-title class="pb-3">Block Header</v-card-title>
           <v-divider></v-divider>
@@ -53,7 +53,7 @@
     </v-row>
 
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12" xl="8" class="mx-auto">
         <v-card class="elevation-1">
           <v-card-title class="pb-3">Transactions</v-card-title>
           <v-divider></v-divider>
