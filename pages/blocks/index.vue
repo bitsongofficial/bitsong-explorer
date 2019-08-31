@@ -9,19 +9,30 @@
     <v-row no-gutters class="mt-3">
       <v-col cols="12">
         <v-card class="elevation-1">
+          <v-toolbar flat>
+            <v-toolbar-title class="subtitle-1">Block #dsad to #dsada (Total of 14454 blocks)</v-toolbar-title>
+            <div class="flex-grow-1"></div>
+            <v-btn icon disabled>
+              <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+            <v-btn icon>
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <v-divider></v-divider>
           <v-data-table
-            hide-default-footer
+            v-if="allBlocks"
             :headers="blocks_header"
             :items-per-page="25"
-            :items="blocks"
+            :items="allBlocks.edges"
           >
             <template v-slot:item.height="{ item }">
-              <nuxt-link :to="`/blocks/${item.height}`">{{ item.height }}</nuxt-link>
+              <nuxt-link :to="`/blocks/${item.node.height}`">{{ item.node.height }}</nuxt-link>
             </template>
-            <template v-slot:item.hash="{ item }">{{ item.hash | hash }}</template>
-            <template v-slot:item.proposer="{ item }">{{ item.proposer | hash }}</template>
-            <template v-slot:item.txs="{ item }">{{ item.txs }}</template>
-            <template v-slot:item.time="{ item }">{{ item.time | timeDistance }}</template>
+            <template v-slot:item.hash="{ item }">{{ item.node.hash | hash }}</template>
+            <template v-slot:item.proposer="{ item }">{{ item.node.proposer }}</template>
+            <template v-slot:item.num_txs="{ item }">{{ item.node.num_txs }}</template>
+            <template v-slot:item.time="{ item }">{{ item.node.time | timeDistance }}</template>
           </v-data-table>
         </v-card>
       </v-col>
@@ -41,32 +52,43 @@ export default {
   data() {
     return {
       blocks_header: [
-        { text: "Height", value: "height" },
-        { text: "Hash", value: "hash" },
-        { text: "Proposer", value: "proposer" },
-        { text: "Txs", value: "num_txs", align: "center" },
-        { text: "Time", value: "time", align: "right" }
+        { text: "Block", value: "height", sortable: false },
+        { text: "Age", value: "time", sortable: false },
+        { text: "Txn", value: "num_txs", sortable: false },
+        { text: "Proposer", value: "proposer", sortable: false },
+        { text: "Hash", value: "hash", sortable: false }
       ]
     };
   },
   apollo: {
-    blocks: {
+    allBlocks: {
       prefetch: true,
       query: gql`
-        query Blocks($page: Int!, $limit: Int!) {
-          blocks(page: $page, limit: $limit) {
-            height
-            hash
-            time
-            num_txs
-            proposer
+        query allBlocks($pagination: PaginationInput!) {
+          allBlocks(pagination: $pagination) {
+            totalCount
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            edges {
+              cursor
+              node {
+                height
+                hash
+                time
+                num_txs
+                proposer
+              }
+            }
           }
         }
       `,
       variables() {
         return {
-          page: 1,
-          limit: 20
+          pagination: {
+            first: 25
+          }
         };
       }
     }

@@ -6,8 +6,11 @@
     </v-card-title>
     <v-divider></v-divider>
 
-    <v-list v-if="blocks">
-      <v-list-item-group v-for="(block, index) in blocks" :key="`${index}-${block.height}`">
+    <v-list v-if="allBlocks">
+      <v-list-item-group
+        v-for="(block, index) in allBlocks.edges"
+        :key="`${index}-${block.height}`"
+      >
         <v-divider v-if="index !== 0" :key="`${index}-divider`"></v-divider>
         <v-list-item two-line>
           <v-list-item-avatar>
@@ -18,26 +21,26 @@
               Block
               <nuxt-link
                 class="red-link"
-                :to="`/blocks/${block.height}`"
-              >{{ block.height | prettyRound }}</nuxt-link>
+                :to="`/blocks/${block.node.height}`"
+              >{{ block.node.height | prettyRound }}</nuxt-link>
               <span class="hidden-md-and-up body-2 grey--text text--darken-1">
                 &middot; Includes
                 <nuxt-link
                   class="red-link font-weight-medium"
-                  :to="`/blocks/${block.height}`"
-                >{{ block.num_txs }} txs</nuxt-link>
+                  :to="`/blocks/${block.node.height}`"
+                >{{ block.node.num_txs }} txs</nuxt-link>
               </span>
             </v-list-item-title>
             <v-list-item-subtitle>
               <span class="hidden-sm-and-down">
                 Includes
-                <nuxt-link class="red-link font-weight-medium" to="/">{{ block.num_txs }} txs</nuxt-link>,
+                <nuxt-link class="red-link font-weight-medium" to="/">{{ block.node.num_txs }} txs</nuxt-link>,
               </span> Proposer:
-              <nuxt-link class="red-link font-weight-medium" to="/">{{ block.proposer }}</nuxt-link>
+              <nuxt-link class="red-link font-weight-medium" to="/">{{ block.node.proposer }}</nuxt-link>
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-list-item-action-text>{{ block.time | timeDistance }}</v-list-item-action-text>
+            <v-list-item-action-text>{{ block.node.time | timeDistance }}</v-list-item-action-text>
           </v-list-item-action>
         </v-list-item>
       </v-list-item-group>
@@ -66,23 +69,27 @@ export default {
     // }
   },
   apollo: {
-    blocks: {
+    allBlocks: {
       prefetch: true,
       query: gql`
-        query Blocks($page: Int!, $limit: Int!) {
-          blocks(page: $page, limit: $limit) {
-            height
-            hash
-            time
-            num_txs
-            proposer
+        query allBlocks($pagination: PaginationInput!) {
+          allBlocks(pagination: $pagination) {
+            edges {
+              node {
+                height
+                time
+                num_txs
+                proposer
+              }
+            }
           }
         }
       `,
       variables() {
         return {
-          page: 1,
-          limit: 10
+          pagination: {
+            first: 10
+          }
         };
       },
       pollInterval: 1000

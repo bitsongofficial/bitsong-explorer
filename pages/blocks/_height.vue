@@ -14,7 +14,7 @@
     <v-row>
       <v-col cols="12">
         <v-card class="elevation-1">
-          <v-card-title class="headline pb-3 font-weight-light">Block Header</v-card-title>
+          <v-card-title class="pb-3">Block Header</v-card-title>
           <v-divider></v-divider>
           <v-card-text>
             <v-row no-gutters v-if="block">
@@ -55,7 +55,7 @@
     <v-row>
       <v-col cols="12">
         <v-card class="elevation-1">
-          <v-card-title class="headline pb-3 font-weight-light">Transactions</v-card-title>
+          <v-card-title class="pb-3">Transactions</v-card-title>
           <v-divider></v-divider>
           <v-card-text>
             <v-row no-gutters>
