@@ -8,8 +8,7 @@ export default {
   head: {
     titleTemplate: "%s - " + process.env.npm_package_name,
     title: process.env.npm_package_name || "",
-    meta: [
-      {
+    meta: [{
         charset: "utf-8"
       },
       {
@@ -22,15 +21,12 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
-    link: [
-      {
-        rel: "icon",
-        type: "image/x-icon",
-        href: "/favicon.ico"
-      }
-    ],
-    script: [
-      {
+    link: [{
+      rel: "icon",
+      type: "image/x-icon",
+      href: "/favicon.ico"
+    }],
+    script: [{
         src: "https://cdn.jsdelivr.net/npm/apexcharts"
       },
       {
@@ -51,7 +47,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: "@/plugins/apexcharts", ssr: false }],
+  plugins: [{
+    src: "@/plugins/apexcharts",
+    ssr: false
+  }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -76,9 +75,12 @@ export default {
       default: {
         // required
         httpEndpoint: "http://localhost:8081/graphql",
+        httpLinkOptions: {
+          credentials: 'same-origin'
+        },
         // You can use `wss` for secure connection (recommended in production)
         // Use `null` to disable subscriptions
-        // wsEndpoint: 'ws://localhost:4000', // optional
+        wsEndpoint: 'ws://localhost:8081/subscriptions', // optional
         // LocalStorage token
         tokenName: "apollo-token", // optional
         // Enable Automatic Query persisting with Apollo Engine

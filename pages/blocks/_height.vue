@@ -30,12 +30,6 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="12">
-                    <div class="subtitle-1 grey--text text--darken-4">{{ block.hash }}</div>
-                    <div class="body-2 grey--text text--darken-1">Hash</div>
-                  </v-col>
-                </v-row>
-                <v-row>
                   <v-col cols="6">
                     <div class="subtitle-1 grey--text text--darken-4">{{ block.proposer }}</div>
                     <div class="body-2 grey--text text--darken-1">Proposer</div>
@@ -43,6 +37,12 @@
                   <v-col cols="6">
                     <div class="subtitle-1 grey--text text--darken-4">{{ block.num_txs }}</div>
                     <div class="body-2 grey--text text--darken-1">Total Transactions</div>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <div class="subtitle-1 grey--text text--darken-4">{{ block.hash }}</div>
+                    <div class="body-2 grey--text text--darken-1">Hash</div>
                   </v-col>
                 </v-row>
               </v-col>

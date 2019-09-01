@@ -60,11 +60,6 @@ export default {
     proposerAddress: value => shortFilter(value, 6),
     timeDistance: value => getTimeDistance(value)
   },
-  computed: {
-    // blocks() {
-    //   return this.$store.getters[`blocks/blockList`];
-    // }
-  },
   apollo: {
     allBlocks: {
       prefetch: true,
@@ -80,6 +75,30 @@ export default {
           }
         }
       `,
+      subscribeToMore: {
+        document: gql`
+          subscription {
+            blockAdded {
+              height
+              time
+              num_txs
+              proposer
+            }
+          }
+        `,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          // The previous result is immutable
+          const newResult = {
+            allBlocks: {
+              docs: [...previousResult.allBlocks.docs.splice(-10, 9)],
+              __typename: previousResult.allBlocks.__typename
+            }
+          };
+          // Add the question to the list
+          newResult.allBlocks.docs.unshift(subscriptionData.data.blockAdded);
+          return newResult;
+        }
+      },
       variables() {
         return {
           pagination: {
@@ -87,8 +106,8 @@ export default {
             limit: 10
           }
         };
-      },
-      pollInterval: 1000
+      }
+      //pollInterval: 1000
     }
   }
 };
