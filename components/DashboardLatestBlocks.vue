@@ -107,7 +107,6 @@ export default {
           }
         };
       }
-      //pollInterval: 1000
     }
   }
 };
