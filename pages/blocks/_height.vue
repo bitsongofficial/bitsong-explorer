@@ -20,28 +20,28 @@
             <v-row no-gutters v-if="block">
               <v-col cols="12" class="px-3">
                 <v-row>
-                  <v-col cols="6">
+                  <v-col cols="12" md="6">
                     <div class="subtitle-1 grey--text text--darken-4">{{ block.height }}</div>
                     <div class="body-2 grey--text text--darken-1">Height</div>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="12" md="6">
                     <div class="subtitle-1 grey--text text--darken-4">{{ block.time }}</div>
                     <div class="body-2 grey--text text--darken-1">Block Time</div>
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="6">
-                    <div class="subtitle-1 grey--text text--darken-4">{{ block.proposer }}</div>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4">{{ block.proposer | hash }}</div>
                     <div class="body-2 grey--text text--darken-1">Proposer</div>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="12" md="6">
                     <div class="subtitle-1 grey--text text--darken-4">{{ block.num_txs }}</div>
                     <div class="body-2 grey--text text--darken-1">Total Transactions</div>
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <div class="subtitle-1 grey--text text--darken-4">{{ block.hash }}</div>
+                    <div class="subtitle-1 grey--text text--darken-4">{{ block.hash | hash }}</div>
                     <div class="body-2 grey--text text--darken-1">Hash</div>
                   </v-col>
                 </v-row>
@@ -69,9 +69,13 @@
 </template>
 
 <script>
+import { shortFilter } from "~/assets/utils";
 import gql from "graphql-tag";
 
 export default {
+  filters: {
+    hash: value => shortFilter(value, 12)
+  },
   asyncData({ params, error }) {
     const height = parseInt(params.height);
 

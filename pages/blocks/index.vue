@@ -11,7 +11,7 @@
         <v-card class="elevation-1">
           <v-toolbar flat>
             <v-toolbar-title
-              class="subtitle-1"
+              class="subtitle-1 hidden-sm-and-down"
             >Block #{{ firstBlock }} to #{{ lastBlock }} (Total of {{ totalBlocks }} blocks)</v-toolbar-title>
             <div class="flex-grow-1"></div>
             <Pagination v-if="allBlocks" :pagination-info="allBlocks.pageInfo" />
@@ -28,7 +28,7 @@
               <nuxt-link :to="`/blocks/${item.height}`">{{ item.height }}</nuxt-link>
             </template>
             <template v-slot:item.hash="{ item }">{{ item.hash | hash }}</template>
-            <template v-slot:item.proposer="{ item }">{{ item.proposer }}</template>
+            <template v-slot:item.proposer="{ item }">{{ item.proposer | hash }}</template>
             <template v-slot:item.num_txs="{ item }">{{ item.num_txs }}</template>
             <template v-slot:item.time="{ item }">{{ item.time | timeDistance }}</template>
           </v-data-table>
@@ -60,7 +60,7 @@ export default {
   key: to => to.fullPath,
   asyncData({ query }) {
     let page = 1;
-    if (query.page) page = query.page;
+    if (query.page) page = parseInt(query.page);
 
     return {
       page

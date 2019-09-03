@@ -15,7 +15,7 @@
             >{{ item.label }}</v-chip>
           </template>
           <div class="flex-grow-1"></div>
-          <v-toolbar-items>
+          <v-toolbar-items class="hidden-sm-and-down">
             <v-menu offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn text color="grey darken-3" dark v-on="on">Sort by: {{ sortLabel }}</v-btn>

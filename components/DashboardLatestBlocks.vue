@@ -9,10 +9,7 @@
     <v-list v-if="allBlocks">
       <v-list-item-group v-for="(block, index) in allBlocks.docs" :key="`${index}-${block.height}`">
         <v-divider v-if="index !== 0" :key="`${index}-divider`"></v-divider>
-        <v-list-item two-line>
-          <v-list-item-avatar>
-            <v-icon>mdi-cube-send</v-icon>
-          </v-list-item-avatar>
+        <v-list-item three-line>
           <v-list-item-content>
             <v-list-item-title class="font-weight-medium">
               Block
@@ -20,19 +17,13 @@
                 class="red-link"
                 :to="`/blocks/${block.height}`"
               >{{ block.height | prettyRound }}</nuxt-link>
-              <span class="hidden-md-and-up body-2 grey--text text--darken-1">
-                &middot; Includes
-                <nuxt-link
-                  class="red-link font-weight-medium"
-                  :to="`/blocks/${block.height}`"
-                >{{ block.num_txs }} txs</nuxt-link>
-              </span>
             </v-list-item-title>
-            <v-list-item-subtitle>
-              <span class="hidden-sm-and-down">
-                Includes
-                <nuxt-link class="red-link font-weight-medium" to="/">{{ block.num_txs }} txs</nuxt-link>,
-              </span> Proposer:
+            <v-list-item-subtitle class="mt-2">
+              Includes
+              <nuxt-link class="red-link font-weight-medium" to="/">{{ block.num_txs }} txs</nuxt-link>,
+            </v-list-item-subtitle>
+            <v-list-item-subtitle class="mt-2 pb-2">
+              Proposer:
               <nuxt-link class="red-link font-weight-medium" to="/">{{ block.proposer }}</nuxt-link>
             </v-list-item-subtitle>
           </v-list-item-content>

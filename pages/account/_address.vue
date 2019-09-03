@@ -9,13 +9,16 @@
             <v-card class="elevation-1">
               <v-card-title>
                 <v-row no-gutters>
-                  <v-col cols="1" class="pl-2">
+                  <v-col cols="12" md="1" class="pl-2">
                     <v-avatar size="46px" v-html="avatar(`${account.address}`)"></v-avatar>
                   </v-col>
-                  <v-col>
+                  <v-col cols="12" md="8">
                     <v-row no-gutters class="pb-1">
-                      <v-col>
-                        <h3 class="subtitle-1 grey--text text--darken-4">{{ account.address }}</h3>
+                      <v-col cols="12">
+                        <h3
+                          class="subtitle-1 grey--text text--darken-4 text-truncate"
+                          style="width:80%"
+                        >{{ account.address }}</h3>
                         <div class="body-2 grey--text text--darken-1">Address</div>
                       </v-col>
                     </v-row>
@@ -25,7 +28,7 @@
               <v-divider></v-divider>
               <v-card-text>
                 <v-row no-gutters>
-                  <v-col cols="3" class="pl-3 align-content-center">
+                  <v-col cols="12" md="4" class="pl-3 align-self-center">
                     <apexchart
                       width="255"
                       type="pie"
@@ -33,7 +36,14 @@
                       :options="chartOptions"
                     ></apexchart>
                   </v-col>
-                  <v-col>
+                  <v-col cols="12" class="hidden-sm-and-up">
+                    <div class="display-1 font-weight-light grey--text text--darken-4">
+                      {{ totalBalance | toBtsg }}
+                      <span class="subtitle-1">BTSG</span>
+                    </div>
+                    <div class="subtitle-1 grey--text text--darken-1 pt-1">Total BTSG Balance</div>
+                  </v-col>
+                  <v-col cols="12" md="4">
                     <v-row>
                       <v-col cols="12">
                         <div
@@ -70,7 +80,7 @@
                       </v-col>
                     </v-row>
                   </v-col>
-                  <v-col>
+                  <v-col cols="12" md="4" class="hidden-sm-and-down align-self-center">
                     <div class="display-1 font-weight-light grey--text text--darken-4">
                       {{ totalBalance | toBtsg }}
                       <span class="subtitle-1">BTSG</span>
@@ -84,7 +94,7 @@
         </v-row>
 
         <v-row>
-          <v-col cols="6">
+          <v-col cols="12" md="6">
             <v-card class="elevation-1">
               <v-toolbar flat>
                 <v-toolbar-title>Delegations</v-toolbar-title>
@@ -107,7 +117,7 @@
             </v-card>
           </v-col>
 
-          <v-col cols="6">
+          <v-col cols="12" md="6">
             <v-card class="elevation-1">
               <v-toolbar flat>
                 <v-toolbar-title>Unbonding</v-toolbar-title>

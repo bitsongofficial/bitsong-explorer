@@ -28,7 +28,8 @@
       <v-spacer />
       <v-toolbar-items>
         <span class="chain_name white--text">
-          <v-icon dark class="pr-3" color="green" size="12">mdi-circle</v-icon>bitsong-testnet-1
+          <v-icon dark class="pr-3" color="green" size="12">mdi-circle</v-icon>
+          <span class="hidden-sm-and-down">bitsong-testnet-2</span>
         </span>
       </v-toolbar-items>
     </v-app-bar>
@@ -64,17 +65,17 @@ export default {
           to: "/"
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-cube",
           title: "Blocks",
           to: "/blocks"
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-bank",
           title: "Transactions",
           to: "/transactions"
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-server-security",
           title: "Validators",
           to: "/validators"
         }
