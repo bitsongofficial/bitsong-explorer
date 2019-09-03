@@ -1,4 +1,5 @@
 import colors from "vuetify/es5/util/colors";
+import cache from './apollo/config'
 
 export default {
   mode: "spa",
@@ -72,23 +73,7 @@ export default {
     },
     errorHandler: "~/plugins/apollo-error-handler.js",
     clientConfigs: {
-      default: {
-        // required
-        httpEndpoint: "http://localhost:8081/graphql",
-        httpLinkOptions: {
-          credentials: 'same-origin'
-        },
-        // You can use `wss` for secure connection (recommended in production)
-        // Use `null` to disable subscriptions
-        wsEndpoint: 'ws://localhost:8081/subscriptions', // optional
-        // LocalStorage token
-        tokenName: "apollo-token", // optional
-        // Enable Automatic Query persisting with Apollo Engine
-        // persisting: false, // Optional
-        // Use websockets for everything (no HTTP)
-        // You need to pass a `wsEndpoint` for this to work
-        websocketsOnly: false // Optional
-      }
+      default: '@/apollo/config.js'
     }
   },
   /*

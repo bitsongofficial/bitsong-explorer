@@ -23,7 +23,7 @@ export const toBtsg = amount => {
 };
 
 export const toMacroDenom = denom => {
-  return denom.replace("u", "");
+  return denom.replace("u", "").toUpperCase();
 };
 
 export function toTime(timestamp) {
