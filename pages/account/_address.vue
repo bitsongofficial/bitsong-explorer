@@ -79,6 +79,15 @@
                         <div class="body-2 grey--text text--darken-1">Rewards</div>
                       </v-col>
                     </v-row>
+
+                    <v-row v-if="commissions > 0">
+                      <v-col cols="12">
+                        <div
+                          class="subtitle-1 grey--text text--darken-4"
+                        >{{ commissions | toBtsg }} BTSG</div>
+                        <div class="body-2 grey--text text--darken-1">Commissions</div>
+                      </v-col>
+                    </v-row>
                   </v-col>
                   <v-col cols="12" md="4" class="hidden-sm-and-down align-self-center">
                     <div class="display-1 font-weight-light grey--text text--darken-4">
@@ -248,14 +257,15 @@ export default {
     account: {
       prefetch: true,
       query: gql`
-        query Account($address: String!) {
-          account(address: $address) {
+        query Account($address: String!, $valoper: String) {
+          account(address: $address, valoper: $valoper) {
             address
             balances {
               available
               bonded
               unbonding
               rewards
+              commissions
             }
             delegations {
               shares
@@ -284,7 +294,8 @@ export default {
       `,
       variables() {
         return {
-          address: this.address
+          address: this.address,
+          valoper: this.valoperAddr
         };
       }
     },
@@ -344,6 +355,23 @@ export default {
     }
   },
   computed: {
+    valoperAddr() {
+      const validators = this.$store.getters[`validators/validators`];
+      if (validators.length === 0) return null;
+
+      const data = validators.find(
+        v => v.details.delegator_address === this.address
+      );
+
+      if (!data) return null;
+      return data.details.operator_address;
+    },
+    commissions() {
+      let commissions = parseFloat(this.account.balances.commissions);
+      if (isNaN(commissions)) commissions = 0;
+
+      return commissions;
+    },
     formattedUnbondings() {
       if (!this.account) return;
       if (!this.account.unbonding_delegations) return;
@@ -382,7 +410,8 @@ export default {
         parseFloat(this.account.balances.available) +
         parseFloat(this.account.balances.bonded) +
         parseFloat(this.account.balances.unbonding) +
-        parseFloat(this.account.balances.rewards)
+        parseFloat(this.account.balances.rewards) +
+        this.commissions
       );
     }
   }

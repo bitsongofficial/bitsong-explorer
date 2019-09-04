@@ -37,6 +37,7 @@ export const actions = {
             address
             details {
               operator_address
+              delegator_address
               description {
                 moniker
               }
