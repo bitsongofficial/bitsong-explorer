@@ -4,7 +4,8 @@
       <v-toolbar-title class="subtitle-1 hidden-sm-and-down">
         {{ totalTxs }}
         <span v-if="totalTxs < 2">transaction</span>
-        <span v-else>transactions</span> found
+        <span v-if="totalTxs > 1">transactions found</span>
+        <span v-else>no transactions found</span>
       </v-toolbar-title>
       <div class="flex-grow-1"></div>
       <Pagination v-if="!default_pagination" :pagination-info="transactions.pageInfo" />
