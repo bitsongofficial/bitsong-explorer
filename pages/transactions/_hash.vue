@@ -104,9 +104,10 @@
                     <div class="body-2 grey--text text--darken-1">Validator</div>
                   </v-col>
                   <v-col cols="12">
-                    <div
-                      class="subtitle-1 grey--text text--darken-4"
-                    >{{ msg.value.amount.amount | toBtsg }} {{ msg.value.amount.denom | toMacroDenom }}</div>
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ msg.value.amount.amount | toBtsg }}
+                      <span class="caption">{{ msg.value.amount.denom | toMacroDenom }}</span>
+                    </div>
                     <div class="body-2 grey--text text--darken-1">Amount</div>
                   </v-col>
                 </v-row>

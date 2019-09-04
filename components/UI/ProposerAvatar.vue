@@ -33,13 +33,13 @@ export default {
   },
   computed: {
     avatar() {
-      return jdenticon.toSvg(this.validator.address, 36);
+      return jdenticon.toSvg(
+        this.validator.address,
+        parseInt(this.size.replace("px", ""))
+      );
     }
   },
   methods: {
-    getAvatar(value) {
-      return jdenticon.toSvg(value, 36);
-    },
     getValidatorProfileUrl(identity) {
       if (identity.length == 16) {
         fetch(

@@ -32,6 +32,7 @@ export const actions = {
             address
             voting_power
             details {
+              status
               operator_address
               description {
                 moniker
