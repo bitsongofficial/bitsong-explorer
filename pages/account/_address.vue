@@ -7,28 +7,35 @@
         <v-row v-if="account">
           <v-col cols="12">
             <v-card class="elevation-1">
-              <v-card-title>
+              <v-card-text>
                 <v-row no-gutters>
-                  <v-col cols="12" md="1" class="pl-2">
-                    <v-avatar size="46px" v-html="avatar(`${account.address}`)"></v-avatar>
+                  <v-col
+                    cols="12"
+                    md="1"
+                    :align="isMobile ? 'center' : ''"
+                    :class="isMobile ? 'pb-4': ''"
+                  >
+                    <v-avatar
+                      :size="isMobile ? '128px' : '64px'"
+                      v-html="avatar(`${account.address}`)"
+                    ></v-avatar>
                   </v-col>
-                  <v-col cols="12" md="8">
+                  <v-col cols="12" md="10" :class="isMobile ? 'pb-4': ''">
                     <v-row no-gutters class="pb-1">
                       <v-col cols="12">
                         <h3
                           class="subtitle-1 grey--text text--darken-4 text-truncate"
-                          style="width:80%"
                         >{{ account.address }}</h3>
                         <div class="body-2 grey--text text--darken-1">Address</div>
                       </v-col>
                     </v-row>
                   </v-col>
                 </v-row>
-              </v-card-title>
+              </v-card-text>
               <v-divider></v-divider>
               <v-card-text>
                 <v-row no-gutters>
-                  <v-col cols="12" md="4" class="pl-3 align-self-center">
+                  <v-col cols="12" md="4" align="center" class="pl-3 align-self-center">
                     <apexchart
                       width="255"
                       type="pie"
@@ -36,7 +43,7 @@
                       :options="chartOptions"
                     ></apexchart>
                   </v-col>
-                  <v-col cols="12" class="hidden-sm-and-up">
+                  <v-col cols="12" class="hidden-sm-and-up" align="center">
                     <div class="display-1 font-weight-light grey--text text--darken-4">
                       {{ totalBalance | toBtsg }}
                       <span class="subtitle-1">BTSG</span>
@@ -46,36 +53,40 @@
                   <v-col cols="12" md="4">
                     <v-row>
                       <v-col cols="12">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ account.balances.available | toBtsg }} BTSG</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{ account.balances.available | toBtsg }}
+                          <span class="caption">BTSG</span>
+                        </div>
                         <div class="body-2 grey--text text--darken-1">Available</div>
                       </v-col>
                     </v-row>
 
                     <v-row>
                       <v-col cols="12">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ account.balances.bonded | toBtsg }} BTSG</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{ account.balances.bonded | toBtsg }}
+                          <span class="caption">BTSG</span>
+                        </div>
                         <div class="body-2 grey--text text--darken-1">Bonded</div>
                       </v-col>
                     </v-row>
 
                     <v-row>
                       <v-col cols="12">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ account.balances.unbonding | toBtsg }} BTSG</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{ account.balances.unbonding | toBtsg }}
+                          <span class="caption">BTSG</span>
+                        </div>
                         <div class="body-2 grey--text text--darken-1">Unbonding</div>
                       </v-col>
                     </v-row>
 
                     <v-row>
                       <v-col cols="12">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ account.balances.rewards | toBtsg }} BTSG</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{ account.balances.rewards | toBtsg }}
+                          <span class="caption">BTSG</span>
+                        </div>
                         <div class="body-2 grey--text text--darken-1">Rewards</div>
                       </v-col>
                     </v-row>
@@ -351,7 +362,11 @@ export default {
   },
   methods: {
     avatar(value) {
-      return jdenticon.toSvg(value, 64);
+      let size = 64;
+      if (this.isMobile) {
+        size = 128;
+      }
+      return jdenticon.toSvg(value, size);
     }
   },
   computed: {
@@ -371,6 +386,9 @@ export default {
       if (isNaN(commissions)) commissions = 0;
 
       return commissions;
+    },
+    isMobile() {
+      return this.$vuetify.breakpoint.name === "xs";
     },
     formattedUnbondings() {
       if (!this.account) return;

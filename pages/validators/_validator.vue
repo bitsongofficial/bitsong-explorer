@@ -10,25 +10,32 @@
         <v-row>
           <v-col cols="12">
             <v-card class="elevation-1">
-              <v-card-title>
+              <v-card-text>
                 <v-row no-gutters align-center class="pb-1">
-                  <v-col class="pl-2">
-                    <v-avatar size="64px" v-if="validator.details.description.avatar">
-                      <img :src="validator.details.description.avatar" />
-                    </v-avatar>
-                    <v-avatar size="64px" v-else v-html="avatar(validator.address)"></v-avatar>
+                  <v-col
+                    cols="12"
+                    md="1"
+                    :align="isMobile ? 'center' : ''"
+                    :class="isMobile ? 'pb-4': ''"
+                  >
+                    <UIProposerAvatar :validator="validator" :size="isMobile ? '128px' : '64px'" />
                   </v-col>
-                  <v-col cols="10">
-                    <h2 class="headline black--text">{{ validator.details.description.moniker }}</h2>
+
+                  <v-col cols="12" md="10" :class="isMobile ? 'pb-4': ''">
+                    <v-row no-gutters>
+                      <v-col :align="isMobile ? 'center' : ''">
+                        <h2 class="headline black--text">{{ validator.details.description.moniker }}</h2>
+                      </v-col>
+                    </v-row>
                     <v-row no-gutters class="mt-3">
-                      <v-col cols="6">
+                      <v-col cols="12" md="6">
                         <h3
-                          class="subtitle-1 grey--text text--darken-4"
+                          class="subtitle-1 grey--text text--darken-4 text-truncate"
                         >{{ validator.details.operator_address }}</h3>
                         <div class="body-2 grey--text text--darken-1">Operator Address</div>
                       </v-col>
-                      <v-col cols="6">
-                        <h3 class="subtitle-1 grey--text text--darken-4">
+                      <v-col cols="12" md="6">
+                        <h3 class="subtitle-1 grey--text text--darken-4 text-truncate">
                           <nuxt-link
                             :to="`/account/${validator.details.delegator_address}`"
                           >{{ validator.details.delegator_address }}</nuxt-link>
@@ -37,19 +44,22 @@
                       </v-col>
                     </v-row>
                   </v-col>
-                  <v-col align="right" class="mr-4">
-                    <v-chip color="green" dark v-if="validator.details.status === '2'">Active</v-chip>
-                    <v-chip v-if="validator.details.status === '0'">Inactive</v-chip>
+
+                  <v-col cols="12" md="1" align="center" class="align-self-center">
+                    <v-chip color="green" dark v-if="validator.details.status === 2">Active</v-chip>
+                    <v-chip color="red" dark v-if="validator.details.status === 0">Inactive</v-chip>
                   </v-col>
                 </v-row>
-              </v-card-title>
+              </v-card-text>
               <v-divider></v-divider>
               <v-card-text>
                 <v-row no-gutters>
-                  <v-col cols="6" class="px-3">
+                  <v-col cols="12" md="6" class="px-3">
                     <v-row>
                       <v-col cols="12">
-                        <div class="subtitle-1 grey--text text--darken-4">{{ validator.address }}</div>
+                        <div
+                          class="subtitle-1 grey--text text--darken-4 text-truncate"
+                        >{{ validator.address }}</div>
                         <div class="body-2 grey--text text--darken-1">Address</div>
                       </v-col>
                     </v-row>
@@ -95,9 +105,12 @@
 
                     <v-row>
                       <v-col cols="12">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.voting_power | prettyRound }}</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{ validator.voting_power | prettyRound }}
+                          <span
+                            class="caption"
+                          >&middot; {{ calculatePower(validator.voting_power) }}%</span>
+                        </div>
                         <div class="body-2 grey--text text--darken-1">Voting Power</div>
                       </v-col>
                     </v-row>
@@ -111,7 +124,7 @@
                       </v-col>
                     </v-row>
                   </v-col>
-                  <v-col cols="3">
+                  <v-col cols="12" md="3" align="center">
                     <apexchart
                       width="255"
                       type="pie"
@@ -119,22 +132,35 @@
                       :options="chartOptions"
                     ></apexchart>
                   </v-col>
-                  <v-col cols="3">
+                  <v-col cols="12" md="3">
                     <v-list-item two-line>
                       <v-list-item-content>
-                        <v-list-item-title>{{ validator.details.self_shares | toBtsg }} BTSG</v-list-item-title>
+                        <v-list-item-title>
+                          {{ validator.details.self_shares | toBtsg }}
+                          <span class="caption">BTSG</span>
+                        </v-list-item-title>
                         <v-list-item-subtitle>Self Delegated</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
                     <v-list-item two-line>
                       <v-list-item-content>
-                        <v-list-item-title>{{ validator.details.delegator_shares - validator.details.self_shares | toBtsg }} BTSG</v-list-item-title>
+                        <v-list-item-title>
+                          {{ validator.details.delegator_shares - validator.details.self_shares | toBtsg }}
+                          <span
+                            class="caption"
+                          >BTSG</span>
+                        </v-list-item-title>
                         <v-list-item-subtitle>Others</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
                     <v-list-item two-line>
                       <v-list-item-content>
-                        <v-list-item-title>{{ validator.details.delegator_shares | toBtsg }} BTSG</v-list-item-title>
+                        <v-list-item-title>
+                          {{ validator.details.delegator_shares | toBtsg }}
+                          <span
+                            class="caption"
+                          >BTSG</span>
+                        </v-list-item-title>
                         <v-list-item-subtitle>Total</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
@@ -145,7 +171,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6">
+          <v-col cols="12" md="6">
             <v-card class="elevation-1">
               <v-toolbar flat>
                 <v-toolbar-title>Delegations</v-toolbar-title>
@@ -161,11 +187,14 @@
                 <template v-slot:item.delegator_address="{ item }">
                   <nuxt-link :to="`/account/${item.delegator_address}`">{{ item.delegator_address }}</nuxt-link>
                 </template>
-                <template v-slot:item.shares="{ item }">{{ item.shares | toBtsg }} BTSG</template>
+                <template v-slot:item.shares="{ item }">
+                  {{ item.shares | toBtsg }}
+                  <span class="caption">BTSG</span>
+                </template>
               </v-data-table>
             </v-card>
           </v-col>
-          <v-col cols="6">
+          <v-col cols="12" md="6">
             <v-card class="elevation-1">
               <v-toolbar flat>
                 <v-toolbar-title>Unbonding</v-toolbar-title>
@@ -182,7 +211,10 @@
                     :to="`/account/${item.delegator_address}`"
                   >{{ item.delegator_address | address }}</nuxt-link>
                 </template>
-                <template v-slot:item.amount="{ item }">{{ item.amount | toBtsg}} BTSG</template>
+                <template v-slot:item.amount="{ item }">
+                  {{ item.amount | toBtsg}}
+                  <span class="caption">BTSG</span>
+                </template>
                 <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
               </v-data-table>
             </v-card>
@@ -196,10 +228,15 @@
 <script>
 import gql from "graphql-tag";
 import { prettyRound, shortFilter } from "~/assets/utils";
-import jdenticon from "jdenticon";
 import { toBtsg, toMacroDenom, toTime } from "@/filters";
+import BigNumber from "bignumber.js";
+
+import UIProposerAvatar from "@/components/UI/ProposerAvatar";
 
 export default {
+  components: {
+    UIProposerAvatar
+  },
   asyncData({ params, error }) {
     const operatorAddress = params.validator;
 
@@ -248,6 +285,12 @@ export default {
     };
   },
   computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.name === "xs";
+    },
+    totalPower() {
+      return this.$store.getters[`validators/totalPower`];
+    },
     formattedUnbondings() {
       if (!this.validator) return;
       if (!this.validator.unbonding_delegations) return;
@@ -280,7 +323,7 @@ export default {
               self_shares
               description {
                 moniker
-                avatar
+                identity
                 website
                 details
               }
@@ -319,8 +362,12 @@ export default {
     }
   },
   methods: {
-    avatar(value) {
-      return jdenticon.toSvg(value, 64);
+    calculatePower(share) {
+      const sharePower = new BigNumber(share);
+      return new BigNumber(sharePower)
+        .div(this.totalPower)
+        .multipliedBy(100)
+        .toFixed(2);
     }
   }
 };

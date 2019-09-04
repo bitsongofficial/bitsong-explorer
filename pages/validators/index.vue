@@ -3,7 +3,6 @@
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Validators</h1>
-
         <v-toolbar flat color="transparent">
           <template v-for="(item, index) in status.items">
             <v-chip
@@ -44,10 +43,7 @@
             <v-expansion-panel-header>
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="3" sm="3" md="1">
-                  <v-avatar size="36px" v-if="validator.details.description.avatar">
-                    <img :src="validator.details.description.avatar" />
-                  </v-avatar>
-                  <v-avatar size="36px" v-else v-html="avatar(validator.address)"></v-avatar>
+                  <UIProposerAvatar :validator="validator" size="36px" />
                 </v-col>
                 <v-col sm="5" md="4">
                   <div class="font-weight-medium">{{ validator.details.description.moniker }}</div>
@@ -66,7 +62,12 @@
                   class="grey--text text--darken-3 text-truncate mr-4 hidden-sm-and-down"
                   align="right"
                 >
-                  <div>{{ validator.voting_power | prettyRound }}</div>
+                  <div>
+                    {{ validator.voting_power | prettyRound }}
+                    <span
+                      class="caption"
+                    >&middot; {{ calculatePower(validator.voting_power) }}%</span>
+                  </div>
                   <div class="caption">
                     <span class="grey--text text--darken-1">Voting Power</span>
                   </div>
@@ -131,10 +132,15 @@
 
 <script>
 import { prettyRound, shortFilter } from "~/assets/utils";
-import jdenticon from "jdenticon";
 import gql from "graphql-tag";
+import BigNumber from "bignumber.js";
+
+import UIProposerAvatar from "@/components/UI/ProposerAvatar";
 
 export default {
+  components: {
+    UIProposerAvatar
+  },
   filters: {
     prettyRound,
     address: value => shortFilter(value, 14)
@@ -155,7 +161,6 @@ export default {
               description {
                 moniker
                 identity
-                avatar
                 website
               }
               commission {
@@ -244,6 +249,9 @@ export default {
         return validators.sort((a, b) => b.voting_power - a.voting_power);
 
       return validators.sort((a, b) => a.voting_power - b.voting_power);
+    },
+    totalPower() {
+      return this.$store.getters[`validators/totalPower`];
     }
   },
   methods: {
@@ -257,14 +265,21 @@ export default {
     onSortChange(val) {
       this.sort.selected = val;
     },
-    avatar(value) {
-      return jdenticon.toSvg(value, 36);
-    },
     sortBy(value) {
       if (value === this.sort) {
         this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
       }
       this.sort = value;
+    },
+    calculatePower(share) {
+      const sharePower = new BigNumber(share);
+      return new BigNumber(sharePower)
+        .div(this.totalPower)
+        .multipliedBy(100)
+        .toFixed(2);
+    },
+    percentage(val) {
+      return new BigNumber(val).multipliedBy(100).toFixed(2);
     }
   }
 };
