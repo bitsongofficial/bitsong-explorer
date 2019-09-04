@@ -1,6 +1,13 @@
 <template>
   <v-app dark>
     <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" fixed app>
+      <v-container class="hidden-sm-and-up">
+        <v-row>
+          <v-col>
+            <UISearchBarMobile />
+          </v-col>
+        </v-row>
+      </v-container>
       <v-list>
         <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" router exact>
           <v-list-item-action>
@@ -16,15 +23,7 @@
       <v-app-bar-nav-icon class="ml-0" color="white" @click.stop="drawer = !drawer" />
       <v-toolbar-title class="white--text" v-text="title" />
       <v-spacer />
-      <v-text-field
-        flat
-        dark
-        solo-inverted
-        hide-details
-        prepend-inner-icon="mdi-magnify"
-        placeholder="Search"
-        class="hidden-sm-and-down"
-      ></v-text-field>
+      <UISearchBar />
       <v-spacer />
       <v-toolbar-items>
         <span class="chain_name white--text">
@@ -52,7 +51,13 @@
 
 
 <script>
+import UISearchBar from "@/components/UI/SearchBar";
+import UISearchBarMobile from "@/components/UI/SearchBarMobile";
 export default {
+  components: {
+    UISearchBar,
+    UISearchBarMobile
+  },
   data() {
     return {
       clipped: false,
