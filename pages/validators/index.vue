@@ -66,7 +66,10 @@
                   class="grey--text text--darken-3 text-truncate mr-4 hidden-sm-and-down"
                   align="right"
                 >
-                  <div>{{ validator.voting_power | prettyRound }}</div>
+                  <div>
+                    {{ validator.voting_power | prettyRound }}
+                    <span class="caption">&middot; {{ calculatePower(validator.voting_power) }}%</span>
+                  </div>
                   <div class="caption">
                     <span class="grey--text text--darken-1">Voting Power</span>
                   </div>
@@ -133,6 +136,7 @@
 import { prettyRound, shortFilter } from "~/assets/utils";
 import jdenticon from "jdenticon";
 import gql from "graphql-tag";
+import BigNumber from "bignumber.js";
 
 export default {
   filters: {
@@ -244,6 +248,9 @@ export default {
         return validators.sort((a, b) => b.voting_power - a.voting_power);
 
       return validators.sort((a, b) => a.voting_power - b.voting_power);
+    },
+    totalPower() {
+      return this.$store.getters[`validators/totalPower`];
     }
   },
   methods: {
@@ -265,6 +272,16 @@ export default {
         this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
       }
       this.sort = value;
+    },
+    calculatePower(share) {
+      const sharePower = new BigNumber(share);
+      return new BigNumber(sharePower)
+        .div(this.totalPower)
+        .multipliedBy(100)
+        .toFixed(2);
+    },
+    percentage(val) {
+      return new BigNumber(val).multipliedBy(100).toFixed(2);
     }
   }
 };

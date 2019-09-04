@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export const state = () => ({
-  validators: [],
+  validators: []
 });
 
 export const getters = {
@@ -9,9 +9,9 @@ export const getters = {
     return state.validators;
   },
   totalPower: state => {
-    return state.bonded.reduce((acc, val) => {
-      return acc + val.delegator_shares;
-    });
+    return state.validators.reduce((acc, val) => {
+      return acc + val.voting_power;
+    }, 0);
   }
 };
 
@@ -22,19 +22,15 @@ export const mutations = {
 };
 
 export const actions = {
-  getValidators({
-    state,
-    commit,
-    rootState
-  }) {
-
-    let client = this.app.apolloProvider.defaultClient
+  getValidators({ state, commit, rootState }) {
+    let client = this.app.apolloProvider.defaultClient;
 
     const validators = {
-      query: gql `
+      query: gql`
         query validators {
           validators {
             address
+            voting_power
             details {
               operator_address
               description {
@@ -44,26 +40,10 @@ export const actions = {
           }
         }
       `
-    }
+    };
 
     client.query(validators).then(res => {
       commit("setValidators", res.data.validators);
-    })
-
-
-
-    // //if (!rootState.connection.connected || state.loaded) return;
-
-    // commit("setLoading", true);
-
-    // try {
-    //   const validators = await getValidators();
-    //   commit("setValidators", validators.docs);
-    //   commit("setLoaded", true);
-    // } catch (error) {
-    //   commit("setError", error.message);
-    // }
-
-    // commit("setLoading", false);
+    });
   }
 };
