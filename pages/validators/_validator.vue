@@ -13,10 +13,7 @@
               <v-card-title>
                 <v-row no-gutters align-center class="pb-1">
                   <v-col class="pl-2">
-                    <v-avatar size="64px" v-if="validator.details.description.avatar">
-                      <img :src="validator.details.description.avatar" />
-                    </v-avatar>
-                    <v-avatar size="64px" v-else v-html="avatar(validator.address)"></v-avatar>
+                    <UIProposerAvatar :validator="validator" size="64px" />
                   </v-col>
                   <v-col cols="10">
                     <h2 class="headline black--text">{{ validator.details.description.moniker }}</h2>
@@ -196,10 +193,14 @@
 <script>
 import gql from "graphql-tag";
 import { prettyRound, shortFilter } from "~/assets/utils";
-import jdenticon from "jdenticon";
 import { toBtsg, toMacroDenom, toTime } from "@/filters";
 
+import UIProposerAvatar from "@/components/UI/ProposerAvatar";
+
 export default {
+  components: {
+    UIProposerAvatar
+  },
   asyncData({ params, error }) {
     const operatorAddress = params.validator;
 
@@ -280,7 +281,7 @@ export default {
               self_shares
               description {
                 moniker
-                avatar
+                identity
                 website
                 details
               }
@@ -316,11 +317,6 @@ export default {
           operatorAddress: this.operatorAddress
         };
       }
-    }
-  },
-  methods: {
-    avatar(value) {
-      return jdenticon.toSvg(value, 64);
     }
   }
 };

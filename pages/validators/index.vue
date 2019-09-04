@@ -3,7 +3,6 @@
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Validators</h1>
-
         <v-toolbar flat color="transparent">
           <template v-for="(item, index) in status.items">
             <v-chip
@@ -44,10 +43,7 @@
             <v-expansion-panel-header>
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="3" sm="3" md="1">
-                  <v-avatar size="36px" v-if="validator.details.description.avatar">
-                    <img :src="validator.details.description.avatar" />
-                  </v-avatar>
-                  <v-avatar size="36px" v-else v-html="avatar(validator.address)"></v-avatar>
+                  <UIProposerAvatar :validator="validator" size="36px" />
                 </v-col>
                 <v-col sm="5" md="4">
                   <div class="font-weight-medium">{{ validator.details.description.moniker }}</div>
@@ -68,7 +64,9 @@
                 >
                   <div>
                     {{ validator.voting_power | prettyRound }}
-                    <span class="caption">&middot; {{ calculatePower(validator.voting_power) }}%</span>
+                    <span
+                      class="caption"
+                    >&middot; {{ calculatePower(validator.voting_power) }}%</span>
                   </div>
                   <div class="caption">
                     <span class="grey--text text--darken-1">Voting Power</span>
@@ -134,11 +132,15 @@
 
 <script>
 import { prettyRound, shortFilter } from "~/assets/utils";
-import jdenticon from "jdenticon";
 import gql from "graphql-tag";
 import BigNumber from "bignumber.js";
 
+import UIProposerAvatar from "@/components/UI/ProposerAvatar";
+
 export default {
+  components: {
+    UIProposerAvatar
+  },
   filters: {
     prettyRound,
     address: value => shortFilter(value, 14)
@@ -159,7 +161,6 @@ export default {
               description {
                 moniker
                 identity
-                avatar
                 website
               }
               commission {
@@ -263,9 +264,6 @@ export default {
     },
     onSortChange(val) {
       this.sort.selected = val;
-    },
-    avatar(value) {
-      return jdenticon.toSvg(value, 36);
     },
     sortBy(value) {
       if (value === this.sort) {
