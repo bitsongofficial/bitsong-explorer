@@ -3,7 +3,7 @@
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">
-          <nuxt-link to="/blocks" class="pr-4" style="text-decoration:none">
+          <nuxt-link v-if="prevUrl" :to="prevUrl" class="pr-4" style="text-decoration:none">
             <v-icon>mdi-arrow-left</v-icon>
           </nuxt-link>Block
           <span class="headline font-weight-light">#{{ height }}</span>
@@ -18,7 +18,7 @@
           <v-divider></v-divider>
           <v-card-text>
             <v-row no-gutters v-if="block">
-              <v-col cols="12" class="px-3">
+              <v-col cols="12">
                 <v-row>
                   <v-col cols="12" md="6">
                     <div class="subtitle-1 grey--text text--darken-4">{{ block.height }}</div>
@@ -31,7 +31,9 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4">{{ block.proposer | hash }}</div>
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      <UIProposer :address="block.proposer" />
+                    </div>
                     <div class="body-2 grey--text text--darken-1">Proposer</div>
                   </v-col>
                   <v-col cols="12" md="6">
@@ -41,7 +43,7 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <div class="subtitle-1 grey--text text--darken-4">{{ block.hash | hash }}</div>
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">{{ block.hash }}</div>
                     <div class="body-2 grey--text text--darken-1">Hash</div>
                   </v-col>
                 </v-row>
@@ -50,19 +52,14 @@
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
 
-    <v-row>
-      <v-col cols="12" xl="8" class="mx-auto">
-        <v-card class="elevation-1">
-          <v-card-title class="pb-3">Transactions</v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <v-row no-gutters>
-              <v-col cols="12" class="px-3">No data</v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+      <v-col cols="12">
+        <TransactionsDataTable
+          :transactions="allTransactions"
+          default_pagination
+          :items_per_page="5"
+          :height="height"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -71,8 +68,14 @@
 <script>
 import { shortFilter } from "~/assets/utils";
 import gql from "graphql-tag";
+import TransactionsDataTable from "@/components/Transactions/DataTable";
+import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  components: {
+    TransactionsDataTable,
+    UIProposer
+  },
   filters: {
     hash: value => shortFilter(value, 12)
   },
@@ -83,9 +86,23 @@ export default {
       height
     };
   },
+  data() {
+    return {
+      prevUrl: null
+    };
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === "account-address" || from.name === "blocks") {
+        vm.prevUrl = from.fullPath;
+      } else {
+        vm.prevUrl = "/blocks";
+      }
+    });
+  },
   apollo: {
     block: {
-      prefetch: false,
+      prefetch: true,
       query: gql`
         query Block($height: Int!) {
           block(height: $height) {
@@ -100,6 +117,48 @@ export default {
       variables() {
         return {
           height: this.height
+        };
+      }
+    },
+    allTransactions: {
+      prefetch: true,
+      query: gql`
+        query allTransactions($filters: TransactionFiltersInput) {
+          allTransactions(filters: $filters) {
+            docs {
+              hash
+              msgs {
+                type
+                value {
+                  ... on MsgDelegate {
+                    amount {
+                      amount
+                      denom
+                    }
+                  }
+                }
+              }
+              signatures {
+                address
+              }
+              status
+              height
+              time
+            }
+            pageInfo {
+              total
+              limit
+              page
+              pages
+            }
+          }
+        }
+      `,
+      variables() {
+        return {
+          filters: {
+            height: this.height
+          }
         };
       }
     }

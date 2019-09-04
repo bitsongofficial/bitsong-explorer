@@ -10,7 +10,9 @@
           <v-list-item-subtitle>Height</v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-content class="text-center">
-          <v-list-item-title>{{ $store.getters[`consensus/proposer_address`] | proposerAddress }}</v-list-item-title>
+          <v-list-item-title>
+            <UIProposer :address="$store.getters[`consensus/proposer_address`]" />
+          </v-list-item-title>
           <v-list-item-subtitle>Proposer</v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-content class="text-center">
@@ -33,11 +35,15 @@
 
 <script>
 import { prettyRound, shortFilter } from "~/assets/utils";
+import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  components: {
+    UIProposer
+  },
   filters: {
     prettyRound,
-    proposerAddress: (value) => shortFilter(value, 8),
+    proposerAddress: value => shortFilter(value, 8)
   }
-}
+};
 </script>

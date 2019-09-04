@@ -18,13 +18,10 @@
                 :to="`/blocks/${block.height}`"
               >{{ block.height | prettyRound }}</nuxt-link>
             </v-list-item-title>
-            <v-list-item-subtitle class="mt-2">
-              Includes
-              <nuxt-link class="red-link font-weight-medium" to="/">{{ block.num_txs }} txs</nuxt-link>,
-            </v-list-item-subtitle>
+            <v-list-item-subtitle class="mt-2">Includes {{ block.num_txs }} txs</v-list-item-subtitle>
             <v-list-item-subtitle class="mt-2 pb-2">
               Proposer:
-              <nuxt-link class="red-link font-weight-medium" to="/">{{ block.proposer }}</nuxt-link>
+              <UIProposer class="font-weight-medium" :address="block.proposer" />
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
@@ -44,8 +41,12 @@ import {
   getTimeDistance
 } from "~/assets/utils";
 import gql from "graphql-tag";
+import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  components: {
+    UIProposer
+  },
   filters: {
     prettyRound,
     proposerAddress: value => shortFilter(value, 6),

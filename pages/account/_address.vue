@@ -94,6 +94,17 @@
         </v-row>
 
         <v-row>
+          <v-col cols="12">
+            <TransactionsDataTable
+              :transactions="allTransactions"
+              default_pagination
+              :items_per_page="5"
+              :address="address"
+            />
+          </v-col>
+        </v-row>
+
+        <v-row>
           <v-col cols="12" md="6">
             <v-card class="elevation-1">
               <v-toolbar flat>
@@ -108,9 +119,7 @@
                 :height="288"
               >
                 <template v-slot:item.validator_address="{ item }">
-                  <nuxt-link
-                    :to="`/validators/${item.validator_address}`"
-                  >{{ item.validator_address }}</nuxt-link>
+                  <UIProposer :valoper="item.validator_address" />
                 </template>
                 <template v-slot:item.shares="{ item }">{{ item.shares | toBtsg }} BTSG</template>
               </v-data-table>
@@ -130,9 +139,7 @@
                 :height="288"
               >
                 <template v-slot:item.validator_address="{ item }">
-                  <nuxt-link
-                    :to="`/validators/${item.validator_address}`"
-                  >{{ item.validator_address | address }}</nuxt-link>
+                  <UIProposer :valoper="item.validator_address" />
                 </template>
                 <template v-slot:item.amount="{ item }">{{ item.amount | toBtsg}} BTSG</template>
                 <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
@@ -155,14 +162,10 @@
                 :height="288"
               >
                 <template v-slot:item.validator_src_address="{ item }">
-                  <nuxt-link
-                    :to="`/validators/${item.validator_src_address}`"
-                  >{{ item.validator_src_address | address }}</nuxt-link>
+                  <UIProposer :valoper="item.validator_src_address" />
                 </template>
                 <template v-slot:item.validator_dst_address="{ item }">
-                  <nuxt-link
-                    :to="`/validators/${item.validator_dst_address}`"
-                  >{{ item.validator_dst_address | address }}</nuxt-link>
+                  <UIProposer :valoper="item.validator_dst_address" />
                 </template>
                 <template v-slot:item.creation_height="{ item }">
                   <nuxt-link :to="`/blocks/${item.creation_height}`">{{ item.creation_height }}</nuxt-link>
@@ -183,8 +186,14 @@ import jdenticon from "jdenticon";
 import gql from "graphql-tag";
 import { toBtsg, toTime } from "@/filters";
 import { prettyRound, shortFilter } from "~/assets/utils";
+import TransactionsDataTable from "@/components/Transactions/DataTable";
+import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  components: {
+    TransactionsDataTable,
+    UIProposer
+  },
   filters: {
     toBtsg,
     toTime,
@@ -276,6 +285,55 @@ export default {
       variables() {
         return {
           address: this.address
+        };
+      }
+    },
+    allTransactions: {
+      prefetch: true,
+      query: gql`
+        query allTransactions(
+          $pagination: PaginationInput!
+          $filters: TransactionFiltersInput
+        ) {
+          allTransactions(pagination: $pagination, filters: $filters) {
+            docs {
+              hash
+              msgs {
+                type
+                value {
+                  ... on MsgDelegate {
+                    amount {
+                      amount
+                      denom
+                    }
+                  }
+                }
+              }
+              signatures {
+                address
+              }
+              status
+              height
+              time
+            }
+            pageInfo {
+              total
+              limit
+              page
+              pages
+            }
+          }
+        }
+      `,
+      variables() {
+        return {
+          pagination: {
+            page: 1,
+            limit: 25
+          },
+          filters: {
+            address: this.address
+          }
         };
       }
     }

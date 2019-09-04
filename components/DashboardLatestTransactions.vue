@@ -34,7 +34,9 @@
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-list-item-action-text>{{ transaction.time | timeDistance }}</v-list-item-action-text>
+            <v-list-item-action-text>
+              <time>{{ transaction.time | timeDistance }}</time>
+            </v-list-item-action-text>
           </v-list-item-action>
         </v-list-item>
       </v-list-item-group>
@@ -99,6 +101,9 @@ export default {
             transactionAdded {
               hash
               time
+              msgs {
+                type
+              }
               signatures {
                 address
               }

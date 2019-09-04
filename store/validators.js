@@ -1,18 +1,12 @@
-import { getValidators } from "~/api";
+import gql from "graphql-tag";
 
 export const state = () => ({
   validators: [],
-  loading: false,
-  loaded: false,
-  error: null
 });
 
 export const getters = {
   validators: state => {
     return state.validators;
-  },
-  loading: state => {
-    return state.loading;
   },
   totalPower: state => {
     return state.bonded.reduce((acc, val) => {
@@ -24,35 +18,52 @@ export const getters = {
 export const mutations = {
   setValidators(state, validators) {
     state.validators = validators;
-  },
-  setLoading(state, loading) {
-    state.loading = loading;
-  },
-  setLoaded(state, loaded) {
-    state.loaded = loaded;
-  },
-  setError(state, error) {
-    state.error = error;
   }
 };
 
 export const actions = {
-  reconnected({ state, dispatch }) {
-    dispatch(`getValidators`);
-  },
-  async getValidators({ state, commit, rootState }) {
-    //if (!rootState.connection.connected || state.loaded) return;
+  getValidators({
+    state,
+    commit,
+    rootState
+  }) {
 
-    commit("setLoading", true);
+    let client = this.app.apolloProvider.defaultClient
 
-    try {
-      const validators = await getValidators();
-      commit("setValidators", validators.docs);
-      commit("setLoaded", true);
-    } catch (error) {
-      commit("setError", error.message);
+    const validators = {
+      query: gql `
+        query validators {
+          validators {
+            address
+            details {
+              operator_address
+              description {
+                moniker
+              }
+            }
+          }
+        }
+      `
     }
 
-    commit("setLoading", false);
+    client.query(validators).then(res => {
+      commit("setValidators", res.data.validators);
+    })
+
+
+
+    // //if (!rootState.connection.connected || state.loaded) return;
+
+    // commit("setLoading", true);
+
+    // try {
+    //   const validators = await getValidators();
+    //   commit("setValidators", validators.docs);
+    //   commit("setLoaded", true);
+    // } catch (error) {
+    //   commit("setError", error.message);
+    // }
+
+    // commit("setLoading", false);
   }
 };

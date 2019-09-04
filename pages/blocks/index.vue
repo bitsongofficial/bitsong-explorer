@@ -28,7 +28,9 @@
               <nuxt-link :to="`/blocks/${item.height}`">{{ item.height }}</nuxt-link>
             </template>
             <template v-slot:item.hash="{ item }">{{ item.hash | hash }}</template>
-            <template v-slot:item.proposer="{ item }">{{ item.proposer | hash }}</template>
+            <template v-slot:item.proposer="{ item }">
+              <UIProposer :address="item.proposer" />
+            </template>
             <template v-slot:item.num_txs="{ item }">{{ item.num_txs }}</template>
             <template v-slot:item.time="{ item }">{{ item.time | timeDistance }}</template>
           </v-data-table>
@@ -47,10 +49,12 @@
 import { shortFilter, getTimeDistance } from "~/assets/utils";
 import gql from "graphql-tag";
 import Pagination from "@/components/Pagination";
+import UIProposer from "@/components/UI/Proposer";
 
 export default {
   components: {
-    Pagination
+    Pagination,
+    UIProposer
   },
   filters: {
     hash: value => shortFilter(value, 12),

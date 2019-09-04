@@ -47,10 +47,16 @@ export const mutations = {
 }
 
 export const actions = {
-  async setLastHeader({ state }, header) {
+  async setLastHeader({
+    state
+  }, header) {
     state.lastHeader = header
   },
-  async connect({ state, commit, dispatch }) {
+  async connect({
+    state,
+    commit,
+    dispatch
+  }) {
     const {
       nodeUrl,
       rpcUrl,
@@ -74,12 +80,22 @@ export const actions = {
       //dispatch('transactions/reconnected', null, {root:true})
       //dispatch('blocks/reconnected', null, {root:true})
 
+      dispatch('validators/getValidators', null, {
+        root: true
+      })
 
-      dispatch('pool/reconnected', null, {root:true})
-      dispatch('minting/reconnected', null, {root:true})
+      dispatch('pool/reconnected', null, {
+        root: true
+      })
+      dispatch('minting/reconnected', null, {
+        root: true
+      })
       dispatch(`rpcSubscribe`, window.node)
-      dispatch(`blocks/subscribeToBlocks`, null, {root:true})
+      dispatch(`blocks/subscribeToBlocks`, null, {
+        root: true
+      })
     } catch (err) {
+      throw err
       console.log(`Failed reconnect attempt`)
       commit("increaseConnectionAttempts")
       setTimeout(() => {
@@ -87,12 +103,19 @@ export const actions = {
       }, 1000)
     }
   },
-  reconnect({ commit, dispatch }) {
+  reconnect({
+    commit,
+    dispatch
+  }) {
     commit("resetConnectionAttempts")
     commit("stopConnecting", false)
     dispatch("connect")
   },
-  async rpcSubscribe({ commit, dispatch, rootState }) {
+  async rpcSubscribe({
+    commit,
+    dispatch,
+    rootState
+  }) {
     if (state.stopConnecting) return
 
     // the rpc socket can be closed before we can even attach a listener
@@ -123,37 +146,58 @@ export const actions = {
       })
     })
 
-    window.node.rpc.subscribe(
-      {
+    window.node.rpc.subscribe({
         query: `tm.event = 'NewBlockHeader'`
       },
-      ({ header }) => {
+      ({
+        header
+      }) => {
         commit(`setLastHeader`, header)
       }
     )
 
-    window.node.rpc.subscribe({ query: `tm.event = 'NewRound'` }, event => {
-      commit(`consensus/setHeight`, event.height, {root:true})
-      commit(`consensus/setProposerAddress`, event.proposer.address, {root:true})
-      commit(`consensus/setRound`, event.round, {root:true})
+    window.node.rpc.subscribe({
+      query: `tm.event = 'NewRound'`
+    }, event => {
+      commit(`consensus/setHeight`, event.height, {
+        root: true
+      })
+      commit(`consensus/setProposerAddress`, event.proposer.address, {
+        root: true
+      })
+      commit(`consensus/setRound`, event.round, {
+        root: true
+      })
     })
 
-    window.node.rpc.subscribe({ query: `tm.event = 'NewRoundStep'` }, event => {
+    window.node.rpc.subscribe({
+      query: `tm.event = 'NewRoundStep'`
+    }, event => {
       switch (event.step) {
         case 'RoundStepPropose':
-          commit(`consensus/setStep`, 1, {root:true})
+          commit(`consensus/setStep`, 1, {
+            root: true
+          })
           break;
         case 'RoundStepPrevote':
-          commit(`consensus/setStep`, 2, {root:true})
+          commit(`consensus/setStep`, 2, {
+            root: true
+          })
           break;
         case 'RoundStepPrecommit':
-          commit(`consensus/setStep`, 3, {root:true})
+          commit(`consensus/setStep`, 3, {
+            root: true
+          })
           break;
         case 'RoundStepCommit':
-          commit(`consensus/setStep`, 4, {root:true})
+          commit(`consensus/setStep`, 4, {
+            root: true
+          })
           break;
         case 'RoundStepNewHeight':
-          commit(`consensus/setStep`, 5, {root:true})
+          commit(`consensus/setStep`, 5, {
+            root: true
+          })
           break;
       }
     })
@@ -163,8 +207,10 @@ export const actions = {
     //dispatch(`checkNodeHalted`)
     dispatch(`pollRPCConnection`)
   },
-  checkNodeHalted(
-    { state, dispatch },
+  checkNodeHalted({
+      state,
+      dispatch
+    },
     nodeHaltedTimeout = NODE_HALTED_TIMEOUT
   ) {
     state.nodeHaltedTimeout = setTimeout(() => {
@@ -173,8 +219,11 @@ export const actions = {
       }
     }, nodeHaltedTimeout) // default 30s
   },
-  async pollRPCConnection(
-    { state, dispatch, commit },
+  async pollRPCConnection({
+      state,
+      dispatch,
+      commit
+    },
     timeout = config.block_timeout
   ) {
     if (state.stopConnecting) return
