@@ -95,7 +95,7 @@
                       <v-col cols="12">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ commissions | toBtsg }} BTSG</div>
+                        >{{ (commissions - account.balances.rewards) | toBtsg }} BTSG</div>
                         <div class="body-2 grey--text text--darken-1">Commissions</div>
                       </v-col>
                     </v-row>
