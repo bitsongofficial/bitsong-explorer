@@ -23,7 +23,7 @@
         <v-list-item-subtitle>Voting Power</v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-content>
-        <v-list-item-title>{{ this.$store.getters['minting/inflation'] }}%</v-list-item-title>
+        <v-list-item-title>{{ inflation }}%</v-list-item-title>
         <v-list-item-subtitle>Inflation</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -31,12 +31,7 @@
 </template>
 
 <script>
-import { toBtsg } from "@/filters";
-
 export default {
-  filters: {
-    toBtsg
-  },
   computed: {
     validators() {
       return this.$store.getters[`validators/validators`];
@@ -53,6 +48,9 @@ export default {
       return this.$store.getters[`validators/totalPower`]
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+    inflation() {
+      return this.$store.getters["minting/inflation"];
     }
   }
 };
