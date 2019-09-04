@@ -3,7 +3,7 @@
     <v-toolbar flat>
       <v-toolbar-title class="subtitle-1">
         {{ totalTxs }}
-        <span v-if="totalTxs < 2">transaction</span>
+        <span v-if="totalTxs === 1">transaction</span>
         <span v-else>transactions</span> found
       </v-toolbar-title>
       <div class="flex-grow-1"></div>
