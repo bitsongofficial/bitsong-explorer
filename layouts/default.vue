@@ -12,7 +12,7 @@
       <v-container>
         <v-row no-gutters>
           <v-col>
-            <img src="/logo-blue.png" nuxt-link alt="BitSong Explorer" height="56" class="pt-1" />
+            <img src="/logo-blue.svg" alt="BitSong Explorer" height="56" class="pt-1" />
           </v-col>
         </v-row>
       </v-container>
@@ -82,7 +82,7 @@
       <v-app-bar-nav-icon class="ml-0" color="white" @click.stop="drawer = !drawer" />
       <v-toolbar-title class="pl-1">
         <nuxt-link to="/">
-          <img src="/bitsong_explorer_white.png" alt="BitSong Explorer" height="42" class="pt-2" />
+          <img src="/logo-white.svg" alt="BitSong Explorer" height="42" class="pt-2" />
         </nuxt-link>
       </v-toolbar-title>
       <v-spacer />
