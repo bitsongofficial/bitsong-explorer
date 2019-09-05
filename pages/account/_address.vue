@@ -390,8 +390,11 @@ export default {
       return data.details.operator_address;
     },
     commissions() {
-      let commissions = parseFloat(this.account.balances.commissions);
-      if (isNaN(commissions)) commissions = 0;
+      let commissions = 0;
+      if (this.account.balances.commissions === undefined) return commissions;
+      if (this.account.balances.commissions === null) return commissions;
+      commissions = parseFloat(this.account.balances.commissions);
+      if (isNaN(commissions)) return commissions;
 
       return commissions;
     },
