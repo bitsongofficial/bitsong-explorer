@@ -1,10 +1,10 @@
 const dev = process.env.NODE_ENV === `development`
 const stargate =
   process.env.STARGATE ||
-  (dev ? `http://localhost:1317` : `http://localhost:1317`)
+  (dev ? `http://localhost:1317` : `https://lcd.commercio-testnet2000.bas.network`)
 
 const rpc =
-  process.env.RPC || (dev ? `http://localhost:26657` : `http://localhost:26657`)
+  process.env.RPC || (dev ? `http://localhost:26657` : `https://rpc.commercio-testnet2000.bas.network`)
 
 export default {
   development: dev,
