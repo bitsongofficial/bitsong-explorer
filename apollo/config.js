@@ -17,7 +17,7 @@ export default ({
     httpLinkOptions: {
       credentials: 'same-origin'
     },
-    wsEndpoint: `${config.gql_ws}/subscriptions`,
+    wsEndpoint: `${config.gql}/subscriptions`,
     tokenName: 'apollo-token',
     cache: new InMemoryCache({
       fragmentMatcher
