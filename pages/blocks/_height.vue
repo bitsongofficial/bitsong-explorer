@@ -53,7 +53,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="12">
+      <v-col cols="12" xl="8" class="mx-auto">
         <TransactionsDataTable
           :transactions="allTransactions"
           default_pagination
