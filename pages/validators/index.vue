@@ -184,8 +184,7 @@ export default {
           sort: this.sort.selected,
           sortDirection: this.sort_direction.selected
         };
-      },
-      pollInterval: 5000
+      }
     }
   },
   data() {
