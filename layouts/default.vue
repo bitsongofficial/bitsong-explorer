@@ -1,6 +1,22 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" fixed app>
+    <v-navigation-drawer
+      v-model="drawer"
+      fixed
+      app
+      width="288"
+      disable-resize-watcher
+      disable-route-watcher
+      temporary
+    >
+      <v-container>
+        <v-row no-gutters>
+          <v-col>
+            <img src="/logo-blue.png" alt="BitSong Explorer" height="56" class="pt-1" />
+          </v-col>
+        </v-row>
+      </v-container>
+      <v-divider></v-divider>
       <v-container class="hidden-sm-and-up">
         <v-row>
           <v-col>
@@ -9,7 +25,14 @@
         </v-row>
       </v-container>
       <v-list>
-        <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" router exact>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+          @click="drawer = false"
+        >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -18,10 +41,48 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-divider></v-divider>
+      <v-list nav dense>
+        <v-subheader class="font-weight-medium">Official Links</v-subheader>
+        <v-list-item nuxt-link :href="`https://www.bitsong.io`" target="_blank">
+          <v-list-item-action>
+            <v-icon>mdi-web</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Website</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item nuxt-link :href="`https://github.com/bitsongofficial`" target="_blank">
+          <v-list-item-action>
+            <v-icon>mdi-github-circle</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Github</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item nuxt-link :href="`https://github.com/bitsongofficial`" target="_blank">
+          <v-list-item-action>
+            <v-icon>mdi-medium</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Blog</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item nuxt-link :href="`https://twitter.com/BitSongOfficial`" target="_blank">
+          <v-list-item-action>
+            <v-icon>mdi-twitter</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Twitter</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app color="blue darken-2" elevation="2">
       <v-app-bar-nav-icon class="ml-0" color="white" @click.stop="drawer = !drawer" />
-      <v-toolbar-title class="white--text" v-text="title" />
+      <v-toolbar-title class="pl-1">
+        <img src="/bitsong_explorer_white.png" alt="BitSong Explorer" height="42" class="pt-2" />
+      </v-toolbar-title>
       <v-spacer />
       <UISearchBar />
       <v-spacer />
@@ -60,7 +121,6 @@ export default {
   },
   data() {
     return {
-      clipped: false,
       drawer: false,
       fixed: false,
       items: [
@@ -85,7 +145,6 @@ export default {
           to: "/validators"
         }
       ],
-      miniVariant: false,
       right: true,
       rightDrawer: false,
       title: "BitSong Explorer"
