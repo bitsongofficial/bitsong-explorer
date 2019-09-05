@@ -14,7 +14,7 @@ const websocket = require('websocket-stream')
 const ndjson = require('ndjson')
 const pumpify = require('pumpify').obj
 
-function convertHttpArgs (args) {
+function convertHttpArgs(args) {
   args = args || {}
   for (let k in args) {
     let v = args[k]
@@ -25,7 +25,7 @@ function convertHttpArgs (args) {
   return args
 }
 
-function convertWsArgs (args) {
+function convertWsArgs(args) {
   args = args || {}
   for (let k in args) {
     let v = args[k]
@@ -40,16 +40,20 @@ function convertWsArgs (args) {
   return args
 }
 
-const wsProtocols = [ 'ws:', 'wss:' ]
-const httpProtocols = [ 'http:', 'https:' ]
+const wsProtocols = ['ws:', 'wss:']
+const httpProtocols = ['http:', 'https:']
 const allProtocols = wsProtocols.concat(httpProtocols)
 
 class Client extends EventEmitter {
-  constructor (uriString = 'localhost:26657') {
+  constructor(uriString = 'localhost:26657') {
     super()
 
     // parse full-node URI
-    let { protocol, hostname, port } = url.parse(uriString)
+    let {
+      protocol,
+      hostname,
+      port
+    } = url.parse(uriString)
 
     // default to http
     if (!allProtocols.includes(protocol)) {
@@ -75,7 +79,7 @@ class Client extends EventEmitter {
     }
   }
 
-  connectWs () {
+  connectWs() {
     this.ws = pumpify(
       ndjson.stringify(),
       websocket(this.uri)
@@ -92,11 +96,13 @@ class Client extends EventEmitter {
     })
   }
 
-  callHttp (method, args) {
+  callHttp(method, args) {
     return axios({
       url: this.uri + method,
       params: convertHttpArgs(args)
-    }).then(function ({ data }) {
+    }).then(function ({
+      data
+    }) {
       if (data.error) {
         let err = Error(data.error.message)
         Object.assign(err, data.error)
@@ -108,7 +114,7 @@ class Client extends EventEmitter {
     })
   }
 
-  callWs (method, args, listener) {
+  callWs(method, args, listener) {
     let self = this
     return new Promise((resolve, reject) => {
       let id = Math.random().toString(36)
@@ -138,11 +144,16 @@ class Client extends EventEmitter {
         })
       }
 
-      this.ws.write({ jsonrpc: '2.0', id, method, params })
+      this.ws.write({
+        jsonrpc: '2.0',
+        id,
+        method,
+        params
+      })
     })
   }
 
-  close () {
+  close() {
     this.closed = true
     if (!this.ws) return
     this.ws.destroy()
@@ -187,7 +198,7 @@ const tendermintMethods = [
 
 // add methods to Client class based on methods defined in './methods.js'
 for (const name of tendermintMethods) {
-  Client.prototype[camel(name)] = function(args, listener) {
+  Client.prototype[camel(name)] = function (args, listener) {
     return this.call(name, args, listener)
   }
 }

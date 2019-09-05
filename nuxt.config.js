@@ -1,5 +1,8 @@
 import colors from "vuetify/es5/util/colors";
-import { BASE_TITLE, BASE_DESCRIPTION } from "./assets/variables";
+import {
+  BASE_TITLE,
+  BASE_DESCRIPTION
+} from "./assets/variables";
 
 export default {
   mode: "spa",
@@ -8,8 +11,7 @@ export default {
    */
   head: {
     title: BASE_TITLE.replace(" — ", ""),
-    meta: [
-      {
+    meta: [{
         charset: "utf-8"
       },
       {
@@ -37,8 +39,7 @@ export default {
         content: "/social-share.png"
       }
     ],
-    link: [
-      {
+    link: [{
         rel: "icon",
         type: "image/png",
         size: "32x32",
@@ -102,8 +103,7 @@ export default {
         href: "/favicon/apple-icon-180x180.png"
       }
     ],
-    script: [
-      {
+    script: [{
         src: "https://cdn.jsdelivr.net/npm/apexcharts"
       },
       {
@@ -124,8 +124,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    {
+  plugins: [{
       src: "@/plugins/apexcharts",
       ssr: false
     },
@@ -144,15 +143,14 @@ export default {
   modules: ["@nuxtjs/pwa", "@nuxtjs/apollo"],
 
   manifest: {
-    name: "BitSong Explorer",
-    short_name: "BTSG Explorer",
+    name: "Commercio Explorer",
+    short_name: "Commercio Explorer",
     theme_color: "#3876d2",
     background_color: "#fafafa",
     display: "fullscreen",
     Scope: "/",
     start_url: "/",
-    icons: [
-      {
+    icons: [{
         src: "/favicon/android-icon-36x36.png",
         sizes: "36x36",
         type: "image/png",

@@ -1,14 +1,14 @@
 const dev = process.env.NODE_ENV === `development`
 const stargate =
   process.env.STARGATE ||
-  (dev ? `https://lcd.testnet-2.bitsong.network` : `https://lcd.testnet-2.bitsong.network`)
+  (dev ? `http://localhost:1317` : `http://localhost:1317`)
 
 const rpc =
-  process.env.RPC || (dev ? `https://rpc.testnet-2.bitsong.network` : `https://rpc.testnet-2.bitsong.network`)
+  process.env.RPC || (dev ? `http://localhost:26657` : `http://localhost:26657`)
 
 export default {
   development: dev,
-  network: process.env.NETWORK || `bitsong-testnet-2`,
+  network: process.env.NETWORK || `commercio-testnet2000`,
   stargate,
   rpc,
   node_halted_timeout: 120000,
