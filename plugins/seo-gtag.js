@@ -38,8 +38,8 @@
      /*
       ** We tell Google Analytics to add a `pageview`
       */
-     //  gtag('config', GA_ID, {
-     //    'page_path': to.fullPath
-     //  });
+     gtag('config', GA_ID, {
+       'page_path': to.fullPath
+     });
    });
  }
