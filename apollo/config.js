@@ -2,6 +2,7 @@ import {
   InMemoryCache,
   IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory'
+import config from "~/asset/config"
 import schema from './fragmentTypes.json'
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: schema
@@ -12,11 +13,11 @@ export default ({
   app
 }) => {
   return {
-    httpEndpoint: "http://localhost:8081/graphql",
+    httpEndpoint: `${config.gql}/graphql`,
     httpLinkOptions: {
       credentials: 'same-origin'
     },
-    wsEndpoint: 'ws://localhost:8081/subscriptions',
+    wsEndpoint: `${config.gql_ws}/subscriptions`,
     tokenName: 'apollo-token',
     cache: new InMemoryCache({
       fragmentMatcher

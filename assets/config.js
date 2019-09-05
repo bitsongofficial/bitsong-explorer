@@ -6,11 +6,16 @@ const stargate =
 const rpc =
   process.env.RPC || (dev ? `http://localhost:26657` : `https://rpc.commercio-testnet2000.bas.network`)
 
+const gql = process.env.GQL || (dev ? `http://localhost:8081` : `https://commercio-testnet2000.bas.network/gql`)
+const gql_ws = process.env.GQL_WS || (dev ? `ws://localhost:8081` : `wss://commercio-testnet2000.bas.network/gql`)
+
 export default {
   development: dev,
   network: process.env.NETWORK || `commercio-testnet2000`,
   stargate,
   rpc,
+  gql,
+  gql_ws,
   node_halted_timeout: 120000,
   block_timeout: 10000,
   default_gas_price: dev ? 1e-9 : 2.5e-8, // recommended from Cosmos Docs
