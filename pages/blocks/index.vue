@@ -47,11 +47,19 @@
 
 <script>
 import { shortFilter, getTimeDistance } from "~/assets/utils";
+import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
 import Pagination from "@/components/Pagination";
 import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  head() {
+    const title = getTitle("Blocks");
+    return {
+      title: title,
+      meta: [{ hid: "og-title", name: "og:title", content: title }]
+    };
+  },
   components: {
     Pagination,
     UIProposer

@@ -67,11 +67,19 @@
 
 <script>
 import { shortFilter } from "~/assets/utils";
+import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
 import TransactionsDataTable from "@/components/Transactions/DataTable";
 import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  head() {
+    const title = getTitle("Block " + this.$route.params.height);
+    return {
+      title: title,
+      meta: [{ hid: "og-title", name: "og:title", content: title }]
+    };
+  },
   components: {
     TransactionsDataTable,
     UIProposer

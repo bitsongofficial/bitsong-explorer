@@ -228,12 +228,20 @@
 <script>
 import gql from "graphql-tag";
 import { prettyRound, shortFilter } from "~/assets/utils";
+import getTitle from "~/assets/get-title";
 import { toBtsg, toMacroDenom, toTime } from "@/filters";
 import BigNumber from "bignumber.js";
 
 import UIProposerAvatar from "@/components/UI/ProposerAvatar";
 
 export default {
+  head() {
+    const title = getTitle("Validator " + this.$route.params.validator);
+    return {
+      title: title,
+      meta: [{ hid: "og-title", name: "og:title", content: title }]
+    };
+  },
   components: {
     UIProposerAvatar
   },

@@ -206,10 +206,18 @@ import jdenticon from "jdenticon";
 import gql from "graphql-tag";
 import { toBtsg, toTime } from "@/filters";
 import { prettyRound, shortFilter } from "~/assets/utils";
+import getTitle from "~/assets/get-title";
 import TransactionsDataTable from "@/components/Transactions/DataTable";
 import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  head() {
+    const title = getTitle("Account " + this.$route.params.address);
+    return {
+      title: title,
+      meta: [{ hid: "og-title", name: "og:title", content: title }]
+    };
+  },
   components: {
     TransactionsDataTable,
     UIProposer

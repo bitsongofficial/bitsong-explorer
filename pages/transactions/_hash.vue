@@ -106,7 +106,9 @@
                   <v-col cols="12">
                     <div class="subtitle-1 grey--text text--darken-4">
                       {{ msg.value.amount.amount | toBtsg }}
-                      <span class="caption">{{ msg.value.amount.denom | toMacroDenom }}</span>
+                      <span
+                        class="caption"
+                      >{{ msg.value.amount.denom | toMacroDenom }}</span>
                     </div>
                     <div class="body-2 grey--text text--darken-1">Amount</div>
                   </v-col>
@@ -156,10 +158,18 @@
 <script>
 import { toBtsg, toMacroDenom } from "@/filters";
 import { getTransaction } from "~/api";
+import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
 import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  head() {
+    const title = getTitle("Transaction " + this.$route.params.hash);
+    return {
+      title: title,
+      meta: [{ hid: "og-title", name: "og:title", content: title }]
+    };
+  },
   components: {
     UIProposer
   },

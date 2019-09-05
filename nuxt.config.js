@@ -1,5 +1,9 @@
 import colors from "vuetify/es5/util/colors";
-import cache from './apollo/config'
+import {
+  BASE_TITLE,
+  BASE_DESCRIPTION
+} from "./assets/variables";
+
 
 export default {
   mode: "spa",
@@ -7,8 +11,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    titleTemplate: "%s - " + process.env.npm_package_name,
-    title: process.env.npm_package_name || "",
+    title: BASE_TITLE.replace(' — ', ''),
     meta: [{
         charset: "utf-8"
       },
@@ -19,13 +22,39 @@ export default {
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || ""
-      }
+        content: BASE_DESCRIPTION
+      },
+      {
+        hid: 'og-title',
+        name: 'og:title',
+        content: BASE_TITLE.replace(' — ', '')
+      },
+      {
+        hid: 'og-description',
+        name: 'og:description',
+        content: BASE_DESCRIPTION
+      },
+      {
+        hid: 'og-image',
+        name: 'og:image',
+        content: '/social-share.png'
+      },
     ],
     link: [{
       rel: "icon",
-      type: "image/x-icon",
-      href: "/favicon.ico"
+      type: "image/png",
+      size: "32x32",
+      href: "https://bitsong.io/assets/favicon/favicon-32x32.png"
+    }, {
+      rel: "icon",
+      type: "image/png",
+      size: "96x96",
+      href: "https://bitsong.io/assets/favicon/favicon-96x96.png"
+    }, {
+      rel: "icon",
+      type: "image/png",
+      size: "16x16",
+      href: "https://bitsong.io/assets/favicon/favicon-16x16.png"
     }],
     script: [{
         src: "https://cdn.jsdelivr.net/npm/apexcharts"
@@ -51,7 +80,10 @@ export default {
   plugins: [{
     src: "@/plugins/apexcharts",
     ssr: false
-  }],
+  }, {
+    src: '~/plugins/seo-gtag.js',
+    ssr: false
+  }, ],
   /*
    ** Nuxt.js dev-modules
    */

@@ -27,8 +27,16 @@
 <script>
 import gql from "graphql-tag";
 import TransactionsDataTable from "@/components/Transactions/DataTable";
+import getTitle from "~/assets/get-title";
 
 export default {
+  head() {
+    const title = getTitle("Transactions");
+    return {
+      title: title,
+      meta: [{ hid: "og-title", name: "og:title", content: title }]
+    };
+  },
   components: {
     TransactionsDataTable
   },

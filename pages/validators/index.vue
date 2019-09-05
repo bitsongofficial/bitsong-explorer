@@ -134,10 +134,17 @@
 import { prettyRound, shortFilter } from "~/assets/utils";
 import gql from "graphql-tag";
 import BigNumber from "bignumber.js";
-
+import getTitle from "~/assets/get-title";
 import UIProposerAvatar from "@/components/UI/ProposerAvatar";
 
 export default {
+  head() {
+    const title = getTitle("Validators");
+    return {
+      title: title,
+      meta: [{ hid: "og-title", name: "og:title", content: title }]
+    };
+  },
   components: {
     UIProposerAvatar
   },
