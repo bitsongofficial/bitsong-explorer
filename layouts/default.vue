@@ -78,7 +78,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app color="blue darken-2" elevation="2">
+    <v-app-bar fixed app color="blue darken-2" elevation="2">
       <v-app-bar-nav-icon class="ml-0" color="white" @click.stop="drawer = !drawer" />
       <v-toolbar-title class="pl-1">
         <nuxt-link to="/">
