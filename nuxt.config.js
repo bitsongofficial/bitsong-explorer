@@ -36,73 +36,13 @@ export default {
       {
         hid: "og-image",
         name: "og:image",
-        content: "/social-share.png"
+        content: ""
       }
     ],
     link: [{
-        rel: "icon",
-        type: "image/png",
-        size: "32x32",
-        href: "/favicon/favicon-32x32.png"
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        size: "96x96",
-        href: "/favicon/favicon-96x96.png"
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        size: "16x16",
-        href: "/favicon/favicon-16x16.png"
-      },
-      {
-        rel: "apple-touch-icon",
-        size: "57x57",
-        href: "/favicon/apple-icon-57x57.png"
-      },
-      {
-        rel: "apple-touch-icon",
-        size: "60x60",
-        href: "/favicon/apple-icon-60x60.png"
-      },
-      {
-        rel: "apple-touch-icon",
-        size: "72x72",
-        href: "/favicon/apple-icon-72x72.png"
-      },
-      {
-        rel: "apple-touch-icon",
-        size: "76x76",
-        href: "/favicon/apple-icon-76x76.png"
-      },
-      {
-        rel: "apple-touch-icon",
-        size: "114x114",
-        href: "/favicon/apple-icon-114x114.png"
-      },
-      {
-        rel: "apple-touch-icon",
-        size: "120x120",
-        href: "/favicon/apple-icon-120x120.png"
-      },
-      {
-        rel: "apple-touch-icon",
-        size: "144x144",
-        href: "/favicon/apple-icon-144x144.png"
-      },
-      {
-        rel: "apple-touch-icon",
-        size: "152x152",
-        href: "/favicon/apple-icon-152x152.png"
-      },
-      {
-        rel: "apple-touch-icon",
-        size: "180x180",
-        href: "/favicon/apple-icon-180x180.png"
-      }
-    ],
+      rel: "icon",
+      href: "/favicon.ico"
+    }],
     script: [{
         src: "https://cdn.jsdelivr.net/npm/apexcharts"
       },
@@ -145,48 +85,11 @@ export default {
   manifest: {
     name: "Commercio Explorer",
     short_name: "Commercio Explorer",
-    theme_color: "#3876d2",
+    theme_color: "#38ba8c",
     background_color: "#fafafa",
     display: "fullscreen",
     Scope: "/",
     start_url: "/",
-    icons: [{
-        src: "/favicon/android-icon-36x36.png",
-        sizes: "36x36",
-        type: "image/png",
-        density: "0.75"
-      },
-      {
-        src: "/favicon/android-icon-48x48.png",
-        sizes: "48x48",
-        type: "image/png",
-        density: "1.0"
-      },
-      {
-        src: "/favicon/android-icon-72x72.png",
-        sizes: "72x72",
-        type: "image/png",
-        density: "1.5"
-      },
-      {
-        src: "/favicon/android-icon-96x96.png",
-        sizes: "96x96",
-        type: "image/png",
-        density: "2.0"
-      },
-      {
-        src: "/favicon/android-icon-144x144.png",
-        sizes: "144x144",
-        type: "image/png",
-        density: "3.0"
-      },
-      {
-        src: "/favicon/android-icon-192x192.png",
-        sizes: "192x192",
-        type: "image/png",
-        density: "4.0"
-      }
-    ],
     splash_pages: null
   },
 
@@ -222,6 +125,9 @@ export default {
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
+        },
+        light: {
+          primary: colors.teal.lighten1,
         }
       }
     },

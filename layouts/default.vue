@@ -12,7 +12,7 @@
       <v-container>
         <v-row no-gutters>
           <v-col>
-            <img src="/logo-blue.svg" alt="BitSong Explorer" height="56" class="pt-1" />
+            <img src="/logo-color.png" alt="Commercio Explorer" height="56" class="pt-1" />
           </v-col>
         </v-row>
       </v-container>
@@ -44,7 +44,7 @@
       <v-divider></v-divider>
       <v-list nav dense>
         <v-subheader class="font-weight-medium">Official Links</v-subheader>
-        <v-list-item nuxt-link :href="`https://www.bitsong.io`" target="_blank">
+        <v-list-item nuxt-link :href="`https://commercio.network/`" target="_blank">
           <v-list-item-action>
             <v-icon>mdi-web</v-icon>
           </v-list-item-action>
@@ -52,7 +52,7 @@
             <v-list-item-title>Website</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item nuxt-link :href="`https://github.com/bitsongofficial`" target="_blank">
+        <v-list-item nuxt-link :href="`https://github.com/commercionetwork/`" target="_blank">
           <v-list-item-action>
             <v-icon>mdi-github-circle</v-icon>
           </v-list-item-action>
@@ -60,7 +60,7 @@
             <v-list-item-title>Github</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item nuxt-link :href="`https://github.com/bitsongofficial`" target="_blank">
+        <v-list-item nuxt-link :href="`https://medium.com/commercionetwork`" target="_blank">
           <v-list-item-action>
             <v-icon>mdi-medium</v-icon>
           </v-list-item-action>
@@ -68,7 +68,7 @@
             <v-list-item-title>Blog</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item nuxt-link :href="`https://twitter.com/BitSongOfficial`" target="_blank">
+        <v-list-item nuxt-link :href="`https://twitter.com/commercionet`" target="_blank">
           <v-list-item-action>
             <v-icon>mdi-twitter</v-icon>
           </v-list-item-action>
@@ -78,11 +78,11 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar fixed app color="blue darken-2" elevation="2">
+    <v-app-bar fixed app color="primary" elevation="2">
       <v-app-bar-nav-icon class="ml-0" color="white" @click.stop="drawer = !drawer" />
       <v-toolbar-title class="pl-1">
         <nuxt-link to="/">
-          <img src="/logo-white.svg" alt="BitSong Explorer" height="42" class="pt-2" />
+          <img src="/logo-white.png" alt="Commercio Explorer" height="42" class="pt-2" />
         </nuxt-link>
       </v-toolbar-title>
       <v-spacer />
@@ -91,7 +91,7 @@
       <v-toolbar-items>
         <span class="chain_name white--text">
           <v-icon dark class="pr-3" color="green" size="12">mdi-circle</v-icon>
-          <span class="hidden-sm-and-down">bitsong-testnet-2</span>
+          <span class="hidden-sm-and-down">commercio-testnet2000</span>
         </span>
       </v-toolbar-items>
     </v-app-bar>
@@ -149,7 +149,7 @@ export default {
       ],
       right: true,
       rightDrawer: false,
-      title: "BitSong Explorer"
+      title: "Commercio Explorer"
     };
   },
   mounted() {
