@@ -22,7 +22,7 @@ const gql_ws =
     ? `ws://localhost:8081/subscriptions`
     : `wss://testnet.explorebitsong.com/gql/subscriptions`);
 
-const stake_denom = process.env.STAKE_DENOM || (dev ? `ubtsg` : `ubtsg`);
+const stakeDenom = process.env.STAKE_DENOM ? process.env.STAKE_DENOM : "ubtsg";
 
 export default {
   development: dev,
@@ -31,7 +31,7 @@ export default {
   rpc,
   gql,
   gql_ws,
-  stake_denom,
+  stakeDenom,
   node_halted_timeout: 120000,
   block_timeout: 10000,
   default_gas_price: dev ? 1e-9 : 2.5e-8, // recommended from Cosmos Docs

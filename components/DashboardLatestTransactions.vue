@@ -5,42 +5,41 @@
       <h3 class="title">Transactions</h3>
     </v-card-title>
     <v-divider></v-divider>
-    <v-list v-if="allTransactions">
-      <v-list-item-group v-for="(transaction, index) in allTransactions.docs" :key="`${index}`">
+    <v-card-text
+      v-if="allTransactions"
+      class="py-0"
+      style="overflow-y: auto;display:block;max-height:550px"
+    >
+      <template v-for="(transaction, index) in allTransactions.docs">
         <v-divider v-if="index !== 0" :key="`${index}-divider`"></v-divider>
-        <v-list-item three-line>
-          <v-list-item-content>
-            <v-list-item-title class="font-weight-medium">
+        <v-row :key="`${index}`">
+          <v-col cols="8">
+            <div class="subtitle-1 font-weight-medium grey--text text--darken-3">
               TX#
               <nuxt-link
                 class="body-2 font-weight-medium"
                 :to="`/transactions/${transaction.hash}`"
               >{{ transaction.hash | hash }}</nuxt-link>
-            </v-list-item-title>
-            <v-list-item-subtitle class="mt-2">
+            </div>
+            <div>
               From
               <nuxt-link
-                class="font-weight-regular"
                 :to="`/account/${transaction.signatures[0].address}`"
               >{{ transaction.signatures[0].address }}</nuxt-link>
-            </v-list-item-subtitle>
-            <v-list-item-subtitle class="mt-2">
+            </div>
+            <div class="pt-2">
               <v-chip outlined small>{{ transaction.msgs[0].type | convertMessageType }}</v-chip>
               <v-chip
                 outlined
                 small
                 v-if="transaction.msgs.length - 1"
               >+{{ transaction.msgs.length - 1 }}</v-chip>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-list-item-action-text>
-              <time>{{ transaction.time | timeDistance }}</time>
-            </v-list-item-action-text>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
+            </div>
+          </v-col>
+          <v-col align="right" class="align-self-center">{{ transaction.time | timeDistance }}</v-col>
+        </v-row>
+      </template>
+    </v-card-text>
   </v-card>
 </template>
 

@@ -5,31 +5,39 @@
       <h3 class="title">Blocks</h3>
     </v-card-title>
     <v-divider></v-divider>
-
-    <v-list v-if="allBlocks">
-      <v-list-item-group v-for="(block, index) in allBlocks.docs" :key="`${index}-${block.height}`">
+    <v-card-text
+      v-if="allBlocks"
+      class="py-0"
+      style="overflow-y: auto;display:block;max-height:550px"
+    >
+      <template v-for="(block, index) in allBlocks.docs">
         <v-divider v-if="index !== 0" :key="`${index}-divider`"></v-divider>
-        <v-list-item three-line>
-          <v-list-item-content>
-            <v-list-item-title class="font-weight-medium">
+        <v-row :key="`${index}-${block.height}`">
+          <v-col>
+            <div class="subtitle-1 font-weight-medium grey--text text--darken-3">
               Block
               <nuxt-link
                 class="red-link"
                 :to="`/blocks/${block.height}`"
               >{{ block.height | prettyRound }}</nuxt-link>
-            </v-list-item-title>
-            <v-list-item-subtitle class="mt-2">Includes {{ block.num_txs }} txs</v-list-item-subtitle>
-            <v-list-item-subtitle class="mt-2 pb-2">
-              Proposer:
+            </div>
+            <div>
+              Includes {{ block.num_txs }} txs
+              <span
+                class="hidden-sm-and-down"
+              >, Fees [TODO] {{ $store.getters[`app/stakeDenom`] }}</span>
+            </div>
+            <div class="hidden-sm-and-up">Fees [TODO] {{ $store.getters[`app/stakeDenom`] }}</div>
+          </v-col>
+          <v-col align="right" class="align-self-center">
+            <div>{{ block.time | timeDistance }}</div>
+            <div>
               <UIProposer class="font-weight-medium" :address="block.proposer" />
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-list-item-action-text>{{ block.time | timeDistance }}</v-list-item-action-text>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
+            </div>
+          </v-col>
+        </v-row>
+      </template>
+    </v-card-text>
   </v-card>
 </template>
 
