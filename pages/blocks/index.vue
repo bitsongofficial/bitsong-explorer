@@ -135,7 +135,10 @@ export default {
       if (!this.allBlocks.docs) return;
       if (this.allBlocks.docs.length === 0) return;
 
-      return this.firstBlock - this.limitRecords + 1;
+      const lastBlock = this.firstBlock - this.limitRecords + 1;
+      if (lastBlock < 1) return 1;
+
+      return lastBlock;
     },
     totalBlocks() {
       if (!this.allBlocks) return;
