@@ -47,12 +47,19 @@ export const mutations = {
 }
 
 export const actions = {
-  reconnected({ state, dispatch }) {
+  reconnected({
+    state,
+    dispatch
+  }) {
     if (state.loading) {
       dispatch(`getPool`)
     }
   },
-  async getPool({ state, commit, rootState }) {
+  async getPool({
+    state,
+    commit,
+    rootState
+  }) {
     commit(`setLoading`, true)
 
     if (!rootState.connection.connected) return
@@ -64,7 +71,7 @@ export const actions = {
 
       commit(`setPool`, pool.result)
       commit(`setTotalSupply`, dataTotalSupply.result[0].amount)
-      commit(`setCommunityPool`, dataCommunityPool.result[0].amount)
+      commit(`setCommunityPool`, dataCommunityPool.result ? dataCommunityPool.result[0].amount : 0)
       commit(`setError`, null)
       commit(`setLoading`, false)
       commit(`setLoaded`, true)
