@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js"
 
 export const state = () => ({
-  price: 0.1200
+  price: 1.0000
 })
 
 export const getters = {
