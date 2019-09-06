@@ -1,6 +1,6 @@
 export const MAINNET = "mainnet";
 export const TESTNET = "testnet";
-export const NETWORK = process.env.TESTNET ? TESTNET : MAINNERT;
+export const NETWORK = process.env.TESTNET ? TESTNET : MAINNET;
 export const BASE_TITLE_NETWORK = NETWORK === MAINNET ? "Mainnet " : "Testnet ";
 export const BASE_TITLE_START =
   " — " + process.env.BASE_SHORT_TITLE + " " + BASE_TITLE_NETWORK;

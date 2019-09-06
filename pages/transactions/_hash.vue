@@ -157,7 +157,6 @@
 
 <script>
 import { toBtsg, toMacroDenom } from "@/filters";
-import { getTransaction } from "~/api";
 import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
 import UIProposer from "@/components/UI/Proposer";
