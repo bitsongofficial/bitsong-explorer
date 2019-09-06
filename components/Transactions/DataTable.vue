@@ -55,7 +55,7 @@
         </v-tooltip>
       </template>
       <template v-slot:item.amount="{ item }">
-        <span v-if="item.msgs[0].value">
+        <span v-if="item.msgs[0].value && item.msgs[0].value.amount">
           {{ item.msgs[0].value.amount.amount | toBtsg }}
           <span
             class="caption"
