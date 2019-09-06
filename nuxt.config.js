@@ -148,7 +148,7 @@ export default {
   manifest: {
     name: "BitSong Explorer",
     short_name: "BTSG Explorer",
-    theme_color: "#d50000",
+    theme_color: "#DB2360",
     background_color: "#fafafa",
     display: "standalone",
     Scope: "/",
