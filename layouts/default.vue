@@ -12,7 +12,7 @@
       <v-container>
         <v-row no-gutters>
           <v-col>
-            <img src="/logo-blue.svg" alt="BitSong Explorer" height="56" class="pt-1" />
+            <img src="/logo-red.svg" alt="BitSong Explorer" height="52" class="pt-1" />
           </v-col>
         </v-row>
       </v-container>
@@ -78,11 +78,16 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar fixed app color="blue darken-2" elevation="2">
+    <v-app-bar
+      fixed
+      app
+      style="background:linear-gradient(90deg, rgba(219,24,97,1) 0%, rgba(252,138,13,1) 100%);"
+      elevation="2"
+    >
       <v-app-bar-nav-icon class="ml-0" color="white" @click.stop="drawer = !drawer" />
       <v-toolbar-title class="pl-1">
         <nuxt-link to="/">
-          <img src="/logo-white.svg" alt="BitSong Explorer" height="42" class="pt-2" />
+          <img src="/logo-white2.svg" alt="BitSong Explorer" height="42" class="pt-2" />
         </nuxt-link>
       </v-toolbar-title>
       <v-spacer />
