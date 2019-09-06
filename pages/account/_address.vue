@@ -284,7 +284,6 @@ export default {
               bonded
               unbonding
               rewards
-              commissions
             }
             delegations {
               shares
@@ -330,14 +329,6 @@ export default {
               hash
               msgs {
                 type
-                value {
-                  ... on MsgDelegate {
-                    amount {
-                      amount
-                      denom
-                    }
-                  }
-                }
               }
               signatures {
                 address
@@ -391,8 +382,9 @@ export default {
     },
     commissions() {
       let commissions = 0;
-      if (this.account.balances.commissions === undefined) return commissions;
+
       if (this.account.balances.commissions === null) return commissions;
+      if (this.account.balances.commissions === undefined) return commissions;
       commissions = parseFloat(this.account.balances.commissions);
       if (isNaN(commissions)) return commissions;
 
@@ -440,7 +432,7 @@ export default {
         parseFloat(this.account.balances.bonded) +
         parseFloat(this.account.balances.unbonding) +
         parseFloat(this.account.balances.rewards) +
-        this.commissions
+        parseFloat(this.commissions - this.account.balances.rewards)
       );
     }
   }
