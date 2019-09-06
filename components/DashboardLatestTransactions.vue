@@ -64,18 +64,6 @@ export default {
         .trim();
     }
   },
-  // async mounted() {
-  //   await this.$store.dispatch(`explorer/fetchLatestTransactions`);
-
-  //   setInterval(async () => {
-  //     await this.$store.dispatch(`explorer/fetchLatestTransactions`);
-  //   }, 5000);
-  // },
-  // computed: {
-  //   transactions() {
-  //     return this.$store.getters[`explorer/txs`];
-  //   }
-  // },
   apollo: {
     allTransactions: {
       prefetch: true,

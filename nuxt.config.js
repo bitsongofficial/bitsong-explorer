@@ -1,6 +1,8 @@
 import colors from "vuetify/es5/util/colors";
 import { BASE_TITLE, BASE_DESCRIPTION } from "./assets/variables";
 
+require("dotenv").config();
+
 export default {
   mode: "spa",
   /*
@@ -141,7 +143,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ["@nuxtjs/pwa", "@nuxtjs/apollo"],
+  modules: ["@nuxtjs/pwa", "@nuxtjs/apollo", "@nuxtjs/dotenv"],
 
   manifest: {
     name: "BitSong Explorer",
