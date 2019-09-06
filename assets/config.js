@@ -7,6 +7,7 @@ const rpc =
   process.env.RPC || (dev ? `https://rpc.commercio-testnet2000.bas.network` : `https://rpc.commercio-testnet2000.bas.network`)
 
 const gql = process.env.GQL || (dev ? `https://commercio-testnet2000.bas.network/gql` : `https://commercio-testnet2000.bas.network/gql`)
+const gql_ws = process.env.GQL_WS || (dev ? `wss://commercio-testnet2000.bas.network/gql` : `wss://commercio-testnet2000.bas.network/gql`)
 
 export default {
   development: dev,
