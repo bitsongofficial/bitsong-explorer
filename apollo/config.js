@@ -1,25 +1,24 @@
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher
-} from 'apollo-cache-inmemory'
-import schema from './fragmentTypes.json'
+} from "apollo-cache-inmemory";
+import schema from "./fragmentTypes.json";
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: schema
-})
+});
 
-export default ({
-  req,
-  app
-}) => {
+import config from "@/assets/config";
+
+export default ({ req, app }) => {
   return {
-    httpEndpoint: "http://localhost:8081/graphql",
+    httpEndpoint: config.gql,
     httpLinkOptions: {
-      credentials: 'same-origin'
+      credentials: "same-origin"
     },
-    wsEndpoint: 'ws://localhost:8081/subscriptions',
-    tokenName: 'apollo-token',
+    wsEndpoint: config.gql_ws,
+    tokenName: "apollo-token",
     cache: new InMemoryCache({
       fragmentMatcher
-    }),
-  }
-}
+    })
+  };
+};
