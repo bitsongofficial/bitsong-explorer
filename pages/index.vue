@@ -80,15 +80,18 @@ export default {
 <style>
 .v-carousel__controls__item.theme--light.v-btn.v-btn--icon {
   color: rgba(0, 0, 0, 0.34) !important;
-  height: 22px;
-  width: 22px;
+  height: 21px;
+  width: 21px;
 }
 
 .v-btn__content > i {
-  font-size: 15px !important;
 }
-
-.v-carousel__controls {
-  height: 30px;
+.v-carousel__controls
+  > .v-item-group
+  > .v-carousel__controls__item
+  > .v-btn__content
+  > .mdi-circle {
+  height: 20px !important;
+  font-size: 15px !important;
 }
 </style>
