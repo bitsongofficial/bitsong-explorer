@@ -1,26 +1,26 @@
 const dev = process.env.NODE_ENV === `development`;
 const stargate =
   process.env.STARGATE ||
-  (dev
-    ? `https://lcd.testnet-2.bitsong.network`
-    : `https://lcd.testnet-2.bitsong.network`);
+  (dev ?
+    `https://lcd.testnet-2.bitsong.network` :
+    `https://lcd.testnet-2.bitsong.network`);
 
 const rpc =
   process.env.RPC ||
-  (dev
-    ? `https://rpc.testnet-2.bitsong.network`
-    : `https://rpc.testnet-2.bitsong.network`);
+  (dev ?
+    `https://rpc.testnet-2.bitsong.network` :
+    `https://rpc.testnet-2.bitsong.network`);
 
 const gql =
   process.env.GQL ||
-  (dev
-    ? `http://localhost:8081/graphql`
-    : `https://testnet.explorebitsong.com/gql/graphql`);
+  (dev ?
+    `http://localhost:8081/gql/graphql` :
+    `https://testnet.explorebitsong.com/gql/graphql`);
 const gql_ws =
   process.env.GQL_WS ||
-  (dev
-    ? `ws://localhost:8081/subscriptions`
-    : `wss://testnet.explorebitsong.com/gql/subscriptions`);
+  (dev ?
+    `ws://localhost:8081/gql/subscriptions` :
+    `wss://testnet.explorebitsong.com/gql/subscriptions`);
 
 const stakeDenom = process.env.STAKE_DENOM ? process.env.STAKE_DENOM : "ubtsg";
 
