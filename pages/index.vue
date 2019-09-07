@@ -12,8 +12,8 @@
           <v-col class="hidden-sm-and-down" cols="12" md="4">
             <DashboardValidators />
           </v-col>
-          <v-col class="hidden-md-and-up">
-            <v-carousel :show-arrows="false" :height="200" light hide-delimiter-background>
+          <v-col class="hidden-md-and-up pb-0">
+            <v-carousel :show-arrows="false" :height="190" light hide-delimiter-background>
               <v-carousel-item>
                 <DashboardMarketCap
                   style="border-left:2px solid #e7e7e7;border-right:2px solid #e7e7e7;border-top:2px solid #f4f4f4"
@@ -76,3 +76,19 @@ export default {
   }
 };
 </script>
+
+<style>
+.v-carousel__controls__item.theme--light.v-btn.v-btn--icon {
+  color: rgba(0, 0, 0, 0.34) !important;
+  height: 22px;
+  width: 22px;
+}
+
+.v-btn__content > i {
+  font-size: 15px !important;
+}
+
+.v-carousel__controls {
+  height: 30px;
+}
+</style>
