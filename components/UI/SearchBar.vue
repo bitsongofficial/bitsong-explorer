@@ -1,4 +1,4 @@
-<template>
+<template id="searchbar">
   <v-text-field
     flat
     dark
@@ -13,6 +13,32 @@
     @keyup.enter="submit"
   ></v-text-field>
 </template>
+
+<style>
+.v-input--is-focused {
+  transform: scale(1.01);
+}
+
+.v-input--is-focused .v-icon.mdi-magnify {
+  color: #2a2a2a !important;
+}
+
+.v-input--is-focused
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot
+  > input {
+  caret-color: #868686;
+}
+
+.v-input--is-focused
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot
+  > input::placeholder {
+  color: #868686;
+}
+</style>
 
 <script>
 export default {

@@ -16,7 +16,7 @@
             <v-carousel :show-arrows="false" :height="200" light hide-delimiter-background>
               <v-carousel-item>
                 <DashboardMarketCap
-                  style="border-left:2px solid #e7e7e7; border-right:2px solid #e7e7e7;border-top:2px solid #f4f4f4"
+                  style="border-left:2px solid #e7e7e7;border-right:2px solid #e7e7e7;border-top:2px solid #f4f4f4"
                 />
               </v-carousel-item>
               <v-carousel-item>
