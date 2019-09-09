@@ -146,9 +146,9 @@ export default {
   modules: ["@nuxtjs/pwa", "@nuxtjs/apollo", "@nuxtjs/dotenv"],
 
   manifest: {
-    name: "BitSong Explorer",
-    short_name: "BTSG Explorer",
-    theme_color: "#DB2360",
+    name: "Tichex Explorer",
+    short_name: "TCX Explorer",
+    theme_color: "#fbbc09",
     background_color: "#fafafa",
     display: "standalone",
     Scope: "/",
@@ -228,7 +228,7 @@ export default {
           success: colors.green.accent3
         },
         light: {
-          primary: colors.red.accent4
+          primary: colors.grey.darken3
         }
       }
     },

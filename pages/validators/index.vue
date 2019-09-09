@@ -114,7 +114,9 @@
                   <div class="body-2 grey--text text--darken-2">Commission</div>
                 </v-col>
                 <v-col cols="12">
-                  <p class="mb-1">{{ validator.voting_power | prettyRound }} BTSG</p>
+                  <p
+                    class="mb-1"
+                  >{{ validator.voting_power | prettyRound }} {{ $store.getters[`app/stakeDenom`] }}</p>
                   <div class="body-2 grey--text text--darken-2">Voting Power</div>
                 </v-col>
                 <v-col cols="12" v-if="validator.details.description.details">

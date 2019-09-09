@@ -2,13 +2,8 @@
   <v-app dark>
     <UINavigationDrawer v-model="drawer" />
 
-    <v-app-bar
-      fixed
-      app
-      style="background:linear-gradient(90deg, rgba(219,24,97,1) 0%, rgba(252,138,13,1) 100%);"
-      elevation="2"
-    >
-      <v-app-bar-nav-icon class="ml-0" color="white" @click.stop="drawer = !drawer" />
+    <v-app-bar fixed app color="#fbbc09" elevation="2">
+      <v-app-bar-nav-icon class="ml-0" @click.stop="drawer = !drawer" />
       <v-toolbar-title class="pl-1">
         <UILogoWhite />
       </v-toolbar-title>
@@ -51,6 +46,5 @@ export default {
 
 <style>
 .v-application a {
-  text-decoration: none;
 }
 </style>

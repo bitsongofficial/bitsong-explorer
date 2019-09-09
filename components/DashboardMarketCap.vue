@@ -6,7 +6,7 @@
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>${{ price }}</v-list-item-title>
-        <v-list-item-subtitle>BTSG Price</v-list-item-subtitle>
+        <v-list-item-subtitle>{{ $store.getters[`app/stakeDenom`] }} Price</v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-content>
         <v-list-item-title>-</v-list-item-title>

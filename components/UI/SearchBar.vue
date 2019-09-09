@@ -1,7 +1,6 @@
 <template id="searchbar">
   <v-text-field
     flat
-    dark
     solo-inverted
     hide-details
     prepend-inner-icon="mdi-magnify"

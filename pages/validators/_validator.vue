@@ -137,7 +137,9 @@
                       <v-list-item-content>
                         <v-list-item-title>
                           {{ validator.details.self_shares | toBtsg }}
-                          <span class="caption">BTSG</span>
+                          <span
+                            class="caption"
+                          >{{ $store.getters[`app/stakeDenom`] }}</span>
                         </v-list-item-title>
                         <v-list-item-subtitle>Self Delegated</v-list-item-subtitle>
                       </v-list-item-content>
@@ -148,7 +150,7 @@
                           {{ validator.details.delegator_shares - validator.details.self_shares | toBtsg }}
                           <span
                             class="caption"
-                          >BTSG</span>
+                          >{{ $store.getters[`app/stakeDenom`] }}</span>
                         </v-list-item-title>
                         <v-list-item-subtitle>Others</v-list-item-subtitle>
                       </v-list-item-content>
@@ -159,7 +161,7 @@
                           {{ validator.details.delegator_shares | toBtsg }}
                           <span
                             class="caption"
-                          >BTSG</span>
+                          >{{ $store.getters[`app/stakeDenom`] }}</span>
                         </v-list-item-title>
                         <v-list-item-subtitle>Total</v-list-item-subtitle>
                       </v-list-item-content>
@@ -189,7 +191,9 @@
                 </template>
                 <template v-slot:item.shares="{ item }">
                   {{ item.shares | toBtsg }}
-                  <span class="caption">BTSG</span>
+                  <span
+                    class="caption"
+                  >{{ $store.getters[`app/stakeDenom`] }}</span>
                 </template>
               </v-data-table>
             </v-card>
@@ -213,7 +217,9 @@
                 </template>
                 <template v-slot:item.amount="{ item }">
                   {{ item.amount | toBtsg}}
-                  <span class="caption">BTSG</span>
+                  <span
+                    class="caption"
+                  >{{ $store.getters[`app/stakeDenom`] }}</span>
                 </template>
                 <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
               </v-data-table>

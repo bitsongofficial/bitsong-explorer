@@ -1,7 +1,7 @@
 <template>
-  <span class="chain_name white--text">
+  <span class="chain_name">
     <v-icon dark class="pr-3" color="green" size="12">mdi-circle</v-icon>
-    <span class="hidden-sm-and-down">bitsong-testnet-2</span>
+    <span class="hidden-sm-and-down">{{ $store.getters[`app/network`] }}</span>
   </span>
 </template>
 

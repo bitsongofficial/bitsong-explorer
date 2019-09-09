@@ -8,10 +8,10 @@
     disable-route-watcher
     temporary
   >
-    <v-container>
+    <v-container style="background-color:#fbbc09">
       <v-row no-gutters>
         <v-col>
-          <img src="/logo-red.svg" alt="Explorer" height="52" class="pt-1" />
+          <img src="/logo-black.svg" alt="Explorer" height="52" class="pt-1" />
         </v-col>
       </v-row>
     </v-container>
