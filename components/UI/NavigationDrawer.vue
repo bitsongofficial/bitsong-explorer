@@ -103,21 +103,21 @@ export default {
         }
       ],
       links: [
-        { icon: "mdi-web", title: "Website", url: "https://www.bitsong.io" },
+        { icon: "mdi-web", title: "Website", url: "https://www.tichex.com" },
         {
           icon: "mdi-github-circle",
           title: "Github",
-          url: "https://github.com/bitsongofficial"
+          url: "https://github.com/tichex-project"
         },
         {
           icon: "mdi-medium",
           title: "Blog",
-          url: "https://medium.com/@BitSongOfficial/"
+          url: "https://medium.com/@Tichex/"
         },
         {
           icon: "mdi-twitter",
           title: "Twitter",
-          url: "https://twitter.com/BitSongOfficial"
+          url: "https://twitter.com/tichexproject"
         }
       ],
       right: true,
