@@ -69,14 +69,6 @@ export default {
               hash
               msgs {
                 type
-                value {
-                  ... on MsgDelegate {
-                    amount {
-                      amount
-                      denom
-                    }
-                  }
-                }
               }
               signatures {
                 address

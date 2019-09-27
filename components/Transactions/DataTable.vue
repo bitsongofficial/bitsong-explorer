@@ -55,13 +55,7 @@
         </v-tooltip>
       </template>
       <template v-slot:item.amount="{ item }">
-        <span v-if="item.msgs[0].value.amount">
-          {{ item.msgs[0].value.amount.amount | toBtsg }}
-          <span
-            class="caption"
-          >{{ item.msgs[0].value.amount.denom | toMacroDenom }}</span>
-        </span>
-        <span v-else>
+        <span>
           <nuxt-link :to="`/transactions/${item.hash}`" style="text-decoration:none">
             <v-icon size="18">mdi-open-in-new</v-icon>
           </nuxt-link>
