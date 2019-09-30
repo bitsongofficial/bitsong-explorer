@@ -79,6 +79,225 @@
               </v-card-title>
               <v-divider></v-divider>
               <v-card-text>
+                <v-row v-if="msg.type === 'go-tichex/MsgCreateIssuer'">
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.issuer.address}`"
+                      >{{ msg.value.issuer.address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Issuer Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.issuer.description.name }}</div>
+                    <div class="body-2 grey--text text--darken-1">Name</div>
+                  </v-col>
+                  <v-col cols="12" md="6" v-if="msg.value.issuer.description.street">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.issuer.description.street }}</div>
+                    <div class="body-2 grey--text text--darken-1">Street</div>
+                  </v-col>
+                  <v-col cols="12" md="6" v-if="msg.value.issuer.description.identity">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.issuer.description.identity }}</div>
+                    <div class="body-2 grey--text text--darken-1">Identity</div>
+                  </v-col>
+                  <v-col cols="12" md="6" v-if="msg.value.issuer.description.website">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.issuer.description.website }}</div>
+                    <div class="body-2 grey--text text--darken-1">Website</div>
+                  </v-col>
+                  <v-col cols="12" md="6" v-if="msg.value.issuer.description.security_contact">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.issuer.description.security_contact }}</div>
+                    <div class="body-2 grey--text text--darken-1">Security Contact</div>
+                  </v-col>
+                  <v-col cols="12" md="6" v-if="msg.value.issuer.description.details">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.issuer.description.details }}</div>
+                    <div class="body-2 grey--text text--darken-1">Details</div>
+                  </v-col>
+                </v-row>
+                <v-row v-if="msg.type === 'go-tichex/MsgIssue'">
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.token.issuer_address}`"
+                      >{{ msg.value.token.issuer_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Issuer Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4">{{ msg.value.token.denom }}</div>
+                    <div class="body-2 grey--text text--darken-1">Token Denom</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4">{{ msg.value.token.name }}</div>
+                    <div class="body-2 grey--text text--darken-1">Token Name</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4">{{ msg.value.token.decimals }}</div>
+                    <div class="body-2 grey--text text--darken-1">Decimals</div>
+                  </v-col>
+                  <v-col cols="12" md="6" v-if="msg.value.token.description">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.token.description }}</div>
+                    <div class="body-2 grey--text text--darken-1">Description</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.token.freezable }}</div>
+                    <div class="body-2 grey--text text--darken-1">Freezable</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.token.transfer_fee }}</div>
+                    <div class="body-2 grey--text text--darken-1">Transfer Fee</div>
+                  </v-col>
+                </v-row>
+                <v-row v-if="msg.type === 'go-tichex/MsgMint'">
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.issuer_address}`"
+                      >{{ msg.value.issuer_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Issuer Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.account_address}`"
+                      >{{ msg.value.account_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Account Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ msg.value.coin.amount }}
+                      <span
+                        class="caption"
+                      >{{ msg.value.coin.denom | toMacroDenom }}</span>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Amount</div>
+                  </v-col>
+                </v-row>
+                <v-row v-if="msg.type === 'go-tichex/MsgSend'">
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.from_address}`"
+                      >{{ msg.value.from_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">From Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link :to="`/account/${msg.value.to_address}`">{{ msg.value.to_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">To Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ msg.value.amounts[0].amount }}
+                      <span
+                        class="caption"
+                      >{{ msg.value.amounts[0].denom | toMacroDenom }}</span>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Amount</div>
+                  </v-col>
+                </v-row>
+                <v-row v-if="msg.type === 'go-tichex/MsgBurn'">
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.issuer_address}`"
+                      >{{ msg.value.issuer_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Issuer Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.account_address}`"
+                      >{{ msg.value.account_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Account Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ msg.value.coin.amount }}
+                      <span
+                        class="caption"
+                      >{{ msg.value.coin.denom | toMacroDenom }}</span>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Amount</div>
+                  </v-col>
+                </v-row>
+                <v-row v-if="msg.type === 'go-tichex/MsgFreeze'">
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.issuer_address}`"
+                      >{{ msg.value.issuer_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Issuer Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.frozen_account_address}`"
+                      >{{ msg.value.account_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Account Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.denom }}</div>
+                    <div class="body-2 grey--text text--darken-1">Token Denom</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.reason }}</div>
+                    <div class="body-2 grey--text text--darken-1">Reason</div>
+                  </v-col>
+                </v-row>
+                <v-row v-if="msg.type === 'go-tichex/MsgUnfreeze'">
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.issuer_address}`"
+                      >{{ msg.value.issuer_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Issuer Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.frozen_account_address}`"
+                      >{{ msg.value.frozen_account_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Frozen Address</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.denom }}</div>
+                    <div class="body-2 grey--text text--darken-1">Token Denom</div>
+                  </v-col>
+                </v-row>
                 <v-row v-if="msg.type === 'cosmos-sdk/MsgUnjail'">
                   <v-col cols="12">
                     <div class="subtitle-1 grey--text text--darken-4 text-truncate">
@@ -241,6 +460,57 @@ export default {
               msgs {
                 type
                 value {
+                  ... on MsgCreateIssuer {
+                    issuer {
+                      address
+                      description {
+                        name
+                        street
+                        identity
+                        website
+                        security_contact
+                        details
+                      }
+                    }
+                  }
+                  ... on MsgUnfreeze {
+                    issuer_address
+                    frozen_account_address
+                    denom
+                  }
+                  ... on MsgFreeze {
+                    issuer_address
+                    account_address
+                    denom
+                    reason
+                  }
+                  ... on MsgIssue {
+                    token {
+                      issuer_address
+                      denom
+                      name
+                      decimals
+                      description
+                      freezable
+                      transfer_fee
+                    }
+                  }
+                  ... on MsgBurn {
+                    issuer_address
+                    account_address
+                    coin {
+                      denom
+                      amount
+                    }
+                  }
+                  ... on MsgMint {
+                    issuer_address
+                    account_address
+                    coin {
+                      denom
+                      amount
+                    }
+                  }
                   ... on MsgSend {
                     to_address
                     from_address
