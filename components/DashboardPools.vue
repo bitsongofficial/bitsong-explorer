@@ -32,7 +32,12 @@
 
 <script>
 import { pretty } from "~/assets/utils";
+import UIAmount from "@/components/UI/Amount";
+
 export default {
+  components: {
+    UIAmount
+  },
   filters: {
     pretty
   },

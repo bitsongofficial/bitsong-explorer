@@ -1,8 +1,8 @@
 {
   "name": "bitsong-explorer",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "The BitSong Explorer",
-  "author": "Angelo &lt;hello@bitsong.io&gt;",
+  "author": "Angelo <hello@bitsong.io>",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -16,7 +16,7 @@
     "@nuxtjs/apollo": "^4.0.0-rc12",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "apexcharts": "^3.8.5",
+    "apexcharts": "^3.10.0",
     "axios": "^0.19.0",
     "bignumber.js": "^9.0.0",
     "date-fns": "^2.0.0-alpha.22",
@@ -29,7 +29,7 @@
     "old": "^0.2.0",
     "pretty-num": "^0.3.0",
     "vue": "^2.6.10",
-    "vue-apexcharts": "^1.4.0",
+    "vue-apexcharts": "^1.5.0",
     "vue-server-renderer": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
     "websocket-stream": "^5.5.0"

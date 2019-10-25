@@ -5,11 +5,11 @@
         <v-icon>mdi-currency-usd</v-icon>
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title>${{ price }}</v-list-item-title>
-        <v-list-item-subtitle>BTSG Price</v-list-item-subtitle>
+        <v-list-item-title>${{ $store.getters[`market/price`] }}</v-list-item-title>
+        <v-list-item-subtitle>{{ $store.getters[`app/stakeDenom`] }} Price</v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-content>
-        <v-list-item-title>-</v-list-item-title>
+        <v-list-item-title>${{ $store.getters[`market/market_cap`] | marketCap }}</v-list-item-title>
         <v-list-item-subtitle>Market Cap</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -37,6 +37,7 @@
 import BigNumber from "bignumber.js";
 import prettyNum, { PRECISION_SETTING } from "pretty-num";
 import { pretty, prettyUsd, prettyRound, round } from "~/assets/utils";
+
 export default {
   filters: {
     prettyRound,

@@ -45,17 +45,17 @@
                   </v-col>
                   <v-col cols="12" class="hidden-sm-and-up" align="center">
                     <div class="display-1 font-weight-light grey--text text--darken-4">
-                      {{ totalBalance | toBtsg }}
-                      <span class="subtitle-1">BTSG</span>
+                      <UIAmount :microAmount="totalBalance" :denom="$store.getters[`app/stakeDenom`]" />
                     </div>
-                    <div class="subtitle-1 grey--text text--darken-1 pt-1">Total BTSG Balance</div>
+                    <div
+                      class="subtitle-1 grey--text text--darken-1 pt-1"
+                    >Total {{ $store.getters[`app/stakeDenom`] }} Balance</div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          {{ account.balances.available | toBtsg }}
-                          <span class="caption">BTSG</span>
+                          <UIAmount :microAmount="account.balances.available" :denom="$store.getters[`app/stakeDenom`]" />
                         </div>
                         <div class="body-2 grey--text text--darken-1">Available</div>
                       </v-col>
@@ -64,8 +64,7 @@
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          {{ account.balances.bonded | toBtsg }}
-                          <span class="caption">BTSG</span>
+                          <UIAmount :microAmount="account.balances.bonded" :denom="$store.getters[`app/stakeDenom`]" />
                         </div>
                         <div class="body-2 grey--text text--darken-1">Bonded</div>
                       </v-col>
@@ -74,8 +73,7 @@
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          {{ account.balances.unbonding | toBtsg }}
-                          <span class="caption">BTSG</span>
+                          <UIAmount :microAmount="account.balances.unbonding" :denom="$store.getters[`app/stakeDenom`]" />
                         </div>
                         <div class="body-2 grey--text text--darken-1">Unbonding</div>
                       </v-col>
@@ -84,8 +82,7 @@
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          {{ account.balances.rewards | toBtsg }}
-                          <span class="caption">BTSG</span>
+                          <UIAmount :microAmount="account.balances.rewards" :denom="$store.getters[`app/stakeDenom`]" />
                         </div>
                         <div class="body-2 grey--text text--darken-1">Rewards</div>
                       </v-col>
@@ -95,17 +92,19 @@
                       <v-col cols="12">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ (commissions - account.balances.rewards) | toBtsg }} BTSG</div>
+                        >
+                        <UIAmount :microAmount="commissions - account.balances.rewards" :denom="$store.getters[`app/stakeDenom`]" /></div>
                         <div class="body-2 grey--text text--darken-1">Commissions</div>
                       </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4" class="hidden-sm-and-down align-self-center">
                     <div class="display-1 font-weight-light grey--text text--darken-4">
-                      {{ totalBalance | toBtsg }}
-                      <span class="subtitle-1">BTSG</span>
+                      <UIAmount :microAmount="totalBalance" :denom="$store.getters[`app/stakeDenom`]" />
                     </div>
-                    <div class="subtitle-1 grey--text text--darken-1 pt-1">Total BTSG Balance</div>
+                    <div
+                      class="subtitle-1 grey--text text--darken-1 pt-1"
+                    >Total {{ $store.getters[`app/stakeDenom`] }} Balance</div>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -141,7 +140,9 @@
                 <template v-slot:item.validator_address="{ item }">
                   <UIProposer :valoper="item.validator_address" />
                 </template>
-                <template v-slot:item.shares="{ item }">{{ item.shares | toBtsg }} BTSG</template>
+                <template
+                  v-slot:item.shares="{ item }"
+                ><UIAmount :microAmount="item.shares" :denom="$store.getters[`app/stakeDenom`]" /></template>
               </v-data-table>
             </v-card>
           </v-col>
@@ -161,7 +162,9 @@
                 <template v-slot:item.validator_address="{ item }">
                   <UIProposer :valoper="item.validator_address" />
                 </template>
-                <template v-slot:item.amount="{ item }">{{ item.amount | toBtsg}} BTSG</template>
+                <template
+                  v-slot:item.amount="{ item }"
+                ><UIAmount :microAmount="item.amount" :denom="$store.getters[`app/stakeDenom`]" /></template>
                 <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
               </v-data-table>
             </v-card>
@@ -190,7 +193,9 @@
                 <template v-slot:item.creation_height="{ item }">
                   <nuxt-link :to="`/blocks/${item.creation_height}`">{{ item.creation_height }}</nuxt-link>
                 </template>
-                <template v-slot:item.balance="{ item }">{{ item.balance | toBtsg }} BTSG</template>
+                <template
+                  v-slot:item.balance="{ item }"
+                ><UIAmount :microAmount="item.balance" :denom="$store.getters[`app/stakeDenom`]" /></template>
                 <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
               </v-data-table>
             </v-card>
@@ -204,11 +209,13 @@
 <script>
 import jdenticon from "jdenticon";
 import gql from "graphql-tag";
-import { toBtsg, toTime } from "@/filters";
+import { toTime } from "@/filters";
 import { prettyRound, shortFilter } from "~/assets/utils";
 import getTitle from "~/assets/get-title";
 import TransactionsDataTable from "@/components/Transactions/DataTable";
+
 import UIProposer from "@/components/UI/Proposer";
+import UIAmount from "@/components/UI/Amount";
 
 export default {
   head() {
@@ -220,10 +227,10 @@ export default {
   },
   components: {
     TransactionsDataTable,
-    UIProposer
+    UIProposer,
+    UIAmount
   },
   filters: {
-    toBtsg,
     toTime,
     address: value => shortFilter(value, 12)
   },
@@ -331,7 +338,7 @@ export default {
               msgs {
                 type
                 value {
-                  ... on MsgDelegate {
+                  ... on MsgSend {
                     amount {
                       amount
                       denom
@@ -382,12 +389,10 @@ export default {
       const validators = this.$store.getters[`validators/validators`];
       if (validators.length === 0) return null;
 
-      const data = validators.find(
-        v => v.details.delegator_address === this.address
-      );
+      const data = validators.find(v => v.delegator_address === this.address);
 
       if (!data) return null;
-      return data.details.operator_address;
+      return data.operator_address;
     },
     commissions() {
       let commissions = 0;

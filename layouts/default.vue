@@ -16,7 +16,7 @@
       <UISearchBar />
       <v-spacer />
       <v-toolbar-items>
-        <UIToolbarChainName />
+        <UIToolbarChainName topbar class="hidden-sm-and-down" />
       </v-toolbar-items>
     </v-app-bar>
     <v-content>

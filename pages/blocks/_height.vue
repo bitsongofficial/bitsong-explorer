@@ -61,6 +61,10 @@
           :height="height"
         />
       </v-col>
+
+      <v-col cols="12" xl="8" class="mx-auto">
+        <MissingValidatorsDataTable :items="this.allMissedBlocks" :items_per_page="50" />
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -70,6 +74,7 @@ import { shortFilter } from "~/assets/utils";
 import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
 import TransactionsDataTable from "@/components/Transactions/DataTable";
+import MissingValidatorsDataTable from "@/components/MissingValidators/DataTable";
 import UIProposer from "@/components/UI/Proposer";
 
 export default {
@@ -82,6 +87,7 @@ export default {
   },
   components: {
     TransactionsDataTable,
+    MissingValidatorsDataTable,
     UIProposer
   },
   filters: {
@@ -125,6 +131,35 @@ export default {
       variables() {
         return {
           height: this.height
+        };
+      }
+    },
+    allMissedBlocks: {
+      prefetch: true,
+      query: gql`
+        query allMissedBlocks($filters: MissedBlockFiltersInput) {
+          allMissedBlocks(filters: $filters) {
+            pageInfo {
+              total
+            }
+            docs {
+              height
+              validators {
+                operator_address
+                voting_power
+                description {
+                  moniker
+                }
+              }
+            }
+          }
+        }
+      `,
+      variables() {
+        return {
+          filters: {
+            height: this.height
+          }
         };
       }
     },

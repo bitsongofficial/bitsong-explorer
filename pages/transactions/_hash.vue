@@ -79,10 +79,88 @@
               </v-card-title>
               <v-divider></v-divider>
               <v-card-text>
+                <v-row v-if="msg.type === 'cosmos-sdk/MsgSend'">
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.from_address}`"
+                      >{{ msg.value.from_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">From Address</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link :to="`/account/${msg.value.to_address}`">{{ msg.value.to_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">To Address</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      <UIAmount :microAmount="msg.value.amounts[0].amount" :denom="msg.value.amounts[0].denom" />
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Amount</div>
+                  </v-col>
+                </v-row>
+
+                <v-row v-if="msg.type === 'cosmos-sdk/MsgEditValidator'">
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.Description.moniker }}</div>
+                    <div class="body-2 grey--text text--darken-1">Moniker</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link :to="`/account/${msg.value.address}`">
+                        <UIProposer :valoper="msg.value.address" />
+                      </nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Operator Address</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6" v-if="msg.value.Description.identity">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.Description.identity }}</div>
+                    <div class="body-2 grey--text text--darken-1">Identity</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6" v-if="msg.value.Description.website">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.Description.website }}</div>
+                    <div class="body-2 grey--text text--darken-1">Website</div>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.Description.details }}</div>
+                    <div class="body-2 grey--text text--darken-1">Details</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6" v-if="msg.value.commission_rate">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.commission_rate }}</div>
+                    <div class="body-2 grey--text text--darken-1">Commission Rate</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6" v-if="msg.value.min_self_delegation">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.min_self_delegation }}</div>
+                    <div class="body-2 grey--text text--darken-1">Min. Self Delegation</div>
+                  </v-col>
+                </v-row>
+
                 <v-row v-if="msg.type === 'cosmos-sdk/MsgUnjail'">
                   <v-col cols="12">
                     <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <UIProposer :address="msg.value.address" />
+                      <UIProposer :valoper="msg.value.address" />
                     </div>
                     <div class="body-2 grey--text text--darken-1">Validator</div>
                   </v-col>
@@ -105,10 +183,7 @@
                   </v-col>
                   <v-col cols="12">
                     <div class="subtitle-1 grey--text text--darken-4">
-                      {{ msg.value.amount.amount | toBtsg }}
-                      <span
-                        class="caption"
-                      >{{ msg.value.amount.denom | toMacroDenom }}</span>
+                      <UIAmount :microAmount="msg.value.amount.amount" :denom="msg.value.amount.denom" />
                     </div>
                     <div class="body-2 grey--text text--darken-1">Amount</div>
                   </v-col>
@@ -156,10 +231,11 @@
 
 
 <script>
-import { toBtsg, toMacroDenom } from "@/filters";
+import { prettyRound } from "~/assets/utils";
 import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
 import UIProposer from "@/components/UI/Proposer";
+import UIAmount from "@/components/UI/Amount";
 
 export default {
   head() {
@@ -170,11 +246,11 @@ export default {
     };
   },
   components: {
-    UIProposer
+    UIProposer,
+    UIAmount
   },
   filters: {
-    toBtsg,
-    toMacroDenom,
+    prettyRound,
     convertMessageType: value => {
       return value
         .replace("cosmos-sdk/Msg", "")

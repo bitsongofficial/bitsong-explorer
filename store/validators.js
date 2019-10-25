@@ -22,16 +22,21 @@ export const mutations = {
 };
 
 export const actions = {
-  getValidators({ state, commit, rootState }) {
+  getValidators({
+    state,
+    commit,
+    rootState
+  }) {
     let client = this.app.apolloProvider.defaultClient;
 
     const validators = {
-      query: gql`
-        query validators {
-          validators {
-            address
-            voting_power
-            details {
+      prefetch: true,
+      query: gql `
+        query allValidators($pagination: PaginationInput) {
+          allValidators(pagination: $pagination) {
+            docs {
+              address
+              voting_power
               status
               operator_address
               delegator_address
@@ -41,11 +46,16 @@ export const actions = {
             }
           }
         }
-      `
+      `,
+      variables: {
+        pagination: {
+          limit: 200
+        }
+      }
     };
 
     client.query(validators).then(res => {
-      commit("setValidators", res.data.validators);
+      commit("setValidators", res.data.allValidators.docs);
     });
   }
 };

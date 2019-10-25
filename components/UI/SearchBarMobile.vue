@@ -25,9 +25,9 @@ export default {
       if (!query.length) {
         return;
       }
-      if (query.slice(0, 14) === "bitsongvaloper") {
+      if (query.slice(0, 11) === "bitsongvaloper") {
         this.$router.push("/validators/" + query);
-      } else if (query.slice(0, 7) === "bitsong") {
+      } else if (query.slice(0, 4) === "bitsong") {
         this.$router.push("/account/" + query);
       } else if (/^\d+$/.test(query)) {
         this.$router.push("/blocks/" + query);

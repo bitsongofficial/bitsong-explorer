@@ -27,8 +27,8 @@ export default {
     };
   },
   created() {
-    if (this.validator.details.description.identity) {
-      this.getValidatorProfileUrl(this.validator.details.description.identity);
+    if (this.validator.description.identity) {
+      this.getValidatorProfileUrl(this.validator.description.identity);
     }
   },
   computed: {

@@ -11,7 +11,10 @@
     <v-container>
       <v-row no-gutters>
         <v-col>
-          <img src="/logo-red.svg" alt="Explorer" height="52" class="pt-1" />
+          <img src="/logo-red.svg" alt="BitSong Explorer" height="52" class="pt-1" />
+          <div>
+            <UIToolbarChainName class="pt-2" />
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -57,10 +60,11 @@
 
 <script>
 import UISearchBarMobile from "@/components/UI/SearchBarMobile";
-
+import UIToolbarChainName from "@/components/UI/ToolbarChainName";
 export default {
   components: {
-    UISearchBarMobile
+    UISearchBarMobile,
+    UIToolbarChainName
   },
   props: {
     value: {
@@ -100,10 +104,15 @@ export default {
           icon: "mdi-server-security",
           title: "Validators",
           to: "/validators"
+        },
+        {
+          icon: "mdi-vote",
+          title: "Governance",
+          to: "/governance"
         }
       ],
       links: [
-        { icon: "mdi-web", title: "Website", url: "https://www.bitsong.io" },
+        { icon: "mdi-web", title: "Website", url: "https://bitsong.io/" },
         {
           icon: "mdi-github-circle",
           title: "Github",
@@ -118,6 +127,11 @@ export default {
           icon: "mdi-twitter",
           title: "Twitter",
           url: "https://twitter.com/BitSongOfficial"
+        },
+        {
+          icon: "mdi-telegram",
+          title: "Telegram",
+          url: "https://t.me/bitsong_ico"
         }
       ],
       right: true,

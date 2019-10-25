@@ -23,9 +23,7 @@
             </div>
             <div>
               From
-              <nuxt-link
-                :to="`/account/${transaction.signatures[0].address}`"
-              >{{ transaction.signatures[0].address }}</nuxt-link>
+              <UIProposer :deladdr="transaction.signatures[0].address" />
             </div>
             <div class="pt-2">
               <v-chip outlined small>{{ transaction.msgs[0].type | convertMessageType }}</v-chip>
@@ -51,8 +49,12 @@ import {
   getTimeDistance
 } from "~/assets/utils";
 import gql from "graphql-tag";
+import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  components: {
+    UIProposer
+  },
   filters: {
     hash: value => shortFilter(value, 12),
     timeDistance: value => prettyUsd(getTimeDistance(value)),

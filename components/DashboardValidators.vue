@@ -37,11 +37,11 @@ export default {
       return this.$store.getters[`validators/validators`];
     },
     active() {
-      const validators = this.validators.filter(v => v.details.status === 2);
+      const validators = this.validators.filter(v => v.status === 2);
       return validators.length;
     },
     inactive() {
-      const validators = this.validators.filter(v => v.details.status !== 2);
+      const validators = this.validators.filter(v => v.status !== 2);
       return validators.length;
     },
     voting_power() {

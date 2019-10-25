@@ -15,17 +15,6 @@ export const formatBech32 = (address, longForm = false, length = 4) => {
   }
 };
 
-export const toBtsg = amount => {
-  const number = new BigNumber(amount).div(10 ** config.decimals).toFixed(2);
-  var parts = number.toString().split(".");
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-  return parts.join(".");
-};
-
-export const toMacroDenom = denom => {
-  return denom.replace("u", "").toUpperCase();
-};
-
 export function toTime(timestamp) {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");

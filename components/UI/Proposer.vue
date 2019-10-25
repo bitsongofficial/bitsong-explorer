@@ -1,6 +1,6 @@
 <template>
-  <span>
-    <nuxt-link :to="`/validators/${node_operator_address}`">{{ moniker }}</nuxt-link>
+  <span style="word-break:break-all">
+    <nuxt-link :to="account.link">{{ account.name }}</nuxt-link>
   </span>
 </template>
 
@@ -14,62 +14,61 @@ export default {
     valoper: {
       type: String,
       default: ""
+    },
+    deladdr: {
+      type: String,
+      default: ""
     }
   },
   computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.name === "xs";
+    },
     validators() {
       return this.$store.getters[`validators/validators`];
     },
-    moniker() {
-      if (!this.validators) return;
-
-      let data;
-
-      if (this.address) {
-        data = this.validators.find(v => v.address === this.address);
-      } else {
-        data = this.validators.find(
-          v => v.details.operator_address === this.valoper
-        );
-      }
-
-      if (!data) return;
-
-      return data.details.description.moniker;
+    link() {
+      return `/validators/${node_operator_address}`;
     },
-    tm_address() {
-      if (!this.validators) return;
-
-      let data;
+    account() {
+      let account = {
+        name: "",
+        link: "/"
+      };
 
       if (this.address) {
-        data = this.validators.find(v => v.address === this.address);
+        account.name = this.address;
+      }
+      if (this.valoper) {
+        account.name = this.valoper;
+        account.link = `/validators/${this.valoper}`;
+      }
+      if (this.deladdr) {
+        account.name = this.deladdr;
+        account.link = `/account/${this.deladdr}`;
+      }
+      if (!this.validators) return account;
+
+      let validator;
+
+      if (this.address) {
+        validator = this.validators.find(v => v.address === this.address);
+      } else if (this.valoper) {
+        validator = this.validators.find(
+          v => v.operator_address === this.valoper
+        );
       } else {
-        data = this.validators.find(
-          v => v.details.operator_address === this.valoper
+        validator = this.validators.find(
+          v => v.delegator_address === this.deladdr
         );
       }
 
-      if (!data) return;
+      if (!validator) return account;
 
-      return data.address;
-    },
-    node_operator_address() {
-      if (!this.validators) return;
+      account.name = validator.description.moniker;
+      account.link = `/validators/${validator.operator_address}`;
 
-      let data;
-
-      if (this.address) {
-        data = this.validators.find(v => v.address === this.address);
-      } else {
-        data = this.validators.find(
-          v => v.details.operator_address === this.valoper
-        );
-      }
-
-      if (!data) return;
-
-      return data.details.operator_address;
+      return account;
     }
   }
 };

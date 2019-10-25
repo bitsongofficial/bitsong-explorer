@@ -70,7 +70,7 @@ export default {
               msgs {
                 type
                 value {
-                  ... on MsgDelegate {
+                  ... on MsgSend {
                     amount {
                       amount
                       denom
