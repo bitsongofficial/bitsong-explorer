@@ -2,6 +2,7 @@
   <v-container>
     <v-row no-gutters>
       <v-col xl="8" class="mx-auto">
+        <UISponsor />
         <v-row :class="{'mt-4': !isMobile}">
           <v-col class="hidden-sm-and-down" cols="12" md="4">
             <DashboardMarketCap />
@@ -59,6 +60,7 @@ import DashboardValidators from "@/components/DashboardValidators";
 import DashboardConsensusState from "@/components/DashboardConsensusState";
 import DashboardLatestBlocks from "@/components/DashboardLatestBlocks";
 import DashboardLatestTransactions from "@/components/DashboardLatestTransactions";
+import UISponsor from "@/components/UI/Sponsor";
 
 export default {
   components: {
@@ -67,7 +69,8 @@ export default {
     DashboardValidators,
     DashboardConsensusState,
     DashboardLatestBlocks,
-    DashboardLatestTransactions
+    DashboardLatestTransactions,
+    UISponsor
   },
   computed: {
     isMobile() {

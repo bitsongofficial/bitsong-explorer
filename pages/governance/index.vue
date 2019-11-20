@@ -3,6 +3,7 @@
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Governance</h1>
+        <UISponsor />
       </v-col>
     </v-row>
     <v-row no-gutters class="mt-3">
@@ -72,10 +73,12 @@ import formatDistanceStrict from "date-fns/esm/formatDistanceStrict";
 import gql from "graphql-tag";
 import getTitle from "~/assets/get-title";
 import UIProposer from "@/components/UI/Proposer";
+import UISponsor from "@/components/UI/Sponsor";
 
 export default {
   components: {
-    UIProposer
+    UIProposer,
+    UISponsor
   },
   head() {
     const title = getTitle("Governance");

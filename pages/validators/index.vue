@@ -34,6 +34,7 @@
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
+        <UISponsor />
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -137,6 +138,7 @@ import gql from "graphql-tag";
 import BigNumber from "bignumber.js";
 import getTitle from "~/assets/get-title";
 import UIProposerAvatar from "@/components/UI/ProposerAvatar";
+import UISponsor from "@/components/UI/Sponsor";
 
 export default {
   head() {
@@ -147,7 +149,8 @@ export default {
     };
   },
   components: {
-    UIProposerAvatar
+    UIProposerAvatar,
+    UISponsor
   },
   filters: {
     prettyRound,
@@ -216,7 +219,7 @@ export default {
       sort_direction: {
         selected: "desc",
         items: [{ value: "asc", icon: "" }, { value: "desc", icon: "" }]
-      },
+      }
     };
   },
   computed: {

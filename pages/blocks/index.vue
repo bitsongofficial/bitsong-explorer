@@ -3,6 +3,7 @@
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Blocks</h1>
+        <UISponsor />
       </v-col>
     </v-row>
 
@@ -51,6 +52,7 @@ import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
 import Pagination from "@/components/Pagination";
 import UIProposer from "@/components/UI/Proposer";
+import UISponsor from "@/components/UI/Sponsor";
 
 export default {
   head() {
@@ -62,7 +64,8 @@ export default {
   },
   components: {
     Pagination,
-    UIProposer
+    UIProposer,
+    UISponsor
   },
   filters: {
     hash: value => shortFilter(value, 12),

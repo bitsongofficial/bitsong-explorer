@@ -10,8 +10,10 @@
       </v-col>
       <v-col cols="12" xl="8" class="mx-auto">
         <div class="body-1 font-weight-light text-truncate">{{ tx.hash }}</div>
+        <UISponsor />
       </v-col>
     </v-row>
+
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <v-row no-gutters class="mt-4">
@@ -98,7 +100,10 @@
 
                   <v-col cols="12" md="6">
                     <div class="subtitle-1 grey--text text--darken-4">
-                      <UIAmount :microAmount="msg.value.amounts[0].amount" :denom="msg.value.amounts[0].denom" />
+                      <UIAmount
+                        :microAmount="msg.value.amounts[0].amount"
+                        :denom="msg.value.amounts[0].denom"
+                      />
                     </div>
                     <div class="body-2 grey--text text--darken-1">Amount</div>
                   </v-col>
@@ -183,7 +188,10 @@
                   </v-col>
                   <v-col cols="12">
                     <div class="subtitle-1 grey--text text--darken-4">
-                      <UIAmount :microAmount="msg.value.amount.amount" :denom="msg.value.amount.denom" />
+                      <UIAmount
+                        :microAmount="msg.value.amount.amount"
+                        :denom="msg.value.amount.denom"
+                      />
                     </div>
                     <div class="body-2 grey--text text--darken-1">Amount</div>
                   </v-col>
@@ -236,6 +244,7 @@ import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
 import UIProposer from "@/components/UI/Proposer";
 import UIAmount from "@/components/UI/Amount";
+import UISponsor from "@/components/UI/Sponsor";
 
 export default {
   head() {
@@ -247,7 +256,8 @@ export default {
   },
   components: {
     UIProposer,
-    UIAmount
+    UIAmount,
+    UISponsor
   },
   filters: {
     prettyRound,

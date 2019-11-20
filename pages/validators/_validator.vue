@@ -7,6 +7,7 @@
             <v-icon>mdi-arrow-left</v-icon>
           </nuxt-link>Validator Details
         </h1>
+        <UISponsor />
         <v-row>
           <v-col cols="12">
             <v-card class="elevation-1">
@@ -137,7 +138,10 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
-                          <UIAmount :microAmount="validator.self_shares" :denom="$store.getters[`app/stakeDenom`]" />
+                          <UIAmount
+                            :microAmount="validator.self_shares"
+                            :denom="$store.getters[`app/stakeDenom`]"
+                          />
                         </v-list-item-title>
                         <v-list-item-subtitle>Self Delegated</v-list-item-subtitle>
                       </v-list-item-content>
@@ -145,7 +149,10 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
-                          <UIAmount :microAmount="validator.delegator_shares - validator.self_shares" :denom="$store.getters[`app/stakeDenom`]" />
+                          <UIAmount
+                            :microAmount="validator.delegator_shares - validator.self_shares"
+                            :denom="$store.getters[`app/stakeDenom`]"
+                          />
                         </v-list-item-title>
                         <v-list-item-subtitle>Others</v-list-item-subtitle>
                       </v-list-item-content>
@@ -153,7 +160,10 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
-                          <UIAmount :microAmount="validator.delegator_shares" :denom="$store.getters[`app/stakeDenom`]" />
+                          <UIAmount
+                            :microAmount="validator.delegator_shares"
+                            :denom="$store.getters[`app/stakeDenom`]"
+                          />
                         </v-list-item-title>
                         <v-list-item-subtitle>Total</v-list-item-subtitle>
                       </v-list-item-content>
@@ -246,6 +256,7 @@ import BigNumber from "bignumber.js";
 
 import UIProposerAvatar from "@/components/UI/ProposerAvatar";
 import UIAmount from "@/components/UI/Amount";
+import UISponsor from "@/components/UI/Sponsor";
 
 export default {
   head() {
@@ -257,7 +268,8 @@ export default {
   },
   components: {
     UIProposerAvatar,
-    UIAmount
+    UIAmount,
+    UISponsor
   },
   asyncData({ params, error }) {
     const operatorAddress = params.validator;

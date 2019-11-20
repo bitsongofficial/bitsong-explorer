@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import config from "@/assets/config";
 
 export const state = () => ({
-  price: 0.1200,
+  price: 0,
   market_cap: 0
 });
 
@@ -16,13 +16,11 @@ export const getters = {
 };
 
 export const actions = {
-  async updatePrice({
-    commit
-  }) {
+  async updatePrice({ commit }) {
     if (config.coingecko_id) {
       const data = await fetch(
-          `https://api.coingecko.com/api/v3/simple/price?ids=${config.coingecko_id}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true`
-        )
+        `https://api.coingecko.com/api/v3/simple/price?ids=${config.coingecko_id}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true`
+      )
         .then(res => res.json())
         .then(data => data[Object.keys(data)[0]])
         .catch(err => console.error(err));

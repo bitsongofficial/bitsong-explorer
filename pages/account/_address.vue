@@ -4,6 +4,7 @@
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Account Detail</h1>
 
+        <UISponsor />
         <v-row v-if="account">
           <v-col cols="12">
             <v-card class="elevation-1">
@@ -45,7 +46,10 @@
                   </v-col>
                   <v-col cols="12" class="hidden-sm-and-up" align="center">
                     <div class="display-1 font-weight-light grey--text text--darken-4">
-                      <UIAmount :microAmount="totalBalance" :denom="$store.getters[`app/stakeDenom`]" />
+                      <UIAmount
+                        :microAmount="totalBalance"
+                        :denom="$store.getters[`app/stakeDenom`]"
+                      />
                     </div>
                     <div
                       class="subtitle-1 grey--text text--darken-1 pt-1"
@@ -55,7 +59,10 @@
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          <UIAmount :microAmount="account.balances.available" :denom="$store.getters[`app/stakeDenom`]" />
+                          <UIAmount
+                            :microAmount="account.balances.available"
+                            :denom="$store.getters[`app/stakeDenom`]"
+                          />
                         </div>
                         <div class="body-2 grey--text text--darken-1">Available</div>
                       </v-col>
@@ -64,7 +71,10 @@
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          <UIAmount :microAmount="account.balances.bonded" :denom="$store.getters[`app/stakeDenom`]" />
+                          <UIAmount
+                            :microAmount="account.balances.bonded"
+                            :denom="$store.getters[`app/stakeDenom`]"
+                          />
                         </div>
                         <div class="body-2 grey--text text--darken-1">Bonded</div>
                       </v-col>
@@ -73,7 +83,10 @@
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          <UIAmount :microAmount="account.balances.unbonding" :denom="$store.getters[`app/stakeDenom`]" />
+                          <UIAmount
+                            :microAmount="account.balances.unbonding"
+                            :denom="$store.getters[`app/stakeDenom`]"
+                          />
                         </div>
                         <div class="body-2 grey--text text--darken-1">Unbonding</div>
                       </v-col>
@@ -82,7 +95,10 @@
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          <UIAmount :microAmount="account.balances.rewards" :denom="$store.getters[`app/stakeDenom`]" />
+                          <UIAmount
+                            :microAmount="account.balances.rewards"
+                            :denom="$store.getters[`app/stakeDenom`]"
+                          />
                         </div>
                         <div class="body-2 grey--text text--darken-1">Rewards</div>
                       </v-col>
@@ -90,17 +106,22 @@
 
                     <v-row v-if="commissions > 0">
                       <v-col cols="12">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >
-                        <UIAmount :microAmount="commissions - account.balances.rewards" :denom="$store.getters[`app/stakeDenom`]" /></div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          <UIAmount
+                            :microAmount="commissions - account.balances.rewards"
+                            :denom="$store.getters[`app/stakeDenom`]"
+                          />
+                        </div>
                         <div class="body-2 grey--text text--darken-1">Commissions</div>
                       </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4" class="hidden-sm-and-down align-self-center">
                     <div class="display-1 font-weight-light grey--text text--darken-4">
-                      <UIAmount :microAmount="totalBalance" :denom="$store.getters[`app/stakeDenom`]" />
+                      <UIAmount
+                        :microAmount="totalBalance"
+                        :denom="$store.getters[`app/stakeDenom`]"
+                      />
                     </div>
                     <div
                       class="subtitle-1 grey--text text--darken-1 pt-1"
@@ -140,9 +161,9 @@
                 <template v-slot:item.validator_address="{ item }">
                   <UIProposer :valoper="item.validator_address" />
                 </template>
-                <template
-                  v-slot:item.shares="{ item }"
-                ><UIAmount :microAmount="item.shares" :denom="$store.getters[`app/stakeDenom`]" /></template>
+                <template v-slot:item.shares="{ item }">
+                  <UIAmount :microAmount="item.shares" :denom="$store.getters[`app/stakeDenom`]" />
+                </template>
               </v-data-table>
             </v-card>
           </v-col>
@@ -162,9 +183,9 @@
                 <template v-slot:item.validator_address="{ item }">
                   <UIProposer :valoper="item.validator_address" />
                 </template>
-                <template
-                  v-slot:item.amount="{ item }"
-                ><UIAmount :microAmount="item.amount" :denom="$store.getters[`app/stakeDenom`]" /></template>
+                <template v-slot:item.amount="{ item }">
+                  <UIAmount :microAmount="item.amount" :denom="$store.getters[`app/stakeDenom`]" />
+                </template>
                 <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
               </v-data-table>
             </v-card>
@@ -193,9 +214,9 @@
                 <template v-slot:item.creation_height="{ item }">
                   <nuxt-link :to="`/blocks/${item.creation_height}`">{{ item.creation_height }}</nuxt-link>
                 </template>
-                <template
-                  v-slot:item.balance="{ item }"
-                ><UIAmount :microAmount="item.balance" :denom="$store.getters[`app/stakeDenom`]" /></template>
+                <template v-slot:item.balance="{ item }">
+                  <UIAmount :microAmount="item.balance" :denom="$store.getters[`app/stakeDenom`]" />
+                </template>
                 <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
               </v-data-table>
             </v-card>
@@ -216,6 +237,7 @@ import TransactionsDataTable from "@/components/Transactions/DataTable";
 
 import UIProposer from "@/components/UI/Proposer";
 import UIAmount from "@/components/UI/Amount";
+import UISponsor from "@/components/UI/Sponsor";
 
 export default {
   head() {
@@ -228,7 +250,8 @@ export default {
   components: {
     TransactionsDataTable,
     UIProposer,
-    UIAmount
+    UIAmount,
+    UISponsor
   },
   filters: {
     toTime,

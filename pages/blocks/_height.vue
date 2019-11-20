@@ -8,6 +8,7 @@
           </nuxt-link>Block
           <span class="headline font-weight-light">#{{ height }}</span>
         </h1>
+        <UISponsor />
       </v-col>
     </v-row>
 
@@ -76,6 +77,7 @@ import gql from "graphql-tag";
 import TransactionsDataTable from "@/components/Transactions/DataTable";
 import MissingValidatorsDataTable from "@/components/MissingValidators/DataTable";
 import UIProposer from "@/components/UI/Proposer";
+import UISponsor from "@/components/UI/Sponsor";
 
 export default {
   head() {
@@ -88,7 +90,8 @@ export default {
   components: {
     TransactionsDataTable,
     MissingValidatorsDataTable,
-    UIProposer
+    UIProposer,
+    UISponsor
   },
   filters: {
     hash: value => shortFilter(value, 12)

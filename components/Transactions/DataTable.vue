@@ -53,20 +53,17 @@
         </v-tooltip>
       </template>
       <template v-slot:item.amount="{ item }">
-        <nuxt-link
-          v-if="!item.msgs[0].value.amount"
-          :to="`/transactions/${item.hash}`"
-          style="text-decoration:none"
-        >
+        <span v-if="item.msgs[0].type === 'cosmos-sdk/MsgSend'">
+          <UIAmount
+            v-for="amount in item.msgs[0].value.amount"
+            v-bind:key="amount.amount"
+            :microAmount="amount.amount"
+            :denom="amount.denom"
+          />
+        </span>
+        <nuxt-link v-else :to="`/transactions/${item.hash}`" style="text-decoration:none">
           <v-icon size="18">mdi-open-in-new</v-icon>
         </nuxt-link>
-        <UIAmount
-          v-else
-          v-for="amount in item.msgs[0].value.amount"
-          v-bind:key="amount.amount"
-          :microAmount="amount.amount"
-          :denom="amount.denom"
-        />
       </template>
       <template v-slot:item.height="{ item }">
         <nuxt-link :to="`/blocks/${item.height}`">{{ item.height }}</nuxt-link>

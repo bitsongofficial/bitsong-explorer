@@ -13,6 +13,7 @@
           </nuxt-link>Transactions
         </h1>
         <v-btn v-if="address !== null" exact outlined to="/transactions" class="mb-2">Reset Filter</v-btn>
+        <UISponsor />
       </v-col>
     </v-row>
 
@@ -28,6 +29,7 @@
 import gql from "graphql-tag";
 import TransactionsDataTable from "@/components/Transactions/DataTable";
 import getTitle from "~/assets/get-title";
+import UISponsor from "@/components/UI/Sponsor";
 
 export default {
   head() {
@@ -38,7 +40,8 @@ export default {
     };
   },
   components: {
-    TransactionsDataTable
+    TransactionsDataTable,
+    UISponsor
   },
   watchQuery: ["page", "address", "height"],
   key: to => to.fullPath,
