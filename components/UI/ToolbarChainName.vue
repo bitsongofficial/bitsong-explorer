@@ -1,7 +1,10 @@
 <template>
-  <span class="chain_name" :class="{'white--text chain_name_padding': topbar}">
+  <span
+    class="chain_name"
+    :class="{ 'white--text chain_name_padding': topbar }"
+  >
     <v-icon dark class="pr-3" color="green" size="12">mdi-circle</v-icon>
-    <span>bitsong-testnet-2</span>
+    <span>{{ $store.state.app.network }}</span>
   </span>
 </template>
 
