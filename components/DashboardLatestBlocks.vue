@@ -14,25 +14,31 @@
         <v-divider v-if="index !== 0" :key="`${index}-divider`"></v-divider>
         <v-row :key="`${index}-${block.height}`">
           <v-col>
-            <div class="subtitle-1 font-weight-medium grey--text text--darken-3">
+            <div
+              class="subtitle-1 font-weight-medium grey--text text--darken-3"
+            >
               Block
-              <nuxt-link
-                class="red-link"
-                :to="`/blocks/${block.height}`"
-              >{{ block.height | prettyRound }}</nuxt-link>
+              <nuxt-link class="red-link" :to="`/blocks/${block.height}`">{{
+                block.height | prettyRound
+              }}</nuxt-link>
             </div>
             <div>
               Includes {{ block.num_txs }} txs
-              <span
-                class="hidden-sm-and-down"
-              >, Fees [TODO] {{ $store.getters[`app/stakeDenom`] }}</span>
+              <span class="hidden-sm-and-down"
+                >, Fees [TODO] {{ $store.getters[`app/stakeDenom`] }}</span
+              >
             </div>
-            <div class="hidden-sm-and-up">Fees [TODO] {{ $store.getters[`app/stakeDenom`] }}</div>
+            <div class="hidden-sm-and-up">
+              Fees [TODO] {{ $store.getters[`app/stakeDenom`] }}
+            </div>
           </v-col>
           <v-col align="right" class="align-self-center">
-            <div>{{ block.time | timeDistance }}</div>
+            <div>{{ block.timestamp | timeDistance }}</div>
             <div>
-              <UIProposer class="font-weight-medium" :address="block.proposer" />
+              <UIProposer
+                class="font-weight-medium"
+                :address="block.proposer_address"
+              />
             </div>
           </v-col>
         </v-row>
@@ -68,9 +74,9 @@ export default {
           allBlocks(pagination: $pagination) {
             docs {
               height
-              time
+              timestamp
               num_txs
-              proposer
+              proposer_address
             }
           }
         }
@@ -80,9 +86,9 @@ export default {
           subscription {
             blockAdded {
               height
-              time
+              timestamp
               num_txs
-              proposer
+              proposer_address
             }
           }
         `,

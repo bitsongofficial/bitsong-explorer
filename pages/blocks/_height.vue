@@ -3,9 +3,14 @@
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">
-          <nuxt-link v-if="prevUrl" :to="prevUrl" class="pr-4" style="text-decoration:none">
-            <v-icon>mdi-arrow-left</v-icon>
-          </nuxt-link>Block
+          <nuxt-link
+            v-if="prevUrl"
+            :to="prevUrl"
+            class="pr-4"
+            style="text-decoration:none"
+          >
+            <v-icon>mdi-arrow-left</v-icon> </nuxt-link
+          >Block
           <span class="headline font-weight-light">#{{ height }}</span>
         </h1>
         <UISponsor />
@@ -22,29 +27,43 @@
               <v-col cols="12">
                 <v-row>
                   <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4">{{ block.height }}</div>
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ block.height }}
+                    </div>
                     <div class="body-2 grey--text text--darken-1">Height</div>
                   </v-col>
                   <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4">{{ block.time }}</div>
-                    <div class="body-2 grey--text text--darken-1">Block Time</div>
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ block.timestamp }}
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">
+                      Block Time
+                    </div>
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="12" md="6">
                     <div class="subtitle-1 grey--text text--darken-4">
-                      <UIProposer :address="block.proposer" />
+                      <UIProposer :address="block.proposer_address" />
                     </div>
                     <div class="body-2 grey--text text--darken-1">Proposer</div>
                   </v-col>
                   <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4">{{ block.num_txs }}</div>
-                    <div class="body-2 grey--text text--darken-1">Total Transactions</div>
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ block.num_txs }}
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">
+                      Total Transactions
+                    </div>
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">{{ block.hash }}</div>
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >
+                      {{ block.hash }}
+                    </div>
                     <div class="body-2 grey--text text--darken-1">Hash</div>
                   </v-col>
                 </v-row>
@@ -64,7 +83,10 @@
       </v-col>
 
       <v-col cols="12" xl="8" class="mx-auto">
-        <MissingValidatorsDataTable :items="this.allMissedBlocks" :items_per_page="50" />
+        <MissingValidatorsDataTable
+          :items="allMissedBlocks"
+          :items_per_page="50"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -125,9 +147,9 @@ export default {
           block(height: $height) {
             height
             hash
-            time
+            timestamp
             num_txs
-            proposer
+            proposer_address
           }
         }
       `,
@@ -142,18 +164,25 @@ export default {
       query: gql`
         query allMissedBlocks($filters: MissedBlockFiltersInput) {
           allMissedBlocks(filters: $filters) {
-            pageInfo {
-              total
-            }
-            docs {
-              height
-              validators {
-                operator_address
-                voting_power
-                description {
-                  moniker
-                }
+            validators {
+              consensus_address
+              consensus_pubkey
+              delegator_address
+              jailed
+              description {
+                moniker
               }
+              operator_address
+              status
+              delegator_shares
+              min_self_delegation
+              tokens
+              unbonding_height
+              unbonding_time
+              address
+              voting_power
+              proposer_priority
+              self_shares
             }
           }
         }
@@ -172,24 +201,17 @@ export default {
         query allTransactions($filters: TransactionFiltersInput) {
           allTransactions(filters: $filters) {
             docs {
-              hash
-              msgs {
+              tx_hash
+              messages {
                 type
-                value {
-                  ... on MsgDelegate {
-                    amount {
-                      amount
-                      denom
-                    }
-                  }
-                }
+                value
               }
               signatures {
                 address
               }
-              status
               height
-              time
+              timestamp
+              logs
             }
             pageInfo {
               total

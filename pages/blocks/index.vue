@@ -2,7 +2,9 @@
   <v-container>
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
-        <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Blocks</h1>
+        <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">
+          Blocks
+        </h1>
         <UISponsor />
       </v-col>
     </v-row>
@@ -11,11 +13,15 @@
       <v-col cols="12" xl="8" class="mx-auto">
         <v-card class="elevation-1">
           <v-toolbar flat>
-            <v-toolbar-title
-              class="subtitle-1 hidden-sm-and-down"
-            >Block #{{ firstBlock }} to #{{ lastBlock }} (Total of {{ totalBlocks }} blocks)</v-toolbar-title>
+            <v-toolbar-title class="subtitle-1 hidden-sm-and-down"
+              >Block #{{ firstBlock }} to #{{ lastBlock }} (Total of
+              {{ totalBlocks }} blocks)</v-toolbar-title
+            >
             <div class="flex-grow-1"></div>
-            <Pagination v-if="allBlocks" :pagination-info="allBlocks.pageInfo" />
+            <Pagination
+              v-if="allBlocks"
+              :pagination-info="allBlocks.pageInfo"
+            />
           </v-toolbar>
           <v-divider></v-divider>
           <v-data-table
@@ -26,19 +32,30 @@
             :items="allBlocks.docs"
           >
             <template v-slot:item.height="{ item }">
-              <nuxt-link :to="`/blocks/${item.height}`">{{ item.height }}</nuxt-link>
+              <nuxt-link :to="`/blocks/${item.height}`">{{
+                item.height
+              }}</nuxt-link>
             </template>
-            <template v-slot:item.hash="{ item }">{{ item.hash | hash }}</template>
+            <template v-slot:item.hash="{ item }">{{
+              item.hash | hash
+            }}</template>
             <template v-slot:item.proposer="{ item }">
               <UIProposer :address="item.proposer" />
             </template>
-            <template v-slot:item.num_txs="{ item }">{{ item.num_txs }}</template>
-            <template v-slot:item.time="{ item }">{{ item.time | timeDistance }}</template>
+            <template v-slot:item.num_txs="{ item }">{{
+              item.num_txs
+            }}</template>
+            <template v-slot:item.time="{ item }">{{
+              item.time | timeDistance
+            }}</template>
           </v-data-table>
           <v-divider></v-divider>
           <v-toolbar flat>
             <div class="flex-grow-1"></div>
-            <Pagination v-if="allBlocks" :pagination-info="allBlocks.pageInfo" />
+            <Pagination
+              v-if="allBlocks"
+              :pagination-info="allBlocks.pageInfo"
+            />
           </v-toolbar>
         </v-card>
       </v-col>
@@ -86,9 +103,9 @@ export default {
       limitRecords: 25,
       blocks_header: [
         { text: "Block", value: "height", sortable: false },
-        { text: "Age", value: "time", sortable: false },
+        { text: "Age", value: "timestamp", sortable: false },
         { text: "Txn", value: "num_txs", sortable: false },
-        { text: "Proposer", value: "proposer", sortable: false },
+        { text: "Proposer", value: "proposer_address", sortable: false },
         { text: "Hash", value: "hash", sortable: false }
       ]
     };
@@ -102,9 +119,9 @@ export default {
             docs {
               height
               hash
-              time
+              timestamp
               num_txs
-              proposer
+              proposer_address
             }
             pageInfo {
               total

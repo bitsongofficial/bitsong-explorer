@@ -4,8 +4,8 @@
       <v-col cols="12" xl="8" class="mx-auto mt-4" v-if="validator">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">
           <nuxt-link to="/validators" class="pr-4" style="text-decoration:none">
-            <v-icon>mdi-arrow-left</v-icon>
-          </nuxt-link>Validator Details
+            <v-icon>mdi-arrow-left</v-icon> </nuxt-link
+          >Validator Details
         </h1>
         <UISponsor />
         <v-row>
@@ -17,37 +17,62 @@
                     cols="12"
                     md="1"
                     :align="isMobile ? 'center' : ''"
-                    :class="isMobile ? 'pb-4': ''"
+                    :class="isMobile ? 'pb-4' : ''"
                   >
-                    <UIProposerAvatar :validator="validator" :size="isMobile ? '128px' : '64px'" />
+                    <UIProposerAvatar
+                      :validator="validator"
+                      :size="isMobile ? '128px' : '64px'"
+                    />
                   </v-col>
 
-                  <v-col cols="12" md="10" :class="isMobile ? 'pb-4': ''">
+                  <v-col cols="12" md="10" :class="isMobile ? 'pb-4' : ''">
                     <v-row no-gutters>
                       <v-col :align="isMobile ? 'center' : ''">
-                        <h2 class="headline black--text">{{ validator.description.moniker }}</h2>
+                        <h2 class="headline black--text">
+                          {{ validator.description.moniker }}
+                        </h2>
                       </v-col>
                       <v-col cols="12" md="2" align="center">
-                        <v-chip color="red" dark v-if="validator.jailed === true">Jailed</v-chip>
-                        <v-chip color="green" dark v-if="validator.status === 2">Active</v-chip>
-                        <v-chip color="red" dark v-if="validator.status === 1">Inactive</v-chip>
-                        <v-chip color="red" dark v-if="validator.status === 0">Unbonded</v-chip>
+                        <v-chip
+                          color="red"
+                          dark
+                          v-if="validator.jailed === true"
+                          >Jailed</v-chip
+                        >
+                        <v-chip color="green" dark v-if="validator.status === 2"
+                          >Active</v-chip
+                        >
+                        <v-chip color="red" dark v-if="validator.status === 1"
+                          >Inactive</v-chip
+                        >
+                        <v-chip color="red" dark v-if="validator.status === 0"
+                          >Unbonded</v-chip
+                        >
                       </v-col>
                     </v-row>
                     <v-row no-gutters class="mt-3">
                       <v-col cols="12" md="6">
                         <h3
                           class="subtitle-1 grey--text text--darken-4 text-truncate"
-                        >{{ validator.operator_address }}</h3>
-                        <div class="body-2 grey--text text--darken-1">Operator Address</div>
+                        >
+                          {{ validator.operator_address }}
+                        </h3>
+                        <div class="body-2 grey--text text--darken-1">
+                          Operator Address
+                        </div>
                       </v-col>
                       <v-col cols="12" md="6">
-                        <h3 class="subtitle-1 grey--text text--darken-4 text-truncate">
+                        <h3
+                          class="subtitle-1 grey--text text--darken-4 text-truncate"
+                        >
                           <nuxt-link
                             :to="`/account/${validator.delegator_address}`"
-                          >{{ validator.delegator_address }}</nuxt-link>
+                            >{{ validator.delegator_address }}</nuxt-link
+                          >
                         </h3>
-                        <div class="body-2 grey--text text--darken-1">Delegator Address</div>
+                        <div class="body-2 grey--text text--darken-1">
+                          Delegator Address
+                        </div>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -61,68 +86,99 @@
                       <v-col cols="12">
                         <div
                           class="subtitle-1 grey--text text--darken-4 text-truncate"
-                        >{{ validator.address }}</div>
-                        <div class="body-2 grey--text text--darken-1">Address</div>
+                        >
+                          {{ validator.address }}
+                        </div>
+                        <div class="body-2 grey--text text--darken-1">
+                          Address
+                        </div>
                       </v-col>
                     </v-row>
 
                     <v-row v-if="validator.description.website">
                       <v-col cols="12">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.description.website }}</div>
-                        <div class="body-2 grey--text text--darken-1">Website</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{ validator.description.website }}
+                        </div>
+                        <div class="body-2 grey--text text--darken-1">
+                          Website
+                        </div>
                       </v-col>
                     </v-row>
 
                     <v-row>
                       <v-col cols="4">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.commission.commission_rates.rate * 100 }}%</div>
-                        <div class="body-2 grey--text text--darken-1">Commission Rate</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{
+                            validator.commission.commission_rates.rate * 100
+                          }}%
+                        </div>
+                        <div class="body-2 grey--text text--darken-1">
+                          Commission Rate
+                        </div>
                       </v-col>
                       <v-col cols="4">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.commission.commission_rates.max_rate * 100 }}%</div>
-                        <div class="body-2 grey--text text--darken-1">Max Rate</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{
+                            validator.commission.commission_rates.max_rate *
+                              100
+                          }}%
+                        </div>
+                        <div class="body-2 grey--text text--darken-1">
+                          Max Rate
+                        </div>
                       </v-col>
                       <v-col cols="4">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.commission.commission_rates.max_change_rate * 100 }}%</div>
-                        <div class="body-2 grey--text text--darken-1">Max Change Rate</div>
-                      </v-col>
-                    </v-row>
-
-                    <v-row>
-                      <v-col cols="12">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.commission.update_time }}</div>
-                        <div class="body-2 grey--text text--darken-1">Commission Update Time</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{
+                            validator.commission.commission_rates
+                              .max_change_rate * 100
+                          }}%
+                        </div>
+                        <div class="body-2 grey--text text--darken-1">
+                          Max Change Rate
+                        </div>
                       </v-col>
                     </v-row>
 
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          {{ validator.voting_power ? validator.voting_power : 0 | prettyRound }}
-                          <span
-                            class="caption"
-                          >&middot; {{ calculatePower(validator.voting_power) }}%</span>
+                          {{ validator.commission.update_time }}
                         </div>
-                        <div class="body-2 grey--text text--darken-1">Voting Power</div>
+                        <div class="body-2 grey--text text--darken-1">
+                          Commission Update Time
+                        </div>
+                      </v-col>
+                    </v-row>
+
+                    <v-row>
+                      <v-col cols="12">
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{
+                            validator.voting_power
+                              ? validator.voting_power
+                              : 0 | prettyRound
+                          }}
+                          <span class="caption"
+                            >&middot;
+                            {{ calculatePower(validator.voting_power) }}%</span
+                          >
+                        </div>
+                        <div class="body-2 grey--text text--darken-1">
+                          Voting Power
+                        </div>
                       </v-col>
                     </v-row>
 
                     <v-row v-if="validator.description.details">
                       <v-col cols="12">
-                        <div
-                          class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.description.details }}</div>
-                        <div class="body-2 grey--text text--darken-1">Description</div>
+                        <div class="subtitle-1 grey--text text--darken-4">
+                          {{ validator.description.details }}
+                        </div>
+                        <div class="body-2 grey--text text--darken-1">
+                          Description
+                        </div>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -130,7 +186,10 @@
                     <apexchart
                       width="255"
                       type="pie"
-                      :series="[validator.self_shares, validator.delegator_shares - validator.self_shares]"
+                      :series="[
+                        validator.self_shares,
+                        validator.delegator_shares - validator.self_shares
+                      ]"
                       :options="chartOptions"
                     ></apexchart>
                   </v-col>
@@ -143,14 +202,18 @@
                             :denom="$store.getters[`app/stakeDenom`]"
                           />
                         </v-list-item-title>
-                        <v-list-item-subtitle>Self Delegated</v-list-item-subtitle>
+                        <v-list-item-subtitle
+                          >Self Delegated</v-list-item-subtitle
+                        >
                       </v-list-item-content>
                     </v-list-item>
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
                           <UIAmount
-                            :microAmount="validator.delegator_shares - validator.self_shares"
+                            :microAmount="
+                              validator.delegator_shares - validator.self_shares
+                            "
                             :denom="$store.getters[`app/stakeDenom`]"
                           />
                         </v-list-item-title>
@@ -189,10 +252,15 @@
                 :height="288"
               >
                 <template v-slot:item.delegator_address="{ item }">
-                  <nuxt-link :to="`/account/${item.delegator_address}`">{{ item.delegator_address }}</nuxt-link>
+                  <nuxt-link :to="`/account/${item.delegator_address}`">{{
+                    item.delegator_address
+                  }}</nuxt-link>
                 </template>
                 <template v-slot:item.shares="{ item }">
-                  <UIAmount :microAmount="item.shares" :denom="$store.getters[`app/stakeDenom`]" />
+                  <UIAmount
+                    :microAmount="item.shares"
+                    :denom="$store.getters[`app/stakeDenom`]"
+                  />
                 </template>
               </v-data-table>
             </v-card>
@@ -210,14 +278,19 @@
                 :height="288"
               >
                 <template v-slot:item.delegator_address="{ item }">
-                  <nuxt-link
-                    :to="`/account/${item.delegator_address}`"
-                  >{{ item.delegator_address | address }}</nuxt-link>
+                  <nuxt-link :to="`/account/${item.delegator_address}`">{{
+                    item.delegator_address | address
+                  }}</nuxt-link>
                 </template>
                 <template v-slot:item.amount="{ item }">
-                  <UIAmount :microAmount="item.amount" :denom="$store.getters[`app/stakeDenom`]" />
+                  <UIAmount
+                    :microAmount="item.amount"
+                    :denom="$store.getters[`app/stakeDenom`]"
+                  />
                 </template>
-                <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
+                <template v-slot:item.completion_time="{ item }">{{
+                  item.completion_time | toTime
+                }}</template>
               </v-data-table>
             </v-card>
           </v-col>
@@ -235,9 +308,13 @@
                 :height="288"
               >
                 <template v-slot:item.height="{ item }">
-                  <nuxt-link :to="`/blocks/${item.height}`">Block {{ item.height }}</nuxt-link>
+                  <nuxt-link :to="`/blocks/${item.height}`"
+                    >Block {{ item.height }}</nuxt-link
+                  >
                 </template>
-                <template v-slot:item.created_at="{ item }">{{ item.created_at | toTime }}</template>
+                <template v-slot:item.timestamp="{ item }">{{
+                  item.timestamp
+                }}</template>
               </v-data-table>
             </v-card>
           </v-col>
@@ -287,9 +364,7 @@ export default {
     return {
       missed_blocks_header: [
         { text: "Height", value: "height" },
-        { text: "Active Validators", value: "active_validators" },
-        { text: "Total Validators", value: "total_validators" },
-        { text: "Created At", value: "created_at", sortable: false }
+        { text: "Timestamp", value: "timestamp", sortable: false }
       ],
       delegations_header: [
         { text: "Delegator Address", value: "delegator_address" },
@@ -396,9 +471,7 @@ export default {
             }
             missed_blocks {
               height
-              active_validators
-              total_validators
-              created_at
+              timestamp
             }
           }
         }

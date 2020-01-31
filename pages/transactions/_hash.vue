@@ -3,13 +3,20 @@
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">
-          <nuxt-link v-if="prevUrl" :to="prevUrl" class="pr-4" style="text-decoration:none">
-            <v-icon>mdi-arrow-left</v-icon>
-          </nuxt-link>Transaction
+          <nuxt-link
+            v-if="prevUrl"
+            :to="prevUrl"
+            class="pr-4"
+            style="text-decoration:none"
+          >
+            <v-icon>mdi-arrow-left</v-icon> </nuxt-link
+          >Transaction
         </h1>
       </v-col>
       <v-col cols="12" xl="8" class="mx-auto">
-        <div class="body-1 font-weight-light text-truncate">{{ tx.hash }}</div>
+        <div class="body-1 font-weight-light text-truncate">
+          {{ tx.tx_hash }}
+        </div>
         <UISponsor />
       </v-col>
     </v-row>
@@ -21,44 +28,63 @@
             <v-card elevation="1">
               <v-card-title>
                 <h3 class="title">Transaction Detail</h3>
-                <div class="flex-grow-1"></div>
-                <v-chip color="green" dark v-if="tx.status">Success</v-chip>
-                <v-chip color="red" dark v-else>Fail</v-chip>
               </v-card-title>
               <v-divider></v-divider>
               <v-card-text>
                 <v-row>
                   <v-col cols="12" md="5">
                     <div class="subtitle-1 grey--text text--darken-4">
-                      <nuxt-link :to="`/blocks/${tx.height}`">{{ tx.height }}</nuxt-link>
+                      <nuxt-link :to="`/blocks/${tx.height}`">{{
+                        tx.height
+                      }}</nuxt-link>
                     </div>
-                    <div class="body-2 grey--text text--darken-1">Block Height</div>
+                    <div class="body-2 grey--text text--darken-1">
+                      Block Height
+                    </div>
                   </v-col>
                   <v-col cols="12" md="7">
-                    <div class="subtitle-1 grey--text text--darken-4">{{ tx.time }}</div>
-                    <div class="body-2 grey--text text--darken-1">TimeStamp</div>
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ tx.timestamp }}
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">
+                      TimeStamp
+                    </div>
                   </v-col>
                   <v-col cols="12" md="5">
-                    <div
-                      class="subtitle-1 grey--text text--darken-4"
-                    >{{ tx.gas_used }}/{{ tx.gas_wanted }}</div>
-                    <div class="body-2 grey--text text--darken-1">Gas (Used/Requested)</div>
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ tx.gas_used }}/{{ tx.gas_wanted }}
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">
+                      Gas (Used/Requested)
+                    </div>
                   </v-col>
                   <v-col cols="12" md="7">
-                    <div class="subtitle-1 grey--text text--darken-4">[TO DO]</div>
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      <span v-if="tx.memo">{{ tx.memo }}</span>
+                      <span v-else>&nbsp;</span>
+                    </div>
                     <div class="body-2 grey--text text--darken-1">Memo</div>
                   </v-col>
                   <v-col cols="12" md="5">
                     <div
-                      v-for="signature in tx.signatures"
+                      v-for="(signature, i) in tx.signatures"
+                      v-bind:key="i"
                       class="subtitle-1 grey--text text--darken-4 text-truncate"
                     >
-                      <nuxt-link :to="`/account/${signature.address}`">{{ signature.address }}</nuxt-link>
+                      <nuxt-link :to="`/account/${signature.address}`">{{
+                        signature.address
+                      }}</nuxt-link>
                     </div>
-                    <div class="body-2 grey--text text--darken-1">Signature</div>
+                    <div class="body-2 grey--text text--darken-1">
+                      Signature
+                    </div>
                   </v-col>
                   <v-col cols="12" md="7">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">{{ tx.hash }}</div>
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >
+                      {{ tx.tx_hash }}
+                    </div>
                     <div class="body-2 grey--text text--darken-1">Hash</div>
                   </v-col>
                 </v-row>
@@ -69,157 +95,42 @@
 
         <v-row no-gutters class="mt-4">
           <v-col cols="12">
-            <h2 class="display-1 font-weight-light grey--text text--darken-3 pt-3 pb-2">Messages</h2>
+            <h2
+              class="display-1 font-weight-light grey--text text--darken-3 pt-3 pb-2"
+            >
+              Messages
+            </h2>
           </v-col>
         </v-row>
 
-        <v-row no-gutters class="mt-4" v-for="msg in tx.msgs" :key="msg._id">
+        <v-row no-gutters class="mt-4" v-for="(msg, i) in tx.messages" :key="i">
           <v-col cols="12">
             <v-card elevation="1">
               <v-card-title>
                 <h3 class="title">{{ msg.type | convertMessageType }}</h3>
+                <div class="flex-grow-1"></div>
+                <v-chip color="green" dark v-if="tx.logs && tx.logs[i].success">
+                  Success
+                </v-chip>
+                <v-chip color="red" dark v-else>Fail</v-chip>
               </v-card-title>
               <v-divider></v-divider>
               <v-card-text>
-                <v-row v-if="msg.type === 'cosmos-sdk/MsgSend'">
-                  <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <nuxt-link
-                        :to="`/account/${msg.value.from_address}`"
-                      >{{ msg.value.from_address }}</nuxt-link>
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">From Address</div>
-                  </v-col>
-
-                  <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <nuxt-link :to="`/account/${msg.value.to_address}`">{{ msg.value.to_address }}</nuxt-link>
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">To Address</div>
-                  </v-col>
-
-                  <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4">
-                      <UIAmount
-                        :microAmount="msg.value.amounts[0].amount"
-                        :denom="msg.value.amounts[0].denom"
-                      />
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">Amount</div>
-                  </v-col>
-                </v-row>
-
-                <v-row v-if="msg.type === 'cosmos-sdk/MsgEditValidator'">
-                  <v-col cols="12" md="6">
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="6"
+                    v-for="(value, key) in msg.value"
+                    v-bind:key="key"
+                  >
                     <div
                       class="subtitle-1 grey--text text--darken-4 text-truncate"
-                    >{{ msg.value.Description.moniker }}</div>
-                    <div class="body-2 grey--text text--darken-1">Moniker</div>
-                  </v-col>
-
-                  <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <nuxt-link :to="`/account/${msg.value.address}`">
-                        <UIProposer :valoper="msg.value.address" />
-                      </nuxt-link>
+                    >
+                      {{ value }}
                     </div>
-                    <div class="body-2 grey--text text--darken-1">Operator Address</div>
-                  </v-col>
-
-                  <v-col cols="12" md="6" v-if="msg.value.Description.identity">
-                    <div
-                      class="subtitle-1 grey--text text--darken-4 text-truncate"
-                    >{{ msg.value.Description.identity }}</div>
-                    <div class="body-2 grey--text text--darken-1">Identity</div>
-                  </v-col>
-
-                  <v-col cols="12" md="6" v-if="msg.value.Description.website">
-                    <div
-                      class="subtitle-1 grey--text text--darken-4 text-truncate"
-                    >{{ msg.value.Description.website }}</div>
-                    <div class="body-2 grey--text text--darken-1">Website</div>
-                  </v-col>
-
-                  <v-col cols="12">
-                    <div
-                      class="subtitle-1 grey--text text--darken-4"
-                    >{{ msg.value.Description.details }}</div>
-                    <div class="body-2 grey--text text--darken-1">Details</div>
-                  </v-col>
-
-                  <v-col cols="12" md="6" v-if="msg.value.commission_rate">
-                    <div
-                      class="subtitle-1 grey--text text--darken-4 text-truncate"
-                    >{{ msg.value.commission_rate }}</div>
-                    <div class="body-2 grey--text text--darken-1">Commission Rate</div>
-                  </v-col>
-
-                  <v-col cols="12" md="6" v-if="msg.value.min_self_delegation">
-                    <div
-                      class="subtitle-1 grey--text text--darken-4"
-                    >{{ msg.value.min_self_delegation }}</div>
-                    <div class="body-2 grey--text text--darken-1">Min. Self Delegation</div>
-                  </v-col>
-                </v-row>
-
-                <v-row v-if="msg.type === 'cosmos-sdk/MsgUnjail'">
-                  <v-col cols="12">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <UIProposer :valoper="msg.value.address" />
+                    <div class="body-2 grey--text text--darken-1">
+                      {{ key }}
                     </div>
-                    <div class="body-2 grey--text text--darken-1">Validator</div>
-                  </v-col>
-                </v-row>
-
-                <v-row v-if="msg.type === 'cosmos-sdk/MsgDelegate'">
-                  <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <nuxt-link
-                        :to="`/account/${msg.value.delegator_address}`"
-                      >{{ msg.value.delegator_address }}</nuxt-link>
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">Delegator Address</div>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <UIProposer :valoper="msg.value.validator_address" />
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">Validator</div>
-                  </v-col>
-                  <v-col cols="12">
-                    <div class="subtitle-1 grey--text text--darken-4">
-                      <UIAmount
-                        :microAmount="msg.value.amount.amount"
-                        :denom="msg.value.amount.denom"
-                      />
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">Amount</div>
-                  </v-col>
-                </v-row>
-
-                <v-row v-if="msg.type === 'cosmos-sdk/MsgWithdrawDelegationReward'">
-                  <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <nuxt-link
-                        :to="`/account/${msg.value.delegator_address}`"
-                      >{{ msg.value.delegator_address }}</nuxt-link>
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">Delegator Address</div>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <UIProposer :valoper="msg.value.validator_address" />
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">Validator</div>
-                  </v-col>
-                </v-row>
-
-                <v-row v-if="msg.type === 'cosmos-sdk/MsgWithdrawValidatorCommission'">
-                  <v-col cols="12" md="6">
-                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <UIProposer :valoper="msg.value.validator_address" />
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">Validator</div>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -314,120 +225,19 @@ export default {
               pages
             }
             docs {
-              hash
+              tx_hash
               height
-              status
+              logs
               gas_wanted
               gas_used
-              time
+              timestamp
               memo
               signatures {
                 address
               }
-              msgs {
+              messages {
                 type
-                value {
-                  ... on MsgSend {
-                    to_address
-                    from_address
-                    amounts: amount {
-                      amount
-                      denom
-                    }
-                  }
-                  ... on MsgMultiSend {
-                    inputs {
-                      address
-                      coins {
-                        amount
-                        denom
-                      }
-                    }
-                    outputs {
-                      address
-                      coins {
-                        amount
-                        denom
-                      }
-                    }
-                  }
-                  ... on MsgVerifyInvariant {
-                    sender
-                    invariant_route
-                    invariant_module_name
-                  }
-                  ... on MsgWithdrawDelegationReward {
-                    delegator_address
-                    validator_address
-                  }
-                  ... on MsgModifyWithdrawAddress {
-                    withdraw_address
-                    delegator_address
-                  }
-                  ... on MsgWithdrawValidatorCommission {
-                    validator_address
-                  }
-                  ... on MsgDelegate {
-                    delegator_address
-                    validator_address
-                    amount {
-                      amount
-                      denom
-                    }
-                  }
-                  ... on MsgUnjail {
-                    address
-                  }
-                  ... on MsgEditValidator {
-                    address
-                    Description {
-                      moniker
-                      identity
-                      website
-                      details
-                    }
-                    commission_rate
-                    min_self_delegation
-                  }
-                  ... on MsgCreateValidator {
-                    delegator_address
-                    validator_address
-                    pubkey
-                    min_self_delegation
-                    value {
-                      amount
-                      denom
-                    }
-                    description {
-                      moniker
-                      identity
-                      website
-                      details
-                    }
-                    commission {
-                      rate
-                      max_rate
-                      max_change_rate
-                    }
-                  }
-                  ... on MsgUndelegate {
-                    delegator_address
-                    validator_address
-                    amount {
-                      amount
-                      denom
-                    }
-                  }
-                  ... on MsgBeginRedelegate {
-                    delegator_address
-                    validator_src_address
-                    validator_dst_address
-                    amount {
-                      amount
-                      denom
-                    }
-                  }
-                }
+                value
               }
             }
           }
@@ -440,7 +250,7 @@ export default {
             page: 1
           },
           filters: {
-            hash: this.hash
+            tx_hash: this.hash
           }
         };
       }

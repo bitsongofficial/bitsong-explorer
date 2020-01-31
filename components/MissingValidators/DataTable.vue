@@ -11,9 +11,15 @@
       :items="validators"
     >
       <template v-slot:item.moniker="{ item }">
-        <nuxt-link :to="`/validators/${item.operator_address}`">{{ item.description.moniker }}</nuxt-link>
+        <nuxt-link
+          v-if="item.description.moniker"
+          :to="`/validators/${item.operator_address}`"
+          >{{ item.description.moniker }}</nuxt-link
+        >
+        <nuxt-link v-else :to="`/validators/${item.operator_address}`">{{
+          item.operator_address
+        }}</nuxt-link>
       </template>
-      <template v-slot:item.voting_power="{ item }">{{ item.voting_power ? item.voting_power : 0 }}</template>
     </v-data-table>
   </v-card>
 </template>
@@ -36,16 +42,13 @@ export default {
   data() {
     return {
       limitRecords: this.items_per_page,
-      headers: [
-        { text: "Validator Name", value: "moniker", sortable: false },
-        { text: "Voting Power", value: "voting_power", sortable: false }
-      ]
+      headers: [{ text: "Validator Name", value: "moniker", sortable: false }]
     };
   },
   computed: {
     validators() {
-      if (this.items.docs && this.items.docs.length > 0) {
-        return this.items.docs[0].validators;
+      if (this.items && this.items.validators) {
+        return this.items.validators;
       }
 
       return [];

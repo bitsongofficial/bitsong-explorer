@@ -9,10 +9,17 @@
             class="pr-4"
             style="text-decoration:none"
           >
-            <v-icon>mdi-arrow-left</v-icon>
-          </nuxt-link>Transactions
+            <v-icon>mdi-arrow-left</v-icon> </nuxt-link
+          >Transactions
         </h1>
-        <v-btn v-if="address !== null" exact outlined to="/transactions" class="mb-2">Reset Filter</v-btn>
+        <v-btn
+          v-if="address !== null"
+          exact
+          outlined
+          to="/transactions"
+          class="mb-2"
+          >Reset Filter</v-btn
+        >
         <UISponsor />
       </v-col>
     </v-row>
@@ -69,24 +76,17 @@ export default {
         ) {
           allTransactions(pagination: $pagination, filters: $filters) {
             docs {
-              hash
-              msgs {
+              tx_hash
+              messages {
                 type
-                value {
-                  ... on MsgSend {
-                    amount {
-                      amount
-                      denom
-                    }
-                  }
-                }
+                value
               }
               signatures {
                 address
               }
-              status
+              logs
               height
-              time
+              timestamp
             }
             pageInfo {
               total

@@ -7,19 +7,24 @@
         <span v-else>transactions</span> found
       </v-toolbar-title>
       <div class="flex-grow-1"></div>
-      <Pagination v-if="!default_pagination" :pagination-info="transactions.pageInfo" />
+      <Pagination
+        v-if="!default_pagination"
+        :pagination-info="transactions.pageInfo"
+      />
       <v-btn
         v-if="default_pagination && totalTxs > 25 && address && !height"
         outlined
         nuxt
         :to="`/transactions?address=${address}`"
-      >View All</v-btn>
+        >View All</v-btn
+      >
       <v-btn
         v-if="default_pagination && totalTxs > 25 && height && !address"
         outlined
         nuxt
         :to="`/transactions?height=${height}`"
-      >View All</v-btn>
+        >View All</v-btn
+      >
     </v-toolbar>
     <v-divider></v-divider>
     <v-data-table
@@ -28,18 +33,24 @@
       :items-per-page="items_per_page"
       :items="transactions.docs"
     >
-      <template v-slot:item.hash="{ item }">
-        <nuxt-link :to="`/transactions/${item.hash}`">{{ item.hash | hash }}</nuxt-link>
+      <template v-slot:item.tx_hash="{ item }">
+        <nuxt-link :to="`/transactions/${item.tx_hash}`">{{
+          item.tx_hash | hash
+        }}</nuxt-link>
       </template>
       <template v-slot:item.address="{ item }">
         <UIProposer :deladdr="item.signatures[0].address" />
       </template>
-      <template v-slot:item.msgs="{ item }">
-        <v-chip outlined small>{{ item.msgs[0].type | convertMessageType }}</v-chip>
-        <v-chip outlined small v-if="item.msgs.length - 1">+{{ item.msgs.length - 1 }}</v-chip>
+      <template v-slot:item.messages="{ item }">
+        <v-chip outlined small>{{
+          item.messages[0].type | convertMessageType
+        }}</v-chip>
+        <v-chip outlined small v-if="item.messages.length - 1"
+          >+{{ item.messages.length - 1 }}</v-chip
+        >
       </template>
       <template v-slot:item.status="{ item }">
-        <v-tooltip bottom v-if="item.status">
+        <v-tooltip bottom v-if="item.logs && item.logs[0].success">
           <template v-slot:activator="{ on }">
             <v-icon color="green" v-on="on">mdi-check-bold</v-icon>
           </template>
@@ -53,27 +64,31 @@
         </v-tooltip>
       </template>
       <template v-slot:item.amount="{ item }">
-        <span v-if="item.msgs[0].type === 'cosmos-sdk/MsgSend'">
+        <span v-if="item.messages[0].type === 'cosmos-sdk/MsgSend'">
           <UIAmount
-            v-for="amount in item.msgs[0].value.amount"
+            v-for="amount in item.messages[0].value.amount"
             v-bind:key="amount.amount"
             :microAmount="amount.amount"
             :denom="amount.denom"
           />
         </span>
-        <nuxt-link v-else :to="`/transactions/${item.hash}`" style="text-decoration:none">
+        <nuxt-link
+          v-else
+          :to="`/transactions/${item.tx_hash}`"
+          style="text-decoration:none"
+        >
           <v-icon size="18">mdi-open-in-new</v-icon>
         </nuxt-link>
       </template>
       <template v-slot:item.height="{ item }">
         <nuxt-link :to="`/blocks/${item.height}`">{{ item.height }}</nuxt-link>
       </template>
-      <template v-slot:item.time="{ item }">
+      <template v-slot:item.timestamp="{ item }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <span v-on="on">{{ item.time | timeDistance }}</span>
+            <span v-on="on">{{ item.timestamp | timeDistance }}</span>
           </template>
-          <span>{{ item.time }}</span>
+          <span>{{ item.timestamp }}</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -136,11 +151,11 @@ export default {
     return {
       limitRecords: 25,
       transactions_header: [
-        { text: "Tx Hash", value: "hash", sortable: false },
+        { text: "Tx Hash", value: "tx_hash", sortable: false },
         { text: "Height", value: "height", sortable: false },
-        { text: "Age", value: "time", sortable: false },
+        { text: "Age", value: "timestamp", sortable: false },
         { text: "From", value: "address", sortable: false },
-        { text: "Type", value: "msgs", sortable: false },
+        { text: "Type", value: "messages", sortable: false },
         { text: "Status", value: "status", sortable: false },
         { text: "Amount", value: "amount", align: "right", sortable: false }
       ]
@@ -151,7 +166,6 @@ export default {
       if (!this.transactions) return 0;
       if (!this.transactions.docs) return 0;
       if (this.transactions.docs.length === 0) return 0;
-
       return this.transactions.pageInfo.total;
     }
   }

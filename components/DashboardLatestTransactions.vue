@@ -14,27 +14,32 @@
         <v-divider v-if="index !== 0" :key="`${index}-divider`"></v-divider>
         <v-row :key="`${index}`">
           <v-col cols="8">
-            <div class="subtitle-1 font-weight-medium grey--text text--darken-3">
+            <div
+              class="subtitle-1 font-weight-medium grey--text text--darken-3"
+            >
               TX#
               <nuxt-link
                 class="body-2 font-weight-medium"
-                :to="`/transactions/${transaction.hash}`"
-              >{{ transaction.hash | hash }}</nuxt-link>
+                :to="`/transactions/${transaction.tx_hash}`"
+                >{{ transaction.tx_hash | hash }}</nuxt-link
+              >
             </div>
             <div>
               From
               <UIProposer :deladdr="transaction.signatures[0].address" />
             </div>
             <div class="pt-2">
-              <v-chip outlined small>{{ transaction.msgs[0].type | convertMessageType }}</v-chip>
-              <v-chip
-                outlined
-                small
-                v-if="transaction.msgs.length - 1"
-              >+{{ transaction.msgs.length - 1 }}</v-chip>
+              <v-chip outlined small>{{
+                transaction.messages[0].type | convertMessageType
+              }}</v-chip>
+              <v-chip outlined small v-if="transaction.messages.length - 1"
+                >+{{ transaction.messages.length - 1 }}</v-chip
+              >
             </div>
           </v-col>
-          <v-col align="right" class="align-self-center">{{ transaction.time | timeDistance }}</v-col>
+          <v-col align="right" class="align-self-center">{{
+            transaction.timestamp | timeDistance
+          }}</v-col>
         </v-row>
       </template>
     </v-card-text>
@@ -72,9 +77,9 @@ export default {
         query allTransactions($pagination: PaginationInput!) {
           allTransactions(pagination: $pagination) {
             docs {
-              hash
-              time
-              msgs {
+              tx_hash
+              timestamp
+              messages {
                 type
               }
               signatures {
@@ -88,9 +93,9 @@ export default {
         document: gql`
           subscription {
             transactionAdded {
-              hash
-              time
-              msgs {
+              tx_hash
+              timestamp
+              messages {
                 type
               }
               signatures {
