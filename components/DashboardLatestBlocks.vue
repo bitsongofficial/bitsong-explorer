@@ -93,16 +93,21 @@ export default {
           }
         `,
         updateQuery: (previousResult, { subscriptionData }) => {
-          // The previous result is immutable
-          const newResult = {
-            allBlocks: {
-              docs: [...previousResult.allBlocks.docs.splice(-10, 9)],
-              __typename: previousResult.allBlocks.__typename
-            }
-          };
-          // Add the question to the list
-          newResult.allBlocks.docs.unshift(subscriptionData.data.blockAdded);
-          return newResult;
+          try {
+            // The previous result is immutable
+            const newResult = {
+              allBlocks: {
+                docs: [...previousResult.allBlocks.docs.splice(-10, 9)],
+                __typename: previousResult.allBlocks.__typename
+              }
+            };
+
+            // Add the block to the list
+            newResult.allBlocks.docs.unshift(subscriptionData.data.blockAdded);
+            return newResult;
+          } catch (e) {
+            console.error(e);
+          }
         }
       },
       variables() {

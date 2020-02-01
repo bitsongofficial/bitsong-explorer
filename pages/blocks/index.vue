@@ -39,8 +39,8 @@
             <template v-slot:item.hash="{ item }">{{
               item.hash | hash
             }}</template>
-            <template v-slot:item.proposer="{ item }">
-              <UIProposer :address="item.proposer" />
+            <template v-slot:item.proposer_address="{ item }">
+              <UIProposer :address="item.proposer_address" />
             </template>
             <template v-slot:item.num_txs="{ item }">{{
               item.num_txs

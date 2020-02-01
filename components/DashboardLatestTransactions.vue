@@ -37,9 +37,9 @@
               >
             </div>
           </v-col>
-          <v-col align="right" class="align-self-center">{{
-            transaction.timestamp | timeDistance
-          }}</v-col>
+          <v-col align="right" class="align-self-center">
+            {{ transaction.timestamp | timeDistance }}</v-col
+          >
         </v-row>
       </template>
     </v-card-text>
@@ -105,20 +105,24 @@ export default {
           }
         `,
         updateQuery: (previousResult, { subscriptionData }) => {
-          if (subscriptionData.data.transactionAdded !== null) {
-            // The previous result is immutable
-            const newResult = {
-              allTransactions: {
-                docs: [...previousResult.allTransactions.docs.splice(-10, 9)],
-                __typename: previousResult.allTransactions.__typename
-              }
-            };
+          try {
+            if (subscriptionData.data.transactionAdded !== null) {
+              // The previous result is immutable
+              const newResult = {
+                allTransactions: {
+                  docs: [...previousResult.allTransactions.docs.splice(-10, 9)],
+                  __typename: previousResult.allTransactions.__typename
+                }
+              };
 
-            // Add the question to the list
-            newResult.allTransactions.docs.unshift(
-              subscriptionData.data.transactionAdded
-            );
-            return newResult;
+              // Add the tx to the list
+              newResult.allTransactions.docs.unshift(
+                subscriptionData.data.transactionAdded
+              );
+              return newResult;
+            }
+          } catch (e) {
+            console.error(e);
           }
         }
       },
