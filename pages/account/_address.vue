@@ -2,9 +2,7 @@
   <v-container>
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
-        <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">
-          Account Detail
-        </h1>
+        <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">Account Detail</h1>
 
         <UISponsor />
         <v-row v-if="account">
@@ -28,12 +26,8 @@
                       <v-col cols="12">
                         <h3
                           class="subtitle-1 grey--text text--darken-4 text-truncate"
-                        >
-                          {{ account.address }}
-                        </h3>
-                        <div class="body-2 grey--text text--darken-1">
-                          Address
-                        </div>
+                        >{{ account.address }}</h3>
+                        <div class="body-2 grey--text text--darken-1">Address</div>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -42,49 +36,35 @@
               <v-divider></v-divider>
               <v-card-text>
                 <v-row no-gutters>
-                  <v-col
-                    cols="12"
-                    md="4"
-                    align="center"
-                    class="pl-3 align-self-center"
-                  >
+                  <v-col cols="12" md="4" align="center" class="pl-3 align-self-center">
                     <apexchart
                       width="255"
                       type="pie"
-                      :series="[
-                        parseFloat(account.balances.available[0].amount),
-                        parseFloat(account.balances.bonded),
-                        parseFloat(account.balances.unbonding),
-                        parseFloat(account.balances.rewards[0].amount)
-                      ]"
+                      :series="[balances.available,balances.bonded,balances.unbonding,balances.rewards,balances.commissions]"
                       :options="chartOptions"
                     ></apexchart>
                   </v-col>
                   <v-col cols="12" class="hidden-sm-and-up" align="center">
-                    <div
-                      class="display-1 font-weight-light grey--text text--darken-4"
-                    >
+                    <div class="display-1 font-weight-light grey--text text--darken-4">
                       <UIAmount
                         :microAmount="totalBalance"
                         :denom="$store.getters[`app/stakeDenom`]"
                       />
                     </div>
-                    <div class="subtitle-1 grey--text text--darken-1 pt-1">
-                      Total {{ $store.getters[`app/stakeDenom`] }} Balance
-                    </div>
+                    <div
+                      class="subtitle-1 grey--text text--darken-1 pt-1"
+                    >Total {{ $store.getters[`app/stakeDenom`] }} Balance</div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
                           <UIAmount
-                            :microAmount="account.balances.available[0].amount"
+                            :microAmount="balances.available"
                             :denom="$store.getters[`app/stakeDenom`]"
                           />
                         </div>
-                        <div class="body-2 grey--text text--darken-1">
-                          Available
-                        </div>
+                        <div class="body-2 grey--text text--darken-1">Available</div>
                       </v-col>
                     </v-row>
 
@@ -92,13 +72,11 @@
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
                           <UIAmount
-                            :microAmount="account.balances.bonded"
+                            :microAmount="balances.bonded"
                             :denom="$store.getters[`app/stakeDenom`]"
                           />
                         </div>
-                        <div class="body-2 grey--text text--darken-1">
-                          Bonded
-                        </div>
+                        <div class="body-2 grey--text text--darken-1">Bonded</div>
                       </v-col>
                     </v-row>
 
@@ -106,13 +84,11 @@
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
                           <UIAmount
-                            :microAmount="account.balances.unbonding"
+                            :microAmount="balances.unbonding"
                             :denom="$store.getters[`app/stakeDenom`]"
                           />
                         </div>
-                        <div class="body-2 grey--text text--darken-1">
-                          Unbonding
-                        </div>
+                        <div class="body-2 grey--text text--darken-1">Unbonding</div>
                       </v-col>
                     </v-row>
 
@@ -120,48 +96,36 @@
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
                           <UIAmount
-                            :microAmount="account.balances.rewards[0].amount"
+                            :microAmount="balances.rewards"
                             :denom="$store.getters[`app/stakeDenom`]"
                           />
                         </div>
-                        <div class="body-2 grey--text text--darken-1">
-                          Rewards
-                        </div>
+                        <div class="body-2 grey--text text--darken-1">Rewards</div>
                       </v-col>
                     </v-row>
 
-                    <v-row v-if="commissions > 0">
+                    <v-row v-if="balances.commissions > 0">
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
                           <UIAmount
-                            :microAmount="
-                              commissions - account.balances.rewards[0].amount
-                            "
+                            :microAmount="balances.commissions"
                             :denom="$store.getters[`app/stakeDenom`]"
                           />
                         </div>
-                        <div class="body-2 grey--text text--darken-1">
-                          Commissions
-                        </div>
+                        <div class="body-2 grey--text text--darken-1">Commissions</div>
                       </v-col>
                     </v-row>
                   </v-col>
-                  <v-col
-                    cols="12"
-                    md="4"
-                    class="hidden-sm-and-down align-self-center"
-                  >
-                    <div
-                      class="display-1 font-weight-light grey--text text--darken-4"
-                    >
+                  <v-col cols="12" md="4" class="hidden-sm-and-down align-self-center">
+                    <div class="display-1 font-weight-light grey--text text--darken-4">
                       <UIAmount
                         :microAmount="totalBalance"
                         :denom="$store.getters[`app/stakeDenom`]"
                       />
                     </div>
-                    <div class="subtitle-1 grey--text text--darken-1 pt-1">
-                      Total {{ $store.getters[`app/stakeDenom`] }} Balance
-                    </div>
+                    <div
+                      class="subtitle-1 grey--text text--darken-1 pt-1"
+                    >Total {{ $store.getters[`app/stakeDenom`] }} Balance</div>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -198,10 +162,7 @@
                   <UIProposer :valoper="item.validator_address" />
                 </template>
                 <template v-slot:item.shares="{ item }">
-                  <UIAmount
-                    :microAmount="item.shares"
-                    :denom="$store.getters[`app/stakeDenom`]"
-                  />
+                  <UIAmount :microAmount="item.shares" :denom="$store.getters[`app/stakeDenom`]" />
                 </template>
               </v-data-table>
             </v-card>
@@ -223,14 +184,13 @@
                   <UIProposer :valoper="item.validator_address" />
                 </template>
                 <template v-slot:item.amount="{ item }">
-                  <UIAmount
-                    :microAmount="item.amount"
-                    :denom="$store.getters[`app/stakeDenom`]"
-                  />
+                  <UIAmount :microAmount="item.amount" :denom="$store.getters[`app/stakeDenom`]" />
                 </template>
-                <template v-slot:item.completion_time="{ item }">{{
+                <template v-slot:item.completion_time="{ item }">
+                  {{
                   item.completion_time | toTime
-                }}</template>
+                  }}
+                </template>
               </v-data-table>
             </v-card>
           </v-col>
@@ -256,19 +216,20 @@
                   <UIProposer :valoper="item.validator_dst_address" />
                 </template>
                 <template v-slot:item.creation_height="{ item }">
-                  <nuxt-link :to="`/blocks/${item.creation_height}`">{{
+                  <nuxt-link :to="`/blocks/${item.creation_height}`">
+                    {{
                     item.creation_height
-                  }}</nuxt-link>
+                    }}
+                  </nuxt-link>
                 </template>
                 <template v-slot:item.balance="{ item }">
-                  <UIAmount
-                    :microAmount="item.balance"
-                    :denom="$store.getters[`app/stakeDenom`]"
-                  />
+                  <UIAmount :microAmount="item.balance" :denom="$store.getters[`app/stakeDenom`]" />
                 </template>
-                <template v-slot:item.completion_time="{ item }">{{
+                <template v-slot:item.completion_time="{ item }">
+                  {{
                   item.completion_time | toTime
-                }}</template>
+                  }}
+                </template>
               </v-data-table>
             </v-card>
           </v-col>
@@ -506,15 +467,50 @@ export default {
         });
       })[0];
     },
+    balances() {
+      let balances = {
+        available: 0,
+        bonded: 0,
+        unbonding: 0,
+        rewards: 0,
+        commissions: 0
+      };
+
+      if (!this.account) return balances;
+
+      if (this.account.balances && this.account.balances.available[0]) {
+        balances.available = parseFloat(
+          this.account.balances.available[0].amount
+        );
+      }
+
+      if (this.account.balances && this.account.balances.bonded) {
+        balances.bonded = parseFloat(this.account.balances.bonded);
+      }
+
+      if (this.account.balances && this.account.balances.unbonding) {
+        balances.unbonding = parseFloat(this.account.balances.unbonding);
+      }
+
+      if (this.account.balances && this.account.balances.rewards[0]) {
+        balances.rewards = parseFloat(this.account.balances.rewards[0].amount);
+      }
+
+      if (this.commissions) {
+        balances.commissions = parseFloat(this.commissions - balances.rewards);
+      }
+
+      return balances;
+    },
     totalBalance() {
       if (!this.account) return 0;
 
       return (
-        parseFloat(this.account.balances.available[0].amount) +
-        parseFloat(this.account.balances.bonded) +
-        parseFloat(this.account.balances.unbonding) +
-        parseFloat(this.account.balances.rewards[0].amount) +
-        (this.commissions - parseFloat(this.account.balances.rewards[0].amount))
+        parseFloat(this.balances.available) +
+        parseFloat(this.balances.bonded) +
+        parseFloat(this.balances.unbonding) +
+        parseFloat(this.balances.rewards) +
+        parseFloat(this.balances.commissions)
       );
     }
   }

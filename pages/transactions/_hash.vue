@@ -3,20 +3,13 @@
     <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <h1 class="display-1 font-weight-light grey--text text--darken-3 pb-3">
-          <nuxt-link
-            v-if="prevUrl"
-            :to="prevUrl"
-            class="pr-4"
-            style="text-decoration:none"
-          >
-            <v-icon>mdi-arrow-left</v-icon> </nuxt-link
-          >Transaction
+          <nuxt-link v-if="prevUrl" :to="prevUrl" class="pr-4" style="text-decoration:none">
+            <v-icon>mdi-arrow-left</v-icon>
+          </nuxt-link>Transaction
         </h1>
       </v-col>
       <v-col cols="12" xl="8" class="mx-auto">
-        <div class="body-1 font-weight-light text-truncate">
-          {{ tx.tx_hash }}
-        </div>
+        <div class="body-1 font-weight-light text-truncate">{{ tx.tx_hash }}</div>
         <UISponsor />
       </v-col>
     </v-row>
@@ -34,29 +27,23 @@
                 <v-row>
                   <v-col cols="12" md="5">
                     <div class="subtitle-1 grey--text text--darken-4">
-                      <nuxt-link :to="`/blocks/${tx.height}`">{{
+                      <nuxt-link :to="`/blocks/${tx.height}`">
+                        {{
                         tx.height
-                      }}</nuxt-link>
+                        }}
+                      </nuxt-link>
                     </div>
-                    <div class="body-2 grey--text text--darken-1">
-                      Block Height
-                    </div>
+                    <div class="body-2 grey--text text--darken-1">Block Height</div>
                   </v-col>
                   <v-col cols="12" md="7">
-                    <div class="subtitle-1 grey--text text--darken-4">
-                      {{ tx.timestamp }}
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">
-                      TimeStamp
-                    </div>
+                    <div class="subtitle-1 grey--text text--darken-4">{{ tx.timestamp }}</div>
+                    <div class="body-2 grey--text text--darken-1">TimeStamp</div>
                   </v-col>
                   <v-col cols="12" md="5">
-                    <div class="subtitle-1 grey--text text--darken-4">
-                      {{ tx.gas_used }}/{{ tx.gas_wanted }}
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">
-                      Gas (Used/Requested)
-                    </div>
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ tx.gas_used }}/{{ tx.gas_wanted }}</div>
+                    <div class="body-2 grey--text text--darken-1">Gas (Used/Requested)</div>
                   </v-col>
                   <v-col cols="12" md="7">
                     <div class="subtitle-1 grey--text text--darken-4">
@@ -71,20 +58,16 @@
                       v-bind:key="i"
                       class="subtitle-1 grey--text text--darken-4 text-truncate"
                     >
-                      <nuxt-link :to="`/account/${signature.address}`">{{
+                      <nuxt-link :to="`/account/${signature.address}`">
+                        {{
                         signature.address
-                      }}</nuxt-link>
+                        }}
+                      </nuxt-link>
                     </div>
-                    <div class="body-2 grey--text text--darken-1">
-                      Signature
-                    </div>
+                    <div class="body-2 grey--text text--darken-1">Signature</div>
                   </v-col>
                   <v-col cols="12" md="7">
-                    <div
-                      class="subtitle-1 grey--text text--darken-4 text-truncate"
-                    >
-                      {{ tx.tx_hash }}
-                    </div>
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">{{ tx.tx_hash }}</div>
                     <div class="body-2 grey--text text--darken-1">Hash</div>
                   </v-col>
                 </v-row>
@@ -95,11 +78,7 @@
 
         <v-row no-gutters class="mt-4">
           <v-col cols="12">
-            <h2
-              class="display-1 font-weight-light grey--text text--darken-3 pt-3 pb-2"
-            >
-              Messages
-            </h2>
+            <h2 class="display-1 font-weight-light grey--text text--darken-3 pt-3 pb-2">Messages</h2>
           </v-col>
         </v-row>
 
@@ -109,28 +88,19 @@
               <v-card-title>
                 <h3 class="title">{{ msg.type | convertMessageType }}</h3>
                 <div class="flex-grow-1"></div>
-                <v-chip color="green" dark v-if="tx.logs && tx.logs[i].success">
-                  Success
-                </v-chip>
+                <v-chip color="green" dark v-if="tx.logs && tx.logs[i].success">Success</v-chip>
                 <v-chip color="red" dark v-else>Fail</v-chip>
               </v-card-title>
               <v-divider></v-divider>
               <v-card-text>
+                <v-alert
+                  v-if="tx.logs && !tx.logs[i].success"
+                  type="error"
+                >{{ parseLog(tx.logs[i].log) }}</v-alert>
                 <v-row>
-                  <v-col
-                    cols="12"
-                    md="6"
-                    v-for="(value, key) in msg.value"
-                    v-bind:key="key"
-                  >
-                    <div
-                      class="subtitle-1 grey--text text--darken-4 text-truncate"
-                    >
-                      {{ value }}
-                    </div>
-                    <div class="body-2 grey--text text--darken-1">
-                      {{ key }}
-                    </div>
+                  <v-col cols="12" md="6" v-for="(value, key) in msg.value" v-bind:key="key">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">{{ value }}</div>
+                    <div class="body-2 grey--text text--darken-1">{{ key }}</div>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -207,6 +177,16 @@ export default {
       }
 
       return {};
+    }
+  },
+  methods: {
+    parseLog(log) {
+      const jsonLog = JSON.parse(log);
+      const codespace = jsonLog.codespace;
+      const code = jsonLog.code;
+      const message = jsonLog.message;
+
+      return `${codespace.toUpperCase()} ${code} - ${message}`;
     }
   },
   apollo: {
