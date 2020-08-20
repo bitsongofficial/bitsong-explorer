@@ -11,19 +11,24 @@
       >
         <v-row align="center">
           <v-col class="grow">
-            <strong>BitSong</strong> is on
-            <strong>BambooRelay (DEX)</strong>.
+            <strong>BitSong</strong> is on <strong>UniSWAP</strong>.
             <span
-              v-if="$vuetify.breakpoint.name !== 'xs' && $vuetify.breakpoint.name !== 'sm'"
-            >Exchange your BTSG directly from your wallet in a simple, fast and secure way!</span>
+              v-if="
+                $vuetify.breakpoint.name !== 'xs' &&
+                  $vuetify.breakpoint.name !== 'sm'
+              "
+              >Buy BTSG directly from your wallet in a simple, fast and secure
+              way!</span
+            >
           </v-col>
           <v-col class="shrink">
             <v-btn
               color="primary"
               link
               dark
-              href="https://btsg.community/t/how-to-use-bamboorelay-exchange/139"
-            >VIEW MORE</v-btn>
+              href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x05079687d35b93538cbd59fe5596380cae9054a9"
+              >BUY BTSG</v-btn
+            >
           </v-col>
         </v-row>
       </v-alert>
